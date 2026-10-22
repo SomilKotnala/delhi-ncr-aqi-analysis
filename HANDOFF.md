@@ -2,10 +2,10 @@
 
 **Project Name:** Delhi-NCR Air Quality Analysis: Seasonal Trends, Station-Level Differences, and Diwali Episodes  
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
-**Latest Backup Archive:** `D:\delhi-ncr-aqi-analysis-backups\stage-2b-2026-10-22.zip`  
-**Latest Git Commit:** Pending Stage 2B commit  
-**Current State:** **Stage 2B Verified Complete & Checkpointed**  
-**Immediate Next Task:** **Stage 2C (Pre-Registered Statistical Hypothesis Testing & Event Study Modeling)**  
+**Latest Backup Archive:** Pending `stage-2c-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\` (Stage 2B archive: `stage-2b-2026-10-22.zip` verified)  
+**Latest Git Commit:** Pending Stage 2C commit (Previous Stage 2B: `bf6d39a`)  
+**Current State:** **Stage 2C Verified Complete & Checkpointed**  
+**Immediate Next Task:** **Stage 3 (Power BI Desktop Reporting Architecture & Streamlit Web App)**  
 **Local Environment:** Windows, Python 3.14.6 (`D:\anaconda3\python.exe`), PostgreSQL 18.4 (`delhi_aqi` on `D:\pg_tablespaces\delhi_aqi`), Power BI Desktop installed, Git 2.49.0.
 
 ---
@@ -19,31 +19,41 @@
 ### Stage 2A (Complete — Commit `1cdc92e`)
 - Filtered 5 reported NCR cities: Delhi (39 stations), Faridabad (4), Gurugram (4), Ghaziabad (3), Noida (6).
 - Resolved duplicate Station IDs with surrogate keys (`station_key = f"{slugify(city)}_{slugify(station_name)}"`).
-- Melted wide 24 hours into 2,664,336 tidy station-hour records with dual timestamps (`timestamp_ist`, `timestamp_utc`).
+- Reshaped 24 wide hourly columns into 2,664,336 tidy station-hour records with dual timestamps (`timestamp_ist`, `timestamp_utc`).
 - Flagged 53,656 sensor-capped readings (AQI = 500) and 10 telemetry anomalies (> 500).
 - Generated `data/processed/fact_hourly_aqi.parquet`, `fact_daily_aqi.parquet`, and `dim_station.csv`.
 
-### Stage 2B (Complete — Current Checkpoint)
+### Stage 2B (Complete — Commit `bf6d39a`)
 - **Resolved Integrity Questions**: Documented CPCB mathematical reporting ceiling (500.0) vs physical sensor mass overload. Reconciled all observation counts ($2,441,792\text{ valid} + 222,534\text{ missing} + 10\text{ anomalous} = 2,664,336$).
-- **PostgreSQL 18 Integration**:
-  - Pinned database tablespace to `D:\pg_tablespaces\delhi_aqi` (`aqi_tablespace`) protecting C: drive space.
-  - Implemented `sql/schema.sql` (Star Schema with primary/foreign keys and indexes).
-  - Built `src/database/load_data.py`: Streamed 2.66M rows in 70.97 seconds via compiled PostgreSQL `COPY`.
-  - Reconciled all table counts (`dim_station`: 56, `dim_date`: 2,556, `fact_daily_aqi`: 111,014, `fact_hourly_aqi`: 2,664,336; 0 foreign key orphans).
-  - Authored `sql/analytical_queries.sql` and `src/database/run_queries.py`: Executed 7 analytical queries; saved CSV outputs to `reports/tables/`.
-- **Exploratory Data Analysis (EDA)**:
-  - Built `src/analysis/eda.py`: Generated 6 production charts in `reports/figures/` (Q1 monthly cycles, Q2 station rankings, Q3 severity distributions, Q5 diurnal profiles, Q6 Diwali event study, Q7 uptime vs capping).
-- **Automated Testing**: 19/19 tests passing in `tests/test_cleaning.py` and `tests/test_database.py`.
+- **PostgreSQL 18 Integration**: Pinned database tablespace to `D:\pg_tablespaces\delhi_aqi` (`aqi_tablespace`) protecting C: drive space. Streamed 2.66M rows in 70.97s via compiled `COPY`. Authored and executed 7 analytical queries.
+- **Exploratory Data Analysis (EDA)**: Built `src/analysis/eda.py`: Generated 6 production charts in `reports/figures/`.
+- **Automated Testing**: 19/19 tests passing.
+
+### Stage 2C (Complete — Current Checkpoint)
+- **Pre-Registered Hypothesis Testing**:
+  - Unit of analysis: Station-day aggregated mean AQI ($\ge 16$ valid hours per day) over $N = 100,794$ station-days, completely eliminating hourly pseudoreplication.
+  - Primary Non-Parametric Mann-Whitney $U = 1,746,785,517$, $p < 10^{-300}$.
+  - Cliff's Delta $d = 0.7637$ (Large effect size).
+  - 95% Bootstrap Confidence Interval ($B = 2,000$): $[180.05, 183.12]$ AQI points.
+  - Pre-registered decision: **Reject $H_0$ decisively**.
+- **Paired Station Repeated Measures**:
+  - Wilcoxon signed-rank test across all 56 active stations: $W = 1,596.0$, $p = 3.77 \times 10^{-11}$, Rank-Biserial $r = 1.0$.
+  - 100% of 56 stations record higher median AQI in Winter than Non-Winter (Spatial Invariance confirmed).
+- **Secondary Sensitivity Analysis**: Core Winter (Dec–Jan) vs Monsoon (Jul–Aug): Median 328.82 vs 92.08 (3.57x ratio, Cliff's $d = 0.9563$).
+- **City Subgroups**: All 5 NCR cities remain statistically significant after Benjamini-Hochberg FDR correction ($p < 10^{-100}$, FDR $p = 0.0$, Cliff's $d > 0.66$).
+- **Multi-Year Diwali Event Study (2017–2023)**: Evaluated 7 years across pre-event baseline, festival peak, capping, and dissipation. Late October events show acute surges (+11.6% to +41.3%), whereas mid-November events occur on saturated baselines (>350-400). Pervasive 500.0 capping in all years (e.g. 746 capped hours in 2020).
+- **Deliverables**: Generated `reports/figures/q8_statistical_hypothesis_distributions.png`, 4 CSV tables in `reports/tables/`, JSON summary, and `reports/findings/statistical_findings.md`.
+- **Automated Testing**: 28/28 tests passing (`pytest tests/ -v`).
 
 ---
 
 ## 2. Key Architectural Decisions to Preserve
 
-1. **Keep Database on D: Drive Tablespace**: `aqi_tablespace` is located at `D:\pg_tablespaces\delhi_aqi`. Never allow large tables to default to C: drive.
+1. **Keep Database on D: Drive Tablespace**: `aqi_tablespace` is located at `D:\pg_tablespaces\delhi_aqi`. Never allow large tables or dumps to write to the C: drive.
 2. **Surrogate Keys**: `station_key` is the primary foreign key across fact and dimension tables.
 3. **Preserve Anomaly Audit Trail**: Values $> 500$ are retained in `aqi_raw` with `is_anomalous = True` and set to `NaN` in `aqi_cleaned`.
-4. **Avoid Pseudoreplication in Statistics**: Use station-day aggregated units from `fact_daily_aqi` for inferential testing in Stage 2C.
-5. **Continuous Save & Checkpoint**: Update `PROJECT_STATUS.md` and `HANDOFF.md` before stopping, and archive to `D:\delhi-ncr-aqi-analysis-backups\`.
+4. **Avoid Pseudoreplication in Statistics**: Always use station-day aggregated units from `fact_daily_aqi` for inferential testing.
+5. **Continuous Save & Checkpoint**: Maintain `PROJECT_STATUS.md` and `HANDOFF.md`, create local Git commits and ZIP archives in `D:\delhi-ncr-aqi-analysis-backups\`.
 
 ---
 
@@ -51,22 +61,24 @@
 
 | File / Directory | Content Description |
 | :--- | :--- |
-| `sql/schema.sql` | Star Schema DDL (`dim_station`, `dim_date`, `fact_daily_aqi`, `fact_hourly_aqi`). |
-| `sql/analytical_queries.sql` | 7 analytical queries (CTEs, Window functions, rankings). |
-| `src/database/load_data.py` | Streaming data loader into PostgreSQL 18. |
-| `src/database/run_queries.py` | Analytical query execution engine. |
-| `src/analysis/eda.py` | Production chart generation module. |
-| `tests/test_database.py` | Automated database & deliverable verification test suite. |
-| `reports/figures/*.png` | 6 production charts (Q1, Q2, Q3, Q5, Q6, Q7). |
-| `reports/tables/*.csv` | 7 query output tables and JSON verification metrics. |
+| `src/statistics/hypothesis_testing.py` | Complete inferential testing, effect sizes, bootstrap CI, and event study pipeline. |
+| `tests/test_statistics.py` | 9 automated pytest tests validating non-parametric bounds, FDR, and deliverables. |
+| `reports/figures/q8_statistical_hypothesis_distributions.png` | 4-panel 300-DPI publication-grade visualization of statistical findings. |
+| `reports/tables/statistical_test_results.csv` | Summary table of primary, paired, sensitivity, and pooled event tests. |
+| `reports/tables/seasonal_summary_stats.csv` | Distribution moments across seasonal regimes. |
+| `reports/tables/city_statistical_comparison.csv` | Subgroup analysis with FDR adjusted p-values. |
+| `reports/tables/diwali_event_metrics.csv` | 7-year Diwali event study table. |
+| `reports/tables/hypothesis_testing_summary.json` | Complete serializable JSON payload with all test diagnostics. |
+| `reports/findings/statistical_findings.md` | Comprehensive publication-grade analytical findings report. |
 
 ---
 
-## 4. Immediate First Task for Next Session (Stage 2C)
+## 4. Immediate First Task for Next Session (Stage 3)
 
-1. Implement `src/statistics/hypothesis_testing.py` to evaluate the pre-registered hypothesis:
-   - Primary test: Mann-Whitney U test on station-day aggregated units (Winter vs Non-Winter).
-   - Paired test: Wilcoxon signed-rank test across persistent 7-year anchor stations.
-   - Effect size: Cliff's delta and 95% bootstrap confidence intervals ($B = 2,000$).
-   - Diwali event-study statistical modeling: pre-event baseline vs festival peak vs dissipation velocity.
-2. Export statistical tables and test results to `reports/tables/` and `reports/findings/`.
+1. **Power BI Desktop Report Architecture**:
+   - Open Power BI Desktop or prepare data source scripts linking to local PostgreSQL 18 (`delhi_aqi`) or processed CSVs.
+   - Verify Star Schema relationships: `dim_station (1) -> fact_daily_aqi (*)`, `dim_date (1) -> fact_daily_aqi (*)`.
+   - Implement DAX measures (Total Observations, Valid Days %, Winter Elevation Ratio, Severe Days %, Diwali Surge %).
+   - Create 3-page interactive report layout per `docs/POWER_BI_DASHBOARD_GUIDE.md`.
+2. **Interactive Streamlit Web Dashboard (`dashboard/app.py`)**:
+   - Build a lightweight ₹0-cost local dashboard with filters for city, station, year, and date range.

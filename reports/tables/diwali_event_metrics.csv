@@ -1,0 +1,8 @@
+year,diwali_date,pre_event_n,pre_event_median,pre_event_iqr,event_n,event_median,event_iqr,post_event_n,post_event_median,post_event_iqr,absolute_surge,percentage_surge,peak_hourly_aqi,capped_sensor_hours,mann_whitney_u,p_value,cliffs_delta,effect_size,dissipation_half_life,returned_to_pre_baseline
+2017,2017-10-19,107,284.28,85.91,37,363.29,122.6,114,333.17,83.38,79.01,27.79,500.0,185,2875.0,2.1381560706126038e-05,0.4524,Medium,t+3 (2 days post-event),No (Winter Inversion Onset)
+2018,2018-11-07,262,352.5,92.44,85,339.12,87.0,249,405.79,77.02,-13.38,-3.8,500.0,378,11064.5,0.5352001689039442,-0.0063,Negligible,Not Reached,No (Winter Inversion Onset)
+2019,2019-10-27,316,272.44,74.15,95,362.04,58.46,273,439.06,48.05,89.6,32.89,500.0,241,26566.0,2.5649801521016868e-30,0.7699,Large,Not Reached,No (Winter Inversion Onset)
+2020,2020-11-14,369,400.33,108.84,109,407.92,84.21,317,246.38,90.21,7.59,1.9,500.0,746,22820.0,0.016258768614556794,0.1347,Negligible,t+2 (1 days post-event),Yes
+2021,2021-11-04,380,297.35,55.75,111,420.17,52.83,323,412.36,57.83,122.82,41.3,500.0,706,40727.0,1.0196832701018754e-50,0.9311,Large,Not Reached,No (Winter Inversion Onset)
+2022,2022-10-24,344,269.71,63.91,103,300.96,35.82,295,372.88,67.04,31.24,11.58,500.0,153,25190.5,4.058678078693552e-11,0.4219,Medium,Not Reached,No (Winter Inversion Onset)
+2023,2023-11-12,343,397.0,188.91,106,300.6,153.8,302,362.32,84.29,-96.4,-24.28,500.0,265,12568.0,0.999999229241143,-0.3087,Small,Not Reached,Yes

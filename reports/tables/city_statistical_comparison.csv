@@ -1,0 +1,6 @@
+city,n_winter,n_non_winter,winter_median,winter_iqr,non_winter_median,non_winter_iqr,median_diff,elevation_ratio,mann_whitney_u,raw_p_value,cliffs_delta,effect_size,adjusted_p_value_fdr,fdr_significant_at_01
+Delhi,19584,53914,340.53,115.62,154.96,137.68,185.57,2.2,938102114.0,0.0,0.777,Large,0.0,True
+Faridabad,1434,3914,322.6,125.2,149.31,128.45,173.29,2.16,4938087.5,0.0,0.7596,Large,0.0,True
+Ghaziabad,1365,4153,337.71,125.96,164.42,151.8,173.29,2.05,4869034.0,0.0,0.7178,Large,0.0,True
+Gurugram,1565,4348,289.25,118.04,144.4,130.94,144.85,2.0,5680718.0,0.0,0.6697,Large,0.0,True
+Noida,2805,7712,332.29,121.71,150.46,133.96,181.83,2.21,19058256.0,0.0,0.762,Large,0.0,True
