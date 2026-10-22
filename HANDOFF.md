@@ -2,7 +2,9 @@
 
 **Project Name:** Delhi-NCR Air Quality Analysis: Seasonal Trends, Station-Level Differences, and Diwali Episodes  
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
-**Current State:** **Stage 2A Verified Complete**  
+**Latest Backup Archive:** `D:\delhi-ncr-aqi-analysis-backups\stage-2a-2026-10-22.zip` (0.93 MB, 29 files, verified)  
+**Latest Git Commit:** `bd1dc4c`  
+**Current State:** **Stage 2A Verified Complete & Checkpointed**  
 **Immediate Next Task:** **Stage 2B (PostgreSQL 18 Star Schema Setup & Analytical Queries)**  
 **Local Environment:** Windows, Python 3.14.6 (`D:\anaconda3\python.exe`), PostgreSQL 18 running service (`postgresql-x64-18`), Power BI Desktop installed, Git 2.49.0.
 

@@ -4,8 +4,8 @@
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
 **Current Stage:** **Stage 2A: Data Cleaning & Reshaping Pipeline**  
 **Stage Status:** **VERIFIED COMPLETE**  
-**Latest Git Commit:** `1cdc92e` (`feat(stage-2a): complete reproducible data cleaning pipeline, surrogate station keys, and automated tests`)  
-**Latest Backup Archive:** Pending creation in `D:\delhi-ncr-aqi-analysis-backups\`
+**Latest Git Commit:** `bd1dc4c` (`docs: establish mandatory project rules, status tracking, and session handoff`)  
+**Latest Backup Archive:** `D:\delhi-ncr-aqi-analysis-backups\stage-2a-2026-10-22.zip` (0.93 MB, 29 files, verified)
 
 ---
 
