@@ -1,0 +1,16 @@
+city,station_name,agency,valid_winter_days,median_winter_aqi,mean_winter_aqi,p90_winter_aqi,severe_winter_pct,city_rank,ncr_overall_rank
+Delhi,Anand Vihar Delhi DPCC,DPCC,560,387.36,374.65,457.44,42.68,1,1
+Delhi,Jahangirpuri Delhi DPCC,DPCC,493,385.61,377.28,456.82,41.78,2,2
+Delhi,Nehru Nagar Delhi DPCC,DPCC,505,377.17,369.21,449.55,38.02,3,3
+Faridabad,Sector- 16A Faridabad HSPCB,HSPCB,555,334.62,327.06,425.53,18.56,1,31
+Faridabad,New Industrial Town Faridabad HSPCB,HSPCB,310,332.32,318.29,426.65,17.74,2,34
+Faridabad,Sector 11 Faridabad HSPCB,HSPCB,278,314.11,306.96,418.40,16.19,3,44
+Ghaziabad,Vasundhara Ghaziabad UPPCB,UPPCB,576,352.33,346.39,449.11,27.95,1,15
+Ghaziabad,Loni Ghaziabad UPPCB,UPPCB,400,341.75,337.24,448.62,26.50,2,24
+Ghaziabad,Indirapuram Ghaziabad UPPCB,UPPCB,389,317.19,308.50,431.88,17.48,3,43
+Gurugram,Sector-51 Gurugram HSPCB,HSPCB,329,308.42,300.20,390.09,8.21,1,46
+Gurugram,NISE Gwal Pahari Gurugram IMD,IMD,328,291.40,285.14,387.78,6.10,2,49
+Gurugram,Vikas Sadan Gurugram HSPCB,HSPCB,577,286.29,280.07,382.37,7.28,3,53
+Noida,Sector 62 Noida IMD,IMD,530,337.36,323.82,433.00,21.13,1,27
+Noida,Knowledge Park III Greater Noida UPPCB,UPPCB,484,336.40,329.15,433.16,20.66,2,28
+Noida,Knowledge Park V Greater Noida UPPCB,UPPCB,423,333.62,327.89,428.81,21.04,3,32

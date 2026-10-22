@@ -2,10 +2,10 @@
 
 **Current Date:** 2026-10-22  
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
-**Current Stage:** **Stage 2A: Data Cleaning & Reshaping Pipeline**  
+**Current Stage:** **Stage 2B: PostgreSQL 18 Star Schema Integration & Exploratory Data Analysis**  
 **Stage Status:** **VERIFIED COMPLETE**  
-**Latest Git Commit:** `bd1dc4c` (`docs: establish mandatory project rules, status tracking, and session handoff`)  
-**Latest Backup Archive:** `D:\delhi-ncr-aqi-analysis-backups\stage-2a-2026-10-22.zip` (0.93 MB, 29 files, verified)
+**Latest Git Commit:** Pending Stage 2B commit  
+**Latest Backup Archive:** Pending `stage-2b-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
 
 ---
 
@@ -15,68 +15,77 @@
 | :---: | :--- | :---: | :--- |
 | **Stage 1** | Environment audit, CPCB data inspection, folder setup, core documentation, sample generation | **Verified Complete** | 562,878 raw rows inspected; 19 files created; commit `45697db` |
 | **Stage 2A**| Data cleaning pipeline, surrogate station keys, wide-to-long reshaping, anomaly/capping audit | **Verified Complete** | 2,664,336 hourly records processed; 12/12 unit tests passing; commit `1cdc92e` |
-| **Stage 2B**| PostgreSQL 18 Star Schema loading, analytical SQL queries (CTEs, Window functions), and EDA | *Not Started* | Planned next: `sql/schema.sql`, `src/database/load_data.py`, `src/analysis/eda.py` |
+| **Stage 2B**| PostgreSQL 18 Star Schema loading, analytical SQL queries (CTEs, Window functions), and EDA | **Verified Complete** | 2.66M rows loaded in 71s; 7 queries executed; 6 production charts generated; 19/19 tests passing |
 | **Stage 2C**| Pre-registered statistical hypothesis testing (Mann-Whitney U, Cliff's delta, Diwali event study) | *Not Started* | Pre-registered in `PROJECT_METHODOLOGY.md` |
 | **Stage 3** | Power BI Desktop reporting, DAX measures, and optional Streamlit dashboard | *Not Started* | Data model designed in `docs/POWER_BI_DASHBOARD_GUIDE.md` |
 | **Stage 4** | Final synthesis, executive report generation, and interview preparation | *Not Started* | Framework established in `reports/FINAL_REPORT.md` |
 
 ---
 
-## 2. Stage 2A Execution & Empirical Verification Summary
+## 2. Stage 2B Execution & Empirical Verification Summary
 
 ### Completed Tasks
-- [x] Inspected raw Parquet schema and verified 111,014 Delhi-NCR station-days across 5 cities.
-- [x] Confirmed Indian Standard Time (IST, UTC+05:30) using atmospheric diurnal profiling (afternoon solar dispersion minimum at 15:00–17:00; nighttime thermal inversion peak at 22:00–00:00).
-- [x] Resolved upstream duplicated Station IDs (`site_115` for all Delhi) by creating deterministic, collision-free surrogate keys (`station_key = f"{slugify(city)}_{slugify(station_name)}"`).
-- [x] Extracted environmental operating agencies (`DPCC`: 24, `IMD`: 9, `UPPCB`: 8, `HSPCB`: 7, `CPCB`: 6, `IITM`: 2).
-- [x] Melted wide 24-hour columns into tidy long format ($111,014 \times 24 = 2,664,336$ rows).
-- [x] Derived normalized `timestamp_ist` (local) and `timestamp_utc` (UTC equivalent).
-- [x] Flagged 53,656 sensor-capped observations (AQI = 500) and preserved them in full.
-- [x] Flagged 10 out-of-range telemetry anomalies (AQI > 500 up to 3,797); preserved in `aqi_raw`, isolated in `aqi_cleaned`.
-- [x] Generated daily aggregations (`fact_daily_aqi`, 111,014 rows) with CPCB 67% validity criterion ($\ge 16$ valid hours).
-- [x] Generated station dimension table (`dim_station`, 56 rows) with uptime and coverage metrics.
-- [x] Produced comprehensive audit reports in `reports/DATA_QUALITY_REPORT.md` and `reports/tables/data_quality_metrics.json`.
-- [x] Wrote automated test suite with 12 tests in `tests/test_cleaning.py`.
-- [x] Executed test suite against sample and full dataset. **All 12 tests passed in 1.56s.**
+- [x] **Task 1: Resolved Data Integrity Questions**:
+  - Differentiated CPCB mathematical NAQI reporting ceiling (500.0) from physical optical mass saturation.
+  - Formally reconciled all observation counts: $2,441,792\text{ valid} + 222,534\text{ missing} + 10\text{ anomalous} = 2,664,336\text{ total station-hours}$.
+  - Documented local time-naive IST source convention and dual-timestamp normalization (`timestamp_ist` and `timestamp_utc`).
+- [x] **Task 2: PostgreSQL 18 Star Schema Integration**:
+  - Created high-capacity tablespace `aqi_tablespace` on D: drive (`D:\pg_tablespaces\delhi_aqi`) to preserve low C: drive disk space.
+  - Implemented `sql/schema.sql` defining DDL for `dim_station`, `dim_date`, `fact_daily_aqi`, and `fact_hourly_aqi` with primary keys, foreign keys, and indexes.
+  - Developed `src/database/load_data.py` streaming 2.66M records via compiled PostgreSQL `COPY`. Entire database loaded in 70.97 seconds.
+  - Verified referential integrity: 0 orphan foreign key records; exact row counts reconciled (`dim_station`: 56, `dim_date`: 2,556, `fact_daily_aqi`: 111,014, `fact_hourly_aqi`: 2,664,336).
+  - Authored `sql/analytical_queries.sql` featuring CTEs, Window functions (`DENSE_RANK`, 3-day rolling frames), monthly trends, station rankings, and severity distributions.
+  - Implemented `src/database/run_queries.py`: Executed all 7 analytical queries; exported actual query outputs to CSV in `reports/tables/`.
+- [x] **Task 3: Exploratory Data Analysis (EDA)**:
+  - Implemented `src/analysis/eda.py` producing 6 publication-grade figures in `reports/figures/` with official CPCB color hexes and source attribution.
+- [x] **Automated Testing**:
+  - Authored `tests/test_database.py`.
+  - Executed full test suite: **19/19 tests passing in 2.37s** (`pytest tests/ -v`).
 
 ---
 
 ## 3. Verified Artifacts Manifest
 
 ### Source Code & Pipeline
-- `src/ingestion/download_data.py`: Data download, integrity check, stratified sample generation.
-- `src/cleaning/clean_data.py`: Full cleaning, reshaping, timestamping, and flagging pipeline.
-- `tests/test_cleaning.py`: Automated pytest test suite (12 tests).
+- `src/ingestion/download_data.py`: Raw ingestion & sample generation.
+- `src/cleaning/clean_data.py`: Reshaping & cleaning pipeline.
+- `src/database/load_data.py`: PostgreSQL 18 Star Schema loader.
+- `src/database/run_queries.py`: Analytical SQL query execution engine.
+- `src/analysis/eda.py`: Production chart generation script.
+- `tests/test_cleaning.py`: 12 data cleaning unit tests.
+- `tests/test_database.py`: 7 database & deliverable verification tests.
 
-### Datasets (in `data/`)
-- `data/raw/cpcb-aqi.parquet` (14.87 MB): Nationwide CPCB raw dataset (562,878 rows, 2017–2023).
-- `data/sample/delhi_ncr_aqi_sample.csv` (96.8 KB): Stratified sample (676 rows, 56 stations, 7 years).
-- `data/processed/fact_hourly_aqi.parquet` (20.17 MB): Tidy hourly records (2,664,336 rows).
-- `data/processed/fact_daily_aqi.parquet` & `.csv` (111,014 rows): Station-day aggregations.
-- `data/processed/dim_station.parquet` & `.csv` (56 rows): Station dimension table.
+### SQL Scripts
+- `sql/schema.sql`: DDL schema with `aqi_tablespace` on D: drive.
+- `sql/analytical_queries.sql`: 7 production analytical SQL queries.
 
-### Audit & Reports
-- `reports/DATA_QUALITY_REPORT.md`: Detailed before-and-after cleaning audit.
-- `reports/tables/data_quality_metrics.json`: Machine-readable data quality metrics.
-- `PROJECT_RULES.md`: Permanent save, checkpoint, and recovery rules.
-- `PROJECT_STATUS.md`: This live progress dashboard.
-- `HANDOFF.md`: Context handoff for session continuity.
+### Production Figures (in `reports/figures/`)
+- `q1_monthly_seasonal_trends.png`: 12-month annual cyclical curve with IQR band and severe % bars.
+- `q2_station_rankings.png`: Top 10 most polluted vs cleanest stations in winter.
+- `q3_severity_distribution.png`: 100% stacked bar chart of CPCB categories across seasons.
+- `q5_diurnal_hourly_patterns.png`: 24-hour diurnal profiling (Winter vs Monsoon).
+- `q6_diwali_event_study.png`: Multi-year relative event study ($t-7$ to $t+7$) for 2017–2023.
+- `q7_station_uptime_vs_capping.png`: Bubble scatter plot comparing uptime % vs median AQI.
+
+### Deliverables & Tables (in `reports/tables/`)
+- `q1_executive_kpi_summary.csv`: Network mean (213.56), median (199.29), winter ratio (1.89x).
+- `q2_monthly_trends_seasonal_inversion_wave_research_question_1.csv`: Month-by-month progression.
+- `q3_station_rankings_spatial_heterogeneity_research_question_2.csv`: City rankings and NCR ranks.
+- `q4_severity_category_distribution_by_season_and_city_research_question_3.csv`: CPCB tier distribution.
+- `q5_diurnal_diurnal_profiling_research_question_6.csv`: Hourly AQI medians and means.
+- `q6_diwali_event_study_trajectory_research_question_8.csv`: Diwali event trajectory data.
+- `q7_station_completeness_sensor_capping_audit_research_question_7.csv`: Uptime and capping stats.
+- `analytical_queries_results.json`: Execution metadata for all 7 queries.
+- `database_verification_metrics.json`: Row counts and referential integrity audit.
 
 ---
 
 ## 4. Test Results & Execution Log
 
-### Test Execution:
 ```powershell
-python -m pytest "D:\delhi-ncr-aqi-analysis\tests\test_cleaning.py" -v
+python -m pytest "D:\delhi-ncr-aqi-analysis\tests" -v
 ```
-**Outcome:** `12 passed in 1.56s` (100% pass rate).
-
-### Pipeline Execution:
-```powershell
-python "D:\delhi-ncr-aqi-analysis\src\cleaning\clean_data.py"
-```
-**Outcome:** Executed in ~22 seconds. Generated `fact_hourly_aqi.parquet`, `fact_daily_aqi.parquet`, `dim_station.csv`, and audit reports without error.
+**Outcome:** `19 passed in 2.37s` (100% pass rate).
 
 ---
 
@@ -84,14 +93,16 @@ python "D:\delhi-ncr-aqi-analysis\src\cleaning\clean_data.py"
 
 - **Blockers:** None.
 - **Constraints / Analytical Caveats:**
-  1. *Right-Censoring at 500*: 53,656 hourly readings (2.20% of valid data) hit the CPCB index ceiling of 500. Non-parametric methods (medians, Cliff's delta) must be used instead of standard Gaussian parametric tests.
-  2. *Network Expansion*: Active station count increased from ~15 in early 2017 to 56 by 2020. Spatial cohort matching will be required when benchmarking long-term multi-year trends in Stage 2B/2C.
+  1. *C: Drive Protection*: Database tablespace is explicitly pinned to `D:\pg_tablespaces\delhi_aqi` where 198+ GB free space is available.
+  2. *Right-Censoring*: 53,656 hourly readings (2.20%) hit the CPCB NAQI reporting ceiling of 500.0.
 
 ---
 
-## 6. Prioritized Next Actions (Stage 2B)
+## 6. Prioritized Next Actions (Stage 2C)
 
-1. Create PostgreSQL Star Schema DDL in `sql/schema.sql` (`dim_station`, `dim_date`, `fact_daily_aqi`, `fact_hourly_aqi`).
-2. Write automated relational loader in `src/database/load_data.py` to populate local PostgreSQL 18 `delhi_aqi` database.
-3. Write and verify analytical SQL queries in `sql/analytical_queries.sql` (CTEs, Window functions, station rankings, severity distributions).
-4. Implement exploratory data analysis visualizations in `src/analysis/eda.py` addressing Questions 1 through 8.
+1. Implement `src/statistics/hypothesis_testing.py` to run pre-registered tests:
+   - Non-parametric Mann-Whitney U test on station-day aggregated units (Winter vs Non-Winter).
+   - Paired Wilcoxon signed-rank test across persistent 7-year anchor stations.
+   - Calculate Cliff's delta effect size and 95% bootstrap confidence intervals ($B = 2,000$).
+   - Diwali event-study statistical modeling (pre-event baseline vs festival peak vs dissipation velocity).
+2. Save statistical test outputs to `reports/tables/` and document results in `reports/findings/`.

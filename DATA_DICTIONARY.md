@@ -46,8 +46,8 @@ Standardized long/tidy format suitable for relational database loading, time-ser
 | `hour` | `SMALLINT` | `int8` | 0 to 23 | Hour of day (0 to 23). |
 | `aqi_value` | `NUMERIC(6,2)` | `float32` | $1.00 \le \text{AQI} \le 500.00$ | Cleaned hourly AQI measurement. |
 | `aqi_category` | `VARCHAR(16)` | `category` | Valid CPCB category | Good, Satisfactory, Moderate, Poor, Very Poor, Severe. |
-| `is_sensor_capped`| `BOOLEAN` | `bool` | True if $\text{AQI} = 500$ | Flag indicating sensor saturation at upper ceiling. |
-| `is_anomalous` | `BOOLEAN` | `bool` | True if $\text{AQI} > 500$ | Instrument anomaly flag (excluded from baseline statistics). |
+| `is_sensor_capped`| `BOOLEAN` | `bool` | True if $\text{AQI} = 500$ | Flag indicating CPCB mathematical formula reporting ceiling (500.0). |
+| `is_anomalous` | `BOOLEAN` | `bool` | True if $\text{AQI} > 500$ | Instrument/telemetry calibration anomaly flag (10 records in 2.44M). |
 
 ---
 

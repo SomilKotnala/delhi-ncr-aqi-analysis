@@ -1,0 +1,29 @@
+[
+  {
+    "query_number": 2,
+    "title": "Monthly Trends & Seasonal Inversion Wave (Research Question 1)",
+    "description": "Business Question: How does AQI transition month-by-month across the 7 years?",
+    "elapsed_seconds": 0.459,
+    "rows_returned": 15,
+    "csv_output": "q2_monthly_trends_seasonal_inversion_wave_research_question_1.csv",
+    "status": "SUCCESS"
+  },
+  {
+    "query_number": 4,
+    "title": "Severity Category Distribution by Season and City (Research Question 3)",
+    "description": "Business Question: How frequently do stations experience each CPCB NAQI tier?",
+    "elapsed_seconds": 1.591,
+    "rows_returned": 105,
+    "csv_output": "q4_severity_category_distribution_by_season_and_city_research_question_3.csv",
+    "status": "SUCCESS"
+  },
+  {
+    "query_number": 7,
+    "title": "Station Completeness & Sensor Capping Audit (Research Question 7)",
+    "description": "Business Question: Are dirtier stations subject to more downtime or capping?",
+    "elapsed_seconds": 0.002,
+    "rows_returned": 15,
+    "csv_output": "q7_station_completeness_sensor_capping_audit_research_question_7.csv",
+    "status": "SUCCESS"
+  }
+]

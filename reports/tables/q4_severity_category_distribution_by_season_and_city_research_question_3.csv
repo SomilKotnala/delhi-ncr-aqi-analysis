@@ -1,0 +1,26 @@
+city,season,total_station_days,good_count,satisfactory_count,moderate_count,poor_count,very_poor_count,severe_count,severe_pct
+Delhi,Winter,19584,11,143,1415,4764,8737,4409,22.51
+Delhi,Post-Monsoon,6643,107,360,1914,2281,1583,333,5.01
+Delhi,Transition (Feb),5874,2,126,1334,2524,1704,126,2.15
+Delhi,Summer / Pre-Monsoon,17662,134,1645,7454,6557,1639,41,0.23
+Delhi,Monsoon,23735,1248,9840,10275,1694,285,38,0.16
+Faridabad,Winter,1434,1,8,154,416,615,232,16.18
+Faridabad,Post-Monsoon,495,13,31,128,194,107,14,2.83
+Faridabad,Summer / Pre-Monsoon,1348,10,181,639,413,80,6,0.45
+Faridabad,Monsoon,1695,137,696,708,113,17,1,0.06
+Faridabad,Transition (Feb),376,1,8,107,165,92,0,0.00
+Ghaziabad,Winter,1365,0,12,92,354,568,335,24.54
+Ghaziabad,Post-Monsoon,492,14,9,116,179,128,44,8.94
+Ghaziabad,Transition (Feb),371,0,5,87,124,140,11,2.96
+Ghaziabad,Summer / Pre-Monsoon,1407,4,127,491,541,208,22,1.56
+Ghaziabad,Monsoon,1883,57,725,837,170,48,8,0.42
+Gurugram,Winter,1565,1,21,246,583,604,101,6.45
+Gurugram,Post-Monsoon,538,12,43,191,175,98,10,1.86
+Gurugram,Transition (Feb),444,0,13,139,200,86,3,0.68
+Gurugram,Monsoon,1895,143,792,716,172,29,6,0.32
+Gurugram,Summer / Pre-Monsoon,1471,10,231,660,423,127,2,0.14
+Noida,Winter,2805,1,17,259,745,1191,575,20.50
+Noida,Post-Monsoon,988,22,29,257,389,231,51,5.16
+Noida,Transition (Feb),743,0,21,225,298,188,5,0.67
+Noida,Monsoon,3622,185,1486,1548,277,70,10,0.28
+Noida,Summer / Pre-Monsoon,2359,13,227,1086,790,210,6,0.25

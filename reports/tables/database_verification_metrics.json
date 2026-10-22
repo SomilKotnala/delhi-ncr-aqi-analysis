@@ -1,0 +1,16 @@
+{
+  "dim_station_count": 56,
+  "dim_date_count": 2556,
+  "fact_daily_count": 111014,
+  "fact_hourly_count": 2664336,
+  "min_daily_date": "2017-01-01",
+  "max_daily_date": "2023-12-31",
+  "fact_daily_stations": 56,
+  "fact_hourly_stations": 56,
+  "daily_orphan_stations": 0,
+  "hourly_orphan_stations": 0,
+  "db_sensor_capped_count": 53656,
+  "db_anomalous_count": 10,
+  "db_valid_hourly_count": 2441792,
+  "db_missing_hourly_count": 222534
+}

@@ -1,0 +1,16 @@
+city,station_name,agency,total_recorded_days,uptime_hourly_pct,temporal_coverage_pct,capped_hours_pct,mean_aqi,median_aqi
+Delhi,Anand Vihar Delhi DPCC,DPCC,2148,90.81,84.04,6.55,264.17,250.00
+Delhi,Mundka Delhi DPCC,DPCC,1984,92.57,77.62,4.81,249.25,227.00
+Delhi,Jahangirpuri Delhi DPCC,DPCC,2141,89.44,83.76,4.21,244.48,220.00
+Ghaziabad,Vasundhara Ghaziabad UPPCB,UPPCB,2353,96.34,92.06,3.93,231.31,198.00
+Delhi,Wazirpur Delhi DPCC,DPCC,2132,90.86,83.41,3.77,241.10,205.00
+Ghaziabad,Loni Ghaziabad UPPCB,UPPCB,1730,94.28,67.68,3.62,235.70,205.00
+Delhi,Rohini Delhi DPCC,DPCC,2138,92.54,83.65,3.62,231.00,193.00
+Delhi,Dwarka-Sector 8 Delhi DPCC ,DPCC,2144,92.71,83.88,3.46,234.97,197.00
+Delhi,Punjabi Bagh Delhi DPCC,DPCC,2377,91.73,93.00,3.30,223.47,183.00
+Noida,Sector 125 Noida UPPCB,UPPCB,2271,91.56,88.85,3.29,220.83,186.00
+Delhi,DTU Delhi CPCB,CPCB,2469,96.40,96.60,3.29,220.18,182.00
+Delhi,Bawana Delhi DPCC,DPCC,1996,94.27,78.09,3.26,237.05,207.00
+Delhi,Nehru Nagar Delhi DPCC,DPCC,2149,94.26,84.08,3.23,221.63,183.00
+Faridabad,New Industrial Town Faridabad HSPCB,HSPCB,1267,91.82,49.57,2.80,204.82,166.00
+Delhi,Chandni Chowk Delhi IITM,IITM,761,87.06,29.77,2.64,245.55,227.00

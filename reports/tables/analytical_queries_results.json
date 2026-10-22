@@ -1,0 +1,386 @@
+[
+  {
+    "query_number": 1,
+    "title": "Executive KPI Summary",
+    "elapsed_seconds": 0.096,
+    "rows_returned": 1,
+    "csv_file": "q1_executive_kpi_summary.csv",
+    "sample_records": [
+      {
+        "total_station_days": 100794,
+        "active_stations_count": 56,
+        "network_mean_aqi": "213.56",
+        "network_median_aqi": "199.29",
+        "severe_days_count": 6389,
+        "severe_days_pct": "6.34",
+        "winter_mean_aqi": "326.81",
+        "non_winter_mean_aqi": "172.64",
+        "winter_elevation_ratio": "1.89"
+      }
+    ]
+  },
+  {
+    "query_number": 2,
+    "title": "Monthly Trends & Seasonal Inversion Wave (Research Question 1)",
+    "elapsed_seconds": 0.118,
+    "rows_returned": 12,
+    "csv_file": "q2_monthly_trends_seasonal_inversion_wave_research_question_1.csv",
+    "sample_records": [
+      {
+        "month": 1,
+        "month_name": "January",
+        "season": "Winter",
+        "is_winter": true,
+        "monitored_station_days": 8095,
+        "mean_aqi": "303.29",
+        "median_aqi": "311.92",
+        "q1_aqi": "241.67",
+        "q3_aqi": "370.84",
+        "severe_days_pct": "14.37"
+      },
+      {
+        "month": 2,
+        "month_name": "February",
+        "season": "Transition (Feb)",
+        "is_winter": false,
+        "monitored_station_days": 7808,
+        "mean_aqi": "253.36",
+        "median_aqi": "260.07",
+        "q1_aqi": "195.24",
+        "q3_aqi": "312.29",
+        "severe_days_pct": "1.86"
+      },
+      {
+        "month": 3,
+        "month_name": "March",
+        "season": "Summer / Pre-Monsoon",
+        "is_winter": false,
+        "monitored_station_days": 8463,
+        "mean_aqi": "196.39",
+        "median_aqi": "196.33",
+        "q1_aqi": "146.17",
+        "q3_aqi": "245.75",
+        "severe_days_pct": "0.11"
+      },
+      {
+        "month": 4,
+        "month_name": "April",
+        "season": "Summer / Pre-Monsoon",
+        "is_winter": false,
+        "monitored_station_days": 7786,
+        "mean_aqi": "203.35",
+        "median_aqi": "202.04",
+        "q1_aqi": "138.95",
+        "q3_aqi": "262.17",
+        "severe_days_pct": "0.37"
+      },
+      {
+        "month": 5,
+        "month_name": "May",
+        "season": "Summer / Pre-Monsoon",
+        "is_winter": false,
+        "monitored_station_days": 7998,
+        "mean_aqi": "188.19",
+        "median_aqi": "177.44",
+        "q1_aqi": "128.25",
+        "q3_aqi": "240.76",
+        "severe_days_pct": "0.49"
+      }
+    ]
+  },
+  {
+    "query_number": 3,
+    "title": "Station Rankings & Spatial Heterogeneity (Research Question 2)",
+    "elapsed_seconds": 0.039,
+    "rows_returned": 15,
+    "csv_file": "q3_station_rankings_spatial_heterogeneity_research_question_2.csv",
+    "sample_records": [
+      {
+        "city": "Delhi",
+        "station_name": "Anand Vihar Delhi DPCC",
+        "agency": "DPCC",
+        "valid_winter_days": 560,
+        "median_winter_aqi": "387.36",
+        "mean_winter_aqi": "374.65",
+        "p90_winter_aqi": "457.44",
+        "severe_winter_pct": "42.68",
+        "city_rank": 1,
+        "ncr_overall_rank": 1
+      },
+      {
+        "city": "Delhi",
+        "station_name": "Jahangirpuri Delhi DPCC",
+        "agency": "DPCC",
+        "valid_winter_days": 493,
+        "median_winter_aqi": "385.61",
+        "mean_winter_aqi": "377.28",
+        "p90_winter_aqi": "456.82",
+        "severe_winter_pct": "41.78",
+        "city_rank": 2,
+        "ncr_overall_rank": 2
+      },
+      {
+        "city": "Delhi",
+        "station_name": "Nehru Nagar Delhi DPCC",
+        "agency": "DPCC",
+        "valid_winter_days": 505,
+        "median_winter_aqi": "377.17",
+        "mean_winter_aqi": "369.21",
+        "p90_winter_aqi": "449.55",
+        "severe_winter_pct": "38.02",
+        "city_rank": 3,
+        "ncr_overall_rank": 3
+      },
+      {
+        "city": "Faridabad",
+        "station_name": "Sector- 16A Faridabad HSPCB",
+        "agency": "HSPCB",
+        "valid_winter_days": 555,
+        "median_winter_aqi": "334.62",
+        "mean_winter_aqi": "327.06",
+        "p90_winter_aqi": "425.53",
+        "severe_winter_pct": "18.56",
+        "city_rank": 1,
+        "ncr_overall_rank": 31
+      },
+      {
+        "city": "Faridabad",
+        "station_name": "New Industrial Town Faridabad HSPCB",
+        "agency": "HSPCB",
+        "valid_winter_days": 310,
+        "median_winter_aqi": "332.32",
+        "mean_winter_aqi": "318.29",
+        "p90_winter_aqi": "426.65",
+        "severe_winter_pct": "17.74",
+        "city_rank": 2,
+        "ncr_overall_rank": 34
+      }
+    ]
+  },
+  {
+    "query_number": 4,
+    "title": "Severity Category Distribution by Season and City (Research Question 3)",
+    "elapsed_seconds": 0.052,
+    "rows_returned": 25,
+    "csv_file": "q4_severity_category_distribution_by_season_and_city_research_question_3.csv",
+    "sample_records": [
+      {
+        "city": "Delhi",
+        "season": "Winter",
+        "total_station_days": 19584,
+        "good_count": 11,
+        "satisfactory_count": 143,
+        "moderate_count": 1415,
+        "poor_count": 4764,
+        "very_poor_count": 8737,
+        "severe_count": 4409,
+        "severe_pct": "22.51"
+      },
+      {
+        "city": "Delhi",
+        "season": "Post-Monsoon",
+        "total_station_days": 6643,
+        "good_count": 107,
+        "satisfactory_count": 360,
+        "moderate_count": 1914,
+        "poor_count": 2281,
+        "very_poor_count": 1583,
+        "severe_count": 333,
+        "severe_pct": "5.01"
+      },
+      {
+        "city": "Delhi",
+        "season": "Transition (Feb)",
+        "total_station_days": 5874,
+        "good_count": 2,
+        "satisfactory_count": 126,
+        "moderate_count": 1334,
+        "poor_count": 2524,
+        "very_poor_count": 1704,
+        "severe_count": 126,
+        "severe_pct": "2.15"
+      },
+      {
+        "city": "Delhi",
+        "season": "Summer / Pre-Monsoon",
+        "total_station_days": 17662,
+        "good_count": 134,
+        "satisfactory_count": 1645,
+        "moderate_count": 7454,
+        "poor_count": 6557,
+        "very_poor_count": 1639,
+        "severe_count": 41,
+        "severe_pct": "0.23"
+      },
+      {
+        "city": "Delhi",
+        "season": "Monsoon",
+        "total_station_days": 23735,
+        "good_count": 1248,
+        "satisfactory_count": 9840,
+        "moderate_count": 10275,
+        "poor_count": 1694,
+        "very_poor_count": 285,
+        "severe_count": 38,
+        "severe_pct": "0.16"
+      }
+    ]
+  },
+  {
+    "query_number": 5,
+    "title": "Diurnal Diurnal Profiling (Research Question 6)",
+    "elapsed_seconds": 1.499,
+    "rows_returned": 48,
+    "csv_file": "q5_diurnal_diurnal_profiling_research_question_6.csv",
+    "sample_records": [
+      {
+        "season": "Monsoon",
+        "hour": 0,
+        "valid_observations": 33225,
+        "mean_hourly_aqi": "129.00",
+        "median_hourly_aqi": "109.00"
+      },
+      {
+        "season": "Monsoon",
+        "hour": 1,
+        "valid_observations": 33249,
+        "mean_hourly_aqi": "122.98",
+        "median_hourly_aqi": "104.00"
+      },
+      {
+        "season": "Monsoon",
+        "hour": 2,
+        "valid_observations": 33074,
+        "mean_hourly_aqi": "116.80",
+        "median_hourly_aqi": "100.00"
+      },
+      {
+        "season": "Monsoon",
+        "hour": 3,
+        "valid_observations": 32657,
+        "mean_hourly_aqi": "109.17",
+        "median_hourly_aqi": "93.00"
+      },
+      {
+        "season": "Monsoon",
+        "hour": 4,
+        "valid_observations": 32390,
+        "mean_hourly_aqi": "105.41",
+        "median_hourly_aqi": "89.00"
+      }
+    ]
+  },
+  {
+    "query_number": 6,
+    "title": "Diwali Event-Study Trajectory (Research Question 8)",
+    "elapsed_seconds": 0.013,
+    "rows_returned": 105,
+    "csv_file": "q6_diwali_event_study_trajectory_research_question_8.csv",
+    "sample_records": [
+      {
+        "year": 2017,
+        "calendar_date": "2017-10-12",
+        "diwali_relative_day": -7,
+        "network_median_aqi": "291.08",
+        "network_mean_aqi": "278.17",
+        "smoothed_3day_median_aqi": "280.03"
+      },
+      {
+        "year": 2017,
+        "calendar_date": "2017-10-13",
+        "diwali_relative_day": -6,
+        "network_median_aqi": "268.98",
+        "network_mean_aqi": "264.42",
+        "smoothed_3day_median_aqi": "274.02"
+      },
+      {
+        "year": 2017,
+        "calendar_date": "2017-10-14",
+        "diwali_relative_day": -5,
+        "network_median_aqi": "262.00",
+        "network_mean_aqi": "264.13",
+        "smoothed_3day_median_aqi": "273.42"
+      },
+      {
+        "year": 2017,
+        "calendar_date": "2017-10-15",
+        "diwali_relative_day": -4,
+        "network_median_aqi": "289.29",
+        "network_mean_aqi": "268.99",
+        "smoothed_3day_median_aqi": "279.66"
+      },
+      {
+        "year": 2017,
+        "calendar_date": "2017-10-16",
+        "diwali_relative_day": -3,
+        "network_median_aqi": "287.70",
+        "network_mean_aqi": "286.85",
+        "smoothed_3day_median_aqi": "293.62"
+      }
+    ]
+  },
+  {
+    "query_number": 7,
+    "title": "Station Completeness & Sensor Capping Audit (Research Question 7)",
+    "elapsed_seconds": 0.001,
+    "rows_returned": 15,
+    "csv_file": "q7_station_completeness_sensor_capping_audit_research_question_7.csv",
+    "sample_records": [
+      {
+        "city": "Delhi",
+        "station_name": "Anand Vihar Delhi DPCC",
+        "agency": "DPCC",
+        "total_recorded_days": 2148,
+        "uptime_hourly_pct": "90.81",
+        "temporal_coverage_pct": "84.04",
+        "capped_hours_pct": "6.55",
+        "mean_aqi": "264.17",
+        "median_aqi": "250.00"
+      },
+      {
+        "city": "Delhi",
+        "station_name": "Mundka Delhi DPCC",
+        "agency": "DPCC",
+        "total_recorded_days": 1984,
+        "uptime_hourly_pct": "92.57",
+        "temporal_coverage_pct": "77.62",
+        "capped_hours_pct": "4.81",
+        "mean_aqi": "249.25",
+        "median_aqi": "227.00"
+      },
+      {
+        "city": "Delhi",
+        "station_name": "Jahangirpuri Delhi DPCC",
+        "agency": "DPCC",
+        "total_recorded_days": 2141,
+        "uptime_hourly_pct": "89.44",
+        "temporal_coverage_pct": "83.76",
+        "capped_hours_pct": "4.21",
+        "mean_aqi": "244.48",
+        "median_aqi": "220.00"
+      },
+      {
+        "city": "Ghaziabad",
+        "station_name": "Vasundhara Ghaziabad UPPCB",
+        "agency": "UPPCB",
+        "total_recorded_days": 2353,
+        "uptime_hourly_pct": "96.34",
+        "temporal_coverage_pct": "92.06",
+        "capped_hours_pct": "3.93",
+        "mean_aqi": "231.31",
+        "median_aqi": "198.00"
+      },
+      {
+        "city": "Delhi",
+        "station_name": "Wazirpur Delhi DPCC",
+        "agency": "DPCC",
+        "total_recorded_days": 2132,
+        "uptime_hourly_pct": "90.86",
+        "temporal_coverage_pct": "83.41",
+        "capped_hours_pct": "3.77",
+        "mean_aqi": "241.10",
+        "median_aqi": "205.00"
+      }
+    ]
+  }
+]

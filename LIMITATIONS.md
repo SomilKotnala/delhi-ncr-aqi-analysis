@@ -4,11 +4,21 @@ Every credible data analysis must transparently state data constraints, measurem
 
 ---
 
-## 1. Instrument Ceiling and Right-Censoring at AQI = 500
+## 1. Regulatory Reporting Ceiling vs. Physical Sensor Saturation (AQI = 500)
 
-- **Observed Phenomenon**: In Delhi-NCR, exactly **53,656 hourly observations** are recorded at the upper saturation limit of **500.0**.
-- **Underlying Cause**: The official CPCB National AQI sub-index formula caps the index at 500 when $\text{PM}_{2.5}$ exceeds $250\,\mu\text{g/m}^3$ and $\text{PM}_{10}$ exceeds $430\,\mu\text{g/m}^3$. In severe episodes, true particulate concentrations can reach $700\text{--}1,000\,\mu\text{g/m}^3$, yet the reported AQI remains flat at 500.
-- **Analytical Impact**: This ceiling effect causes **right-censoring**. Standard parametric estimators (such as arithmetic mean and variance) systematically underestimate the true severity of peak pollution events. Robust non-parametric metrics (medians, interquartile ranges, survival/censored estimation) are necessary.
+- **Observed Phenomenon**: In Delhi-NCR, exactly **53,656 hourly observations** are recorded at the upper ceiling of **500.0**.
+- **Crucial Distinction: Reporting Ceiling vs. Physical Overload**:
+  1. **Regulatory / Mathematical Reporting Ceiling**: The official CPCB National Air Quality Index (NAQI) formula mathematically truncates at **500.0**. When 24-hour average $\text{PM}_{2.5}$ exceeds $250\,\mu\text{g/m}^3$ and $\text{PM}_{10}$ exceeds $430\,\mu\text{g/m}^3$, the index equation reaches its defined ceiling. Even if ambient particulate concentrations reach $800\,\mu\text{g/m}^3$ or $1,200\,\mu\text{g/m}^3$, the reported AQI remains flat at 500. This is an **index-level reporting ceiling** (right-censoring of the composite score).
+  2. **Physical Sensor Detection Limits**: Continuous CAAQMS beta attenuation monitors (BAM) and optical particle counters (OPC) possess physical optical mass detection limits (typically $1,000\text{--}5,000\,\mu\text{g/m}^3$). Physical detector saturation occurs when particulate density attenuates the optical or beta beam beyond dynamic range, triggering error codes or sensor dropouts (`<NA>`).
+  3. **Out-of-Scale Anomalies (> 500)**: Exactly **10 observations** exceeded 500 (e.g., 3,303 and 3,797 at Sector 125 Noida in October 2017). These represent sensor communication glitches or raw calibration voltages that bypassed the NAQI calculation clipping logic.
+- **Analytical Impact**: Because the composite index is right-censored at 500, standard Gaussian estimators (arithmetic mean and variance) systematically underestimate the true severity of peak episodic smog. Robust non-parametric metrics (medians, interquartile ranges, Cliff's delta) are strictly mandated.
+
+---
+
+## 2. Source Timezone Convention and Timestamp Normalization
+
+- **Verification**: CPCB continuous stations operate on Indian Standard Time (IST, UTC+05:30). Diurnal analysis of raw columns confirms local time: afternoon solar boundary-layer mixing height dilution produces a diurnal minimum at 15:00–17:00 IST (168.6), while nighttime thermal inversion peaks at 22:00–00:00 IST (242.6).
+- **Residual Uncertainty**: Raw CPCB data files do not embed explicit ISO 8601 offset strings (e.g., `+05:30`) in column headers. To resolve ambiguity across international BI tools and databases, our pipeline explicitly derives and stores both `timestamp_ist` (local) and `timestamp_utc` (UTC).
 
 ---
 
