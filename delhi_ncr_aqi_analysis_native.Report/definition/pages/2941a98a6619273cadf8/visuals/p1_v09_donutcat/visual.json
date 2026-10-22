@@ -4,10 +4,10 @@
   "position": {
     "x": 1290,
     "y": 240,
-    "z": 9,
+    "z": 8000,
     "height": 440,
     "width": 610,
-    "tabOrder": 9
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "donutChart",
@@ -109,6 +109,58 @@
               "expr": {
                 "Literal": {
                   "Value": "9.5D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "centerBackground": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fillColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "value": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "textWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }

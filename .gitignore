@@ -44,3 +44,5 @@ tmp/
 *_original.pbix
 *.abf
 *.pbip.pbix
+*.pbix.pbix
+aqi_contrast_fixed.pbix

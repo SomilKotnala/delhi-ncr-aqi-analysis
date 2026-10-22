@@ -23,6 +23,19 @@ An end-to-end, reproducible Data Analytics portfolio project investigating 7 ful
   - Kimball Star Schema implemented in **PostgreSQL 18** with advanced CTEs and window functions.
   - Interactive **Power BI Desktop** report with custom DAX measures and normalized event studies.
 
+### Authoritative Key Findings:
+- **Baseline Regional AQI:** Median **199.29**, Mean **213.56**, IQR **185.17** across 100,794 valid station-days (90.79% data completeness out of 111,014 scheduled station-days).
+- **Winter Elevation:** Winter median **335.61** vs Non-Winter median **154.00** ($\mathbf{+181.61}$ pts absolute elevation, $\mathbf{2.18\times}$ ratio).
+- **Diwali Festival Surge:** Network pooled mean paired surge of $\mathbf{+81.57}$ AQI points (median $\mathbf{+80.38}$ pts) across **306 station-year pairs**, with **85.95%** (263/306) of station-years elevating.
+  - *Verified Annual Breakdown ($N=306$):* 2017: 16 | 2018: **40** | 2019: 46 | 2020: 53 | 2021: 55 | 2022: 46 | 2023: **50**.
+  - *(Note on Historical Typo: 2023 having 60 pairs is physically impossible as the entire network comprises 56 stations in total; 2023 has 50 valid pairs. 2018 having 30 pairs was from an exploratory draft that dropped partial-missingness stations; official statutory standard preserves 40 valid pairs).*
+- **Timing Cohorts:** October Diwali (2017, 2019, 2022 — 108 pairs) pooled surge **+58.92 pts** vs November Diwali (2018, 2020, 2021, 2023 — 198 pairs) pooled surge **+93.92 pts**.
+
+### Known Methodological Limitations:
+1. **Instrument Sensor Ceiling Truncation:** Continuous analyzers cap PM2.5 and AQI calculations at 500.0, truncating extreme peaks and compressing observable relative surges during peak winter episodes (12.44% of station-days affected).
+2. **Meteorological & Seasonal Confounding:** Post-monsoon agricultural burning in Punjab/Haryana and planetary boundary layer height collapse co-occur with Diwali, requiring careful counterfactual interpretation rather than naive 100% fireworks attribution.
+3. **Network Expansion Across Time:** Network active stations grew from 17 in 2017 to 56 in 2021–2023; cross-year comparisons control for station fixed effects through paired differences.
+
 ---
 
 ## 2. Repository Architecture
@@ -90,13 +103,21 @@ python -m streamlit run dashboard/app.py
 Open **`http://localhost:8501`** to interact with the 3 analytical tabs, dynamic slicers, and CPCB risk distributions.
 
 ### Step 5: Run Automated Tests
-Verify all 52 unit and integration tests covering cleaning, database, statistics, and dashboard metrics:
+Verify all 61 unit and integration tests covering cleaning, database, statistics, dashboard metrics, and Power BI DAX runtime:
 ```bash
 python -m pytest tests/ -v
 ```
 
-### Step 6: Power BI Desktop Model
-Open **Power BI Desktop**, import the processed tables from `data/processed/`, link the Star Schema, and paste the 10 verified DAX measures detailed in [`docs/POWER_BI_DASHBOARD_GUIDE.md`](docs/POWER_BI_DASHBOARD_GUIDE.md).
+### Step 6: Power BI Desktop Model & Executive Dashboard
+The production Power BI report is packaged as both a native developer project and a signed binary deliverable:
+- **Final Power BI File:** [`delhi_ncr_aqi_analysis_final.pbix`](delhi_ncr_aqi_analysis_final.pbix)
+- **Native PBIP Project:** [`delhi_ncr_aqi_analysis_native.pbip`](delhi_ncr_aqi_analysis_native.pbip)
+- **Visual Structure:** 3 pages, 34 visual containers across Dark Navy Environmental aesthetic (`#0B1220`, `#111C2E`, `#172438`).
+- **DAX Measures:** 22 production measures verified against active Tabular Engine (`msmdsrv.exe`).
+- **Page Layout:**
+  1. *Regional AQI Overview* (11 visuals: KPI callout cards, 84-month chronological trend, CPCB category donut with white center value, municipal rankings, 24-hr diurnal cycle).
+  2. *Seasonal Dynamics & Spatial Inversion* (12 visuals: 2.18x winter-to-non-winter contrast, Top 10 polluted vs cleanest stations, Tobit censoring methodology panel).
+  3. *Diwali Episode Analysis & Confounding* (11 visuals: +81.57 pt paired surge across 306 station-years, October vs November timing cohorts, annual surge breakdown, causal deconfounding panel).
 
 ### Step 7: Explore the Comprehensive Documentation
 - [`docs/DASHBOARD_METRIC_DICTIONARY.md`](docs/DASHBOARD_METRIC_DICTIONARY.md): Complete metric definitions, formulas, and DAX/SQL logic.
