@@ -3,7 +3,7 @@
 **Project Name:** Delhi-NCR Air Quality Analysis: Seasonal Trends, Spatial Differences, and Diwali Pollution Episodes  
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
 **Latest Backup Archive:** `D:\delhi-ncr-aqi-analysis-backups\stage-3-powerbi-runtime-verified-2026-10-22.zip`  
-**Current State:** **Stage 3 Power BI Report Verified & Runtime Validated**  
+**Current State:** **Stage 3 Power BI Report Verified & Runtime Validated (Commit `5158312`)**  
 **Local Environment:** Windows, Python 3.14.6 (`D:\anaconda3\python.exe`), PostgreSQL 18.0 (`delhi_aqi` on `D:\pg_tablespaces\delhi_aqi`), Streamlit 1.58.0 running at `http://localhost:8501`, Power BI Desktop running (msmdsrv on port `50910`), Git 2.49.0.
 
 ---
