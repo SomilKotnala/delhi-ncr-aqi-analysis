@@ -1,0 +1,96 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "p1_v11_linediurnal",
+  "position": {
+    "x": 920,
+    "y": 700,
+    "z": 11,
+    "width": 980,
+    "height": 360,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "agg_hourly_diurnal"
+                    }
+                  },
+                  "Property": "hour_ist"
+                }
+              },
+              "queryRef": "agg_hourly_diurnal.hour_ist",
+              "nativeQueryRef": "hour_ist"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Mean AQI"
+                }
+              },
+              "queryRef": "_Measures.Mean AQI",
+              "nativeQueryRef": "Mean AQI"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "agg_hourly_diurnal"
+                    }
+                  },
+                  "Property": "is_winter"
+                }
+              },
+              "queryRef": "agg_hourly_diurnal.is_winter",
+              "nativeQueryRef": "is_winter"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Diurnal 24-Hour AQI Rhythm (Rush Hour vs Night Inversion)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

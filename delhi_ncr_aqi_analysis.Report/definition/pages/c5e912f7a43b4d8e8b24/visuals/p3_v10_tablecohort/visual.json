@@ -1,0 +1,116 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "p3_v10_tablecohort",
+  "position": {
+    "x": 20,
+    "y": 700,
+    "z": 10,
+    "width": 980,
+    "height": 360,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_diwali_cohorts"
+                    }
+                  },
+                  "Property": "timing_cohort"
+                }
+              },
+              "queryRef": "dim_diwali_cohorts.timing_cohort",
+              "nativeQueryRef": "timing_cohort"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Diwali Matched Station-Years"
+                }
+              },
+              "queryRef": "_Measures.Diwali Matched Station-Years",
+              "nativeQueryRef": "Diwali Matched Station-Years"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Diwali Pooled Mean Surge"
+                }
+              },
+              "queryRef": "_Measures.Diwali Pooled Mean Surge",
+              "nativeQueryRef": "Diwali Pooled Mean Surge"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Diwali Pooled Median Surge"
+                }
+              },
+              "queryRef": "_Measures.Diwali Pooled Median Surge",
+              "nativeQueryRef": "Diwali Pooled Median Surge"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Diwali Station-Years Elevated %"
+                }
+              },
+              "queryRef": "_Measures.Diwali Station-Years Elevated %",
+              "nativeQueryRef": "Diwali Station-Years Elevated %"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Diwali Timing Cohorts Summary Table (October vs November)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

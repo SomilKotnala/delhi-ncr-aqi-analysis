@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 import pandas as pd
 import numpy as np
+import json
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
@@ -160,4 +161,42 @@ class TestPowerBIDataModel:
         assert dax_results["Diwali Station-Years Elevated %"] == pytest.approx(85.95, abs=0.01)
         assert dax_results["October Diwali Pooled Mean Surge"] == pytest.approx(58.92, abs=0.01)
         assert dax_results["November Diwali Pooled Mean Surge"] == pytest.approx(93.92, abs=0.01)
+
+    def test_powerbi_pbir_visual_definitions(self):
+        """Validate PBIR structure, 3 report pages, and 34 visuals in complete PBIX and PBIP."""
+        import zipfile
+        complete_pbix = PROJECT_ROOT / "delhi_ncr_aqi_analysis_complete.pbix"
+        pbip_file = PROJECT_ROOT / "delhi_ncr_aqi_analysis.pbip"
+        report_dir = PROJECT_ROOT / "delhi_ncr_aqi_analysis.Report"
+
+        assert complete_pbix.exists(), "Complete PBIX file missing on disk"
+        assert complete_pbix.stat().st_size > 1_000_000, "Complete PBIX file appears truncated"
+        assert pbip_file.exists(), "PBIP project file missing on disk"
+        assert report_dir.exists(), "PBIP Report folder missing on disk"
+
+        # Inspect internal PBIX structure
+        with zipfile.ZipFile(complete_pbix, "r") as zf:
+            namelist = zf.namelist()
+            assert "Report/definition/pages/pages.json" in namelist
+            assert "Report/definition/report.json" in namelist
+            assert "DataModel" in namelist
+
+            # Verify pages metadata
+            pages_data = json.loads(zf.read("Report/definition/pages/pages.json").decode("utf-8"))
+            assert len(pages_data["pageOrder"]) == 3
+            assert pages_data["activePageName"] == "2941a98a6619273cadf8"
+
+            # Verify page display names
+            p1 = json.loads(zf.read(f"Report/definition/pages/{pages_data['pageOrder'][0]}/page.json").decode("utf-8"))
+            p2 = json.loads(zf.read(f"Report/definition/pages/{pages_data['pageOrder'][1]}/page.json").decode("utf-8"))
+            p3 = json.loads(zf.read(f"Report/definition/pages/{pages_data['pageOrder'][2]}/page.json").decode("utf-8"))
+
+            assert p1["displayName"] == "Regional AQI Overview"
+            assert p2["displayName"] == "Seasonal Inversion & Spatial Dynamics"
+            assert p3["displayName"] == "Diwali Episode Analysis & Confounding"
+
+            # Count visuals across all pages
+            visual_files = [n for n in namelist if n.startswith("Report/definition/pages/") and n.endswith("/visual.json")]
+            assert len(visual_files) == 34, f"Expected 34 visuals, found {len(visual_files)}"
+
 

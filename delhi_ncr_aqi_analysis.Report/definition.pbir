@@ -1,0 +1,9 @@
+{
+  "version": "4.0",
+  "datasetReference": {
+    "byPath": {
+      "path": "../delhi_ncr_aqi_analysis.SemanticModel"
+    },
+    "byConnection": null
+  }
+}

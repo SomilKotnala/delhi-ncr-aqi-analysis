@@ -2,8 +2,8 @@
 
 **Project Name:** Delhi-NCR Air Quality Analysis: Seasonal Trends, Spatial Differences, and Diwali Pollution Episodes  
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
-**Latest Backup Archive:** `D:\delhi-ncr-aqi-analysis-backups\stage-3-powerbi-runtime-verified-2026-10-22.zip`  
-**Current State:** **Stage 3 Power BI Report Verified & Runtime Validated (Commit `5158312`)**  
+**Latest Backup Archive:** `D:\delhi-ncr-aqi-analysis-backups\stage-3-powerbi-visual-complete-2026-10-22.zip`  
+**Current State:** **Stage 3 Power BI Complete Visual Report Verified (Pending Commit Checkpoint)**  
 **Local Environment:** Windows, Python 3.14.6 (`D:\anaconda3\python.exe`), PostgreSQL 18.0 (`delhi_aqi` on `D:\pg_tablespaces\delhi_aqi`), Streamlit 1.58.0 running at `http://localhost:8501`, Power BI Desktop running (msmdsrv on port `50910`), Git 2.49.0.
 
 ---
@@ -16,25 +16,26 @@
 - **Stage 2B (Commit `bf6d39a`):** PostgreSQL 18 Star Schema (`delhi_aqi` on `D:\pg_tablespaces\delhi_aqi`); 7 analytical CTE queries; 6 production EDA figures in `reports/figures/`.
 - **Stage 2C (Commit `f1f4d97`):** Non-parametric hypothesis testing (Cliff's $d = 0.7637$); Moving Block Bootstrap ($L = 14$ days, 95% CI $[156.98, 202.14]$); Maximum Likelihood Tobit model (+154.17 pts); Station-matched Diwali causal decomposition. 36/36 unit tests passing.
 
-### Stage 3 Power BI Runtime Validation & Artifacts
-1. **Preservation of Existing PBIX & Safe Backups:**
-   - Active file preserved: `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.pbix`.
-   - Safe backup copies created: `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis_original.pbix` and `D:\delhi-ncr-aqi-analysis-backups\delhi_ncr_aqi_analysis_pre_assembly.pbix`.
-2. **100% DAX Runtime Verification:**
-   - Established live ADOMD.NET connection to Microsoft SQL Server Analysis Services instance (`msmdsrv.exe`, PID 25716) listening on port `50910` with catalog GUID `2e9e0933-fbc0-486a-9963-ce244a48d6a0`.
-   - Executed all 21 DAX measures in `_Measures` directly inside VertiPaq memory.
-   - All 21 measures match PostgreSQL ground-truth and Python analytical outputs to the decimal place.
-   - Updated `powerbi/benchmarks_reconciliation.csv` with status `VERIFIED_RUNTIME_PORT_50910`.
-3. **Automated Continuous Integration Testing:**
-   - Created `powerbi/query_dax_runtime.ps1` to query the live tabular engine.
-   - Added `test_powerbi_live_analysis_services_dax` to `tests/test_powerbi_data.py`.
-   - **All 60 tests passing in 14.15s** (`100% pass rate`).
-4. **Custom Dark Navy Environmental Theme Package:**
-   - Created `powerbi/theme_navy_environmental.json` for one-click theme application (`View` $\to$ `Themes` $\to$ `Browse for themes`).
-   - Implements `#0B1220` canvas background, `#172438` card tiles, `#2DD4BF` teal accents, and CPCB statutory category colors.
+### Stage 3 Power BI Complete 3-Page Visual Dashboard
+1. **Full 3-Page PBIR Visual Report Generation:**
+   - Programmatically constructed all 3 pages and 34 visual containers using Microsoft's official **Power BI Enhanced Report Format (PBIR)** (Visual Container Schema 2.14.0):
+     - **Page 1: Regional AQI Overview (11 visuals):** Title/Subtitle header banner, 2 slicers (`dim_station[city]`, `dim_date[season]`), 4 KPI cards (`[Median AQI]`, `[Data Completeness %]`, `[Severe AQI Days %]`, `[Sensor Capped Days %]`), monthly trend line chart (`dim_date[year_month]`), category donut chart (`fact_daily_aqi[aqi_category]`), city comparison bar chart (`dim_station[city]`), and 24-hour diurnal profile (`agg_hourly_diurnal`).
+     - **Page 2: Seasonal Inversion & Spatial Dynamics (12 visuals):** Title/Subtitle banner, 2 slicers (`dim_station[city]`, `dim_date[year]`), 4 KPI cards (`[Winter Median AQI]`, `[Non-Winter Median AQI]`, `[Winter Elevation Absolute]`, `[Winter Elevation Ratio]`), city x season clustered column, seasonal distribution column, Top 10 most polluted stations table, Bottom 10 cleanest stations table, and econometric robustness callout textbox.
+     - **Page 3: Diwali Episode Analysis & Confounding (11 visuals):** Title/Subtitle banner, 2 slicers (`dim_diwali_cohorts[timing_cohort]`, `dim_date[year]`), 4 KPI cards (`[Diwali Pooled Mean Surge]`, `[Diwali Pooled Median Surge]`, `[Diwali Station-Years Elevated %]`, `[Diwali Matched Station-Years]`), annual surge column chart, October vs November cohort contrast chart, cohort summary table, and mandatory causal confounding disclaimer textbox.
+   - All 34 visual definitions validated against official Microsoft schema using `jsonschema` (34/34 passing).
+2. **Delivery of Both PBIX and PBIP Formats:**
+   - Complete PBIX package: `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis_complete.pbix` (1,445,509 bytes, uncompressed VertiPaq `DataModel` + compressed PBIR visual definitions + dark navy theme).
+   - Full Power BI Project folder: `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.pbip` and `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.Report`.
+   - File replacement automation: `powerbi/replace_final_pbix.ps1` to overwrite `delhi_ncr_aqi_analysis.pbix` once Power BI Desktop releases its lock.
+3. **100% DAX Runtime Verification:**
+   - Active ADOMD.NET connection to `msmdsrv.exe` (PID 25716) listening on port `50910` (Catalog `2e9e0933-fbc0-486a-9963-ce244a48d6a0`).
+   - All 21 core DAX measures executed in runtime and match ground truth.
+4. **Automated Continuous Integration Testing:**
+   - Test suite extended with `test_powerbi_pbir_visual_definitions` in `tests/test_powerbi_data.py`.
+   - **All 61 tests passing in 21.95s** (`100% pass rate`).
 5. **Comprehensive Documentation & Validation Deliverables:**
-   - Authored `reports/POWER_BI_VALIDATION_REPORT.md` (comprehensive 4-tier validation audit).
-   - Authored `docs/POWER_BI_FINAL_GUIDE.md` (page blueprints, DAX plain-English breakdown, 5-minute recruiter script, and Top 10 interview Q&As).
+   - Updated `reports/POWER_BI_VALIDATION_REPORT.md` (comprehensive 4-tier reconciliation matrix, PBIR visual container manifest, and technical findings).
+   - Authoritative `docs/POWER_BI_FINAL_GUIDE.md` (page blueprints, DAX plain-English breakdown, 5-minute recruiter script, and Top 10 interview Q&As).
 
 ---
 
