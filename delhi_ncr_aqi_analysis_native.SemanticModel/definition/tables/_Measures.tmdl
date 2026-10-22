@@ -192,7 +192,6 @@ table _Measures
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-
 	measure 'Diurnal Mean AQI' = AVERAGE('agg_hourly_diurnal'[mean_aqi])
 		lineageTag: e38f9021-d13c-44b2-9a8b-18b321a4f091
 

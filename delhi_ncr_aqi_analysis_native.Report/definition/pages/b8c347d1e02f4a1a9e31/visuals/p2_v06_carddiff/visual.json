@@ -150,7 +150,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F1F5F9'"
+                      "Value": "'#F8FAFC'"
                     }
                   }
                 }
@@ -159,7 +159,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "11D"
+                  "Value": "11.5D"
                 }
               }
             },
@@ -195,7 +195,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#A7B4C7'"
+                      "Value": "'#CBD5E1'"
                     }
                   }
                 }

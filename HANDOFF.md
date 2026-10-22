@@ -19,14 +19,20 @@
    - **24-Hour Diurnal Rhythm (`p1_v11_linediurnal`):** Resolved field error by binding category to `agg_hourly_diurnal[hour]` (0 to 23), series to `agg_hourly_diurnal[is_winter]`, and creating the `[Diurnal Mean AQI]` measure in `_Measures.tmdl`.
    - **Station Rankings Duplicate Bug (`p2_v10_tabletop10` & `p2_v11_tablebottom10`):** Added explicit `sortDefinition` and `filterConfig` (TopN & BottomN). Most Polluted table ranks descending (Anand Vihar: 269.46 AQI), Cleanest table ranks ascending (Aya Nagar: 155.28 AQI).
    - **Annual Diwali Surge Flat-Bar Bug (`p3_v08_colannual`):** Re-bound X-axis to `fact_diwali_pairs[year]` and Y to `[Diwali Pooled Mean Surge]`. Slicer `p3_v03_sliceryear` bound to `fact_diwali_pairs[year]`. Dynamic yearly surges verified: 2017 (+103.49) to 2023 (+196.90).
-3. **High-Contrast Dark Navy Visual Makeover:**
+3. **High-Contrast Dark Navy Visual Makeover & Color Contrast Repair:**
+   - Repaired root-cause schema bug in `theme_navy_environmental.json`: remapped `foreground` token from `#111C2E` (which painted unstyled text near-black) to bright off-white `#F8FAFC`, set `foregroundNeutralDark` to `#FFFFFF`, `foregroundNeutralSecondary` to `#CBD5E1`.
+   - Overcame Microsoft Fluent 2 Light BaseTheme fallback (`Fluent2-CY26SU10.json`) by injecting explicit high-contrast property overrides across all 34 PBIR `visual.json` files on Page 1, Page 2, and Page 3.
+   - All visual headers, titles, subtitles, category/value axis tick labels (`#CBD5E1`), axis titles (`#E2E8F0`), legends (`#CBD5E1`), table cells (`#E2E8F0` on `#111C2E`), and slicers (`#F8FAFC` on `#172438`) now guarantee >7:1 WCAG AAA contrast against dark navy surfaces.
    - Elevated dark navy surfaces (`#172438`) for all KPI cards.
    - Callout text colors in vibrant high-contrast palette: Teal (`#2DD4BF`), Cyan (`#38BDF8`), Crimson (`#EF4444`), Emerald (`#34D399`), Orange (`#FB923C`), Amber (`#FBBF24`).
    - Cleaned typography across headers, textboxes, and subtitles, removing encoding artifacts (`?`, `?"`).
 4. **Live Tabular Engine Connection & 100% DAX Runtime Verification:**
    - Direct ADOMD.NET connection to `msmdsrv.exe` on port `60052`. All 22 DAX measures executed in runtime and match verified ground truth.
 5. **Automated Testing Suite:**
-   - Full test suite: **60 passed, 1 skipped in 13.98s** (`100% pass rate`).
+   - Full test suite: **61 passed in 14.66s** (`100% pass rate`).
+6. **Pre-Contrast Safety Backups:**
+   - `D:\delhi-ncr-aqi-analysis-backups\delhi_ncr_aqi_analysis_final_pre_contrast_backup_20261023_0119.pbix` (1,454,172 bytes).
+   - `D:\delhi-ncr-aqi-analysis-backups\delhi_ncr_aqi_analysis_native_Report_pre_contrast_backup_20261023_0119.zip` (46,631 bytes).
 
 ---
 

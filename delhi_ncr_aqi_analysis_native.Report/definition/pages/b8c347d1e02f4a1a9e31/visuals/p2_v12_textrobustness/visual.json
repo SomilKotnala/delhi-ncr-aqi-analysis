@@ -23,7 +23,7 @@
                     "textStyle": {
                       "fontFamily": "Segoe UI Semibold",
                       "fontSize": "15pt",
-                      "color": "#F1F5F9"
+                      "color": "#FFFFFF"
                     }
                   }
                 ]
@@ -35,7 +35,7 @@
                     "textStyle": {
                       "fontFamily": "Segoe UI",
                       "fontSize": "10pt",
-                      "color": "#A7B4C7"
+                      "color": "#CBD5E1"
                     }
                   }
                 ]
@@ -46,8 +46,8 @@
                     "value": "- Temporal Autocorrelation: Daily AR(1) = 0.81 violates naive OLS independence assumptions. Standard error adjustment is mandatory.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "9pt",
-                      "color": "#CBD5E1"
+                      "fontSize": "9.5pt",
+                      "color": "#E2E8F0"
                     }
                   }
                 ]
@@ -58,8 +58,8 @@
                     "value": "- Moving Block Bootstrap (L=14 days): 95% Confidence Interval for Winter Elevation is [+156.98, +202.14] AQI points.",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "9pt",
-                      "color": "#CBD5E1"
+                      "fontSize": "9.5pt",
+                      "color": "#E2E8F0"
                     }
                   }
                 ]
@@ -70,8 +70,8 @@
                     "value": "- Statutory Censoring (Tobit ML): Correcting for the CPCB 500 ceiling estimates true latent elevation at +154.17 AQI points (p < 0.001).",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "9pt",
-                      "color": "#CBD5E1"
+                      "fontSize": "9.5pt",
+                      "color": "#E2E8F0"
                     }
                   }
                 ]
@@ -79,11 +79,11 @@
               {
                 "textRuns": [
                   {
-                    "value": "- Spatial Invariance: 56 of 56 stations exhibit statistically significant winter elevation (Mann-Whitney U, FDR-adjusted p < 0.001).",
+                    "value": "- Spatial Uniformity: 56 of 56 stations exhibit statistically significant winter elevation (Mann-Whitney U, FDR-adjusted p < 0.001).",
                     "textStyle": {
                       "fontFamily": "Segoe UI",
-                      "fontSize": "9pt",
-                      "color": "#CBD5E1"
+                      "fontSize": "9.5pt",
+                      "color": "#E2E8F0"
                     }
                   }
                 ]
@@ -92,6 +92,64 @@
           }
         }
       ]
-    }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#172438'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1E293B'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
   }
 }

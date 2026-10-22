@@ -112,7 +112,6 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
-
 	column year_month = FORMAT(dim_date[calendar_date], "yyyy-MM")
 		dataType: string
 		lineageTag: 71b3e782-b43b-4890-a7d1-92b1bca34821

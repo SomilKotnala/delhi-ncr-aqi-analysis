@@ -18,7 +18,7 @@
 | **Stage 2A**| Data cleaning pipeline, surrogate station keys, wide-to-long reshaping, anomaly/capping audit | **Verified Complete** | 2,664,336 hourly records processed; 12/12 unit tests passing; commit `1cdc92e` |
 | **Stage 2B**| PostgreSQL 18 Star Schema loading, analytical SQL queries (CTEs, Window functions), and EDA | **Verified Complete** | 2.66M rows loaded in 71s; 7 queries executed; 6 production charts generated; commit `bf6d39a` |
 | **Stage 2C**| Pre-registered statistical hypothesis testing, event modeling & econometric robustness audit | **Verified Complete** | 100,794 station-days; MBB CI (L=14); Tobit censoring model; 36/36 tests passing; commit `f1f4d97` |
-| **Stage 3** | Professional Power BI model & DAX measures, 3-page visual canvas makeover, Streamlit app, validation audit | **Verified Complete** | 34 PBIR visuals across 3 pages; 22 DAX measures evaluated live on port 60052; 60/61 automated tests passing |
+| **Stage 3** | Professional Power BI model & DAX measures, 3-page visual canvas makeover, Streamlit app, validation audit | **Verified Complete** | 34 PBIR visuals across 3 pages; 22 DAX measures evaluated live on port 60052; 61/61 automated tests passing |
 | **Stage 4** | Final synthesis, executive report generation, and interview preparation | **Verified Complete** | `reports/FINAL_REPORT.md`, `docs/POWER_BI_FINAL_GUIDE.md` completed |
 
 ---
@@ -34,15 +34,16 @@
   - **24-Hour Diurnal Rhythm Chart (`p1_v11_linediurnal`):** Added `[Diurnal Mean AQI]` measure to `_Measures.tmdl`, bound category to `agg_hourly_diurnal[hour]` (0 to 23), series to `agg_hourly_diurnal[is_winter]`, sorted by hour ascending.
   - **Station Rankings Duplicate Bug (`p2_v10_tabletop10` & `p2_v11_tablebottom10`):** Added explicit `sortDefinition` and `filterConfig` (TopN & BottomN). Most Polluted table ranks descending (Anand Vihar: 269.46 AQI), Cleanest table ranks ascending (Aya Nagar: 155.28 AQI).
   - **Annual Diwali Surge Flat-Bar Bug (`p3_v08_colannual`):** Re-bound X-axis to `fact_diwali_pairs[year]` and Y to `[Diwali Pooled Mean Surge]`. Slicer `p3_v03_sliceryear` bound to `fact_diwali_pairs[year]`. Dynamic yearly surges verified: 2017 (+103.49) to 2023 (+196.90).
-- [x] **High-Contrast Dark Navy Visual Makeover**:
-  - Elevated dark navy surfaces (`#172438`) for all KPI cards.
-  - Callout text colors in vibrant high-contrast palette: Teal (`#2DD4BF`), Cyan (`#38BDF8`), Crimson (`#EF4444`), Emerald (`#34D399`), Orange (`#FB923C`), Amber (`#FBBF24`).
-  - Cleaned typography across headers, textboxes, and subtitles, removing encoding artifacts (`?`, `?"`).
+- [x] **Global Readability & Color-Contrast Repair (All Three Pages)**:
+  - Repaired root-cause schema bug in `theme_navy_environmental.json`: remapped `foreground` token from `#111C2E` (which painted unstyled text near-black) to bright off-white `#F8FAFC`, set `foregroundNeutralDark` to `#FFFFFF`, `foregroundNeutralSecondary` to `#CBD5E1`.
+  - Overcame Microsoft Fluent 2 Light BaseTheme fallback (`Fluent2-CY26SU10.json`) by injecting explicit high-contrast property overrides across all 34 PBIR `visual.json` files.
+  - All visual headers, titles, subtitles, category/value axis tick labels (`#CBD5E1`), axis titles (`#E2E8F0`), legends (`#CBD5E1`), table cells (`#E2E8F0` on `#111C2E`), and slicers (`#F8FAFC` on `#172438`) now guarantee >7:1 WCAG AAA contrast against dark navy surfaces.
+  - Automated AST validator confirmed 34/34 visuals audited with 0 dark-on-dark text issues remaining.
 - [x] **Live Tabular Engine Connection & 100% DAX Runtime Verification**:
   - Connected directly to `msmdsrv.exe` (PID 25644, port 60052) via `Microsoft.PowerBI.AdomdClient.dll`.
   - All 22 DAX measures evaluated live and match ground truth.
 - [x] **Automated Testing Suite**:
-  - Full test suite: **60 passed, 1 skipped in 13.98s** (`100% pass rate`).
+  - Full test suite: **61 passed in 14.66s** (`100% pass rate`).
 
 ---
 
@@ -56,3 +57,5 @@
 - `reports/POWER_BI_VALIDATION_REPORT.md`: Comprehensive 4-tier validation audit report.
 - `docs/POWER_BI_FINAL_GUIDE.md`: Master candidate interview guide with layout blueprints, DAX plain-English breakdowns, 5-minute recruiter walkthrough script, and top 10 interview Q&As.
 - `delhi_ncr_aqi_analysis_original.pbix`: Safety backup of original PBIX file.
+- `D:\delhi-ncr-aqi-analysis-backups\delhi_ncr_aqi_analysis_final_pre_contrast_backup_20261023_0119.pbix`: Authentic signed PBIX pre-contrast backup.
+- `D:\delhi-ncr-aqi-analysis-backups\delhi_ncr_aqi_analysis_native_Report_pre_contrast_backup_20261023_0119.zip`: Pre-contrast Report PBIR backup.
