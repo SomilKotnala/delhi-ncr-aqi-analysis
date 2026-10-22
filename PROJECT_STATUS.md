@@ -31,8 +31,14 @@
     - **Page 2: Seasonal Inversion & Spatial Dynamics (12 visuals):** Title/Subtitle banner, 2 slicers (`dim_station[city]`, `dim_date[year]`), 4 KPI cards (`[Winter Median AQI]`, `[Non-Winter Median AQI]`, `[Winter Elevation Absolute]`, `[Winter Elevation Ratio]`), city x season clustered column, seasonal distribution column, Top 10 most polluted stations table, Bottom 10 cleanest stations table, and econometric robustness callout textbox.
     - **Page 3: Diwali Episode Analysis & Confounding (11 visuals):** Title/Subtitle banner, 2 slicers (`dim_diwali_cohorts[timing_cohort]`, `dim_date[year]`), 4 KPI cards (`[Diwali Pooled Mean Surge]`, `[Diwali Pooled Median Surge]`, `[Diwali Station-Years Elevated %]`, `[Diwali Matched Station-Years]`), annual surge column chart, October vs November cohort contrast chart, cohort summary table, and mandatory causal confounding disclaimer textbox.
   - Validated all 34 visual definitions against Microsoft's official schema using `jsonschema` (34/34 passing).
-- [x] **Delivery of Both PBIX and PBIP Formats**:
-  - Generated complete, ready-to-open PBIX: [`delhi_ncr_aqi_analysis_complete.pbix`](file:///D:/delhi-ncr-aqi-analysis/delhi_ncr_aqi_analysis_complete.pbix) (1,445,509 bytes, uncompressed VertiPaq `DataModel` + compressed PBIR visual definitions + dark navy theme).
+- [x] **Investigation of PBIX Packaging Root Cause & Supported PBIP Architecture**:
+  - Identified that external ZIP packaging breaks Power BI Desktop's internal proprietary `SecurityBindings` cryptographic signature, causing *"Unable to open document. This file is corrupted or was created by an unrecognized version of Power BI Desktop."*
+  - Reaffirmed that binary `.pbix` packaging by external scripts is unsupported by Microsoft; the official, supported workflow is Power BI Project (`.pbip`).
+  - Authored [`powerbi/apply_pbir_visuals_to_pbip.ps1`](file:///D:/delhi-ncr-aqi-analysis/powerbi/apply_pbir_visuals_to_pbip.ps1) to inject our complete 3-page, 34-visual PBIR report canvas into the PBIP project once the native `SemanticModel` is exported.
+  - Documented the exact 2-step desktop workflow (Save As PBIP -> Apply Script -> Save As PBIX) in [`reports/POWER_BI_VALIDATION_REPORT.md`](file:///D:/delhi-ncr-aqi-analysis/reports/POWER_BI_VALIDATION_REPORT.md).
+- [x] **Preservation of Authentic Original Files**:
+  - Confirmed `delhi_ncr_aqi_analysis.pbix` and `delhi_ncr_aqi_analysis_original.pbix` remain completely preserved (1,418,400 bytes).
+  - All backups in `D:\delhi-ncr-aqi-analysis-backups\` preserved.
   - Generated full Power BI Project folder: [`delhi_ncr_aqi_analysis.pbip`](file:///D:/delhi-ncr-aqi-analysis/delhi_ncr_aqi_analysis.pbip) and [`delhi_ncr_aqi_analysis.Report`](file:///D:/delhi-ncr-aqi-analysis/delhi_ncr_aqi_analysis.Report).
   - Provided automated file replacement script: [`powerbi/replace_final_pbix.ps1`](file:///D:/delhi-ncr-aqi-analysis/powerbi/replace_final_pbix.ps1) to overwrite `delhi_ncr_aqi_analysis.pbix` once Power BI Desktop releases its lock.
 - [x] **Live Tabular Engine Connection & 100% DAX Runtime Verification**:

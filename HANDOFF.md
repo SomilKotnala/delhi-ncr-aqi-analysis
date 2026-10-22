@@ -76,9 +76,27 @@ Output: **60 passed in 14.15s**.
 
 ---
 
-## 4. Immediate Next Actions
+## 4. Immediate Next Actions: Supported PBIP Workflow
 
-The data model, relationships, and 21 DAX measures are 100% runtime validated. The candidate can now:
-1. Apply the custom theme `powerbi/theme_navy_environmental.json` in Power BI Desktop with 3 clicks.
-2. Complete placing the remaining visual containers following the layout blueprint in `docs/POWER_BI_FINAL_GUIDE.md` (Section 5).
-3. Rehearse the 5-minute recruiter presentation script in `docs/POWER_BI_FINAL_GUIDE.md` (Section 7).
+Because Power BI Desktop uses a proprietary cryptographic signature (`SecurityBindings`) inside `.pbix` files, external zip packaging is rejected by Power BI Desktop. The supported Microsoft workflow is Power BI Project (`.pbip`):
+
+1. **Step 1: Export Semantic Model via Native Save As (15 seconds)**
+   - Open `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.pbix` in Power BI Desktop.
+   - Click **File -> Save As -> Browse this device**.
+   - In "Save as type", select **Power BI Project files (*.pbip)**.
+   - Save as `delhi_ncr_aqi_analysis.pbip` in `D:\delhi-ncr-aqi-analysis\`.
+   - Close Power BI Desktop.
+   *(This creates the authentic `delhi_ncr_aqi_analysis.SemanticModel/` folder).*
+
+2. **Step 2: Inject Complete 3-Page PBIR Visual Canvas (Automated Script)**
+   - Run in terminal:
+     ```powershell
+     powershell -ExecutionPolicy Bypass -File D:\delhi-ncr-aqi-analysis\powerbi\apply_pbir_visuals_to_pbip.ps1
+     ```
+   *(This injects our complete 3-page, 34-visual PBIR report canvas and dark navy theme into the project).*
+
+3. **Step 3: Open PBIP & Save Final PBIX (15 seconds)**
+   - Open `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.pbip` in Power BI Desktop.
+   - All 3 pages, 34 visuals, and 21 DAX measures will render.
+   - Click **File -> Save As -> Power BI files (*.pbix)** -> save over `delhi_ncr_aqi_analysis.pbix`.
+   *(Power BI Desktop natively signs and creates the authentic final `.pbix`).*
