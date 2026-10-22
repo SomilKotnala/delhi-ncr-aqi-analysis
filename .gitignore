@@ -17,11 +17,12 @@ htmlcov/
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints*/
 
-# Large Raw and Processed Datasets (keep sample data tracked)
+# Large Raw and Processed Datasets (keep sample data and small dimensions tracked)
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+!data/processed/dim_station.csv
 
 # Track sample data for quick repo clone & review
 !data/sample/

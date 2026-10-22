@@ -121,14 +121,14 @@ def create_sample_dataset(raw_parquet_path: Path, sample_output_path: Path, ncr_
     else:
         df_filtered = df.copy()
 
-    # Stratified sample: select representative records across distinct stations and years
+    # Stratified sample: select 2 records per (City, Station Name, Year) preserving all columns
     df_filtered["Year"] = pd.to_datetime(df_filtered["Date"]).dt.year
     sample_df = (
         df_filtered.groupby(["City", "Station Name", "Year"], group_keys=False)
-        .apply(lambda grp: grp.sample(n=min(len(grp), 2), random_state=42), include_groups=False)
-        .reset_index(drop=False)
+        .head(2)
+        .reset_index(drop=True)
     )
-    # Remove helper column
+
     if "Year" in sample_df.columns:
         sample_df = sample_df.drop(columns=["Year"])
 

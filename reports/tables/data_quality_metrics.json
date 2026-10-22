@@ -1,0 +1,91 @@
+{
+  "raw_nationwide_rows": 562878,
+  "ncr_station_days": 111014,
+  "total_hourly_records": 2664336,
+  "valid_hourly_records": 2441792,
+  "valid_hourly_pct": 91.65,
+  "missing_hourly_records": 222534,
+  "missing_hourly_pct": 8.35,
+  "sensor_capped_records": 53656,
+  "sensor_capped_pct": 2.2,
+  "anomalous_records": 10,
+  "anomalous_pct": 0.0004,
+  "unique_cities": 5,
+  "unique_stations": 56,
+  "date_min": "2017-01-01",
+  "date_max": "2023-12-31",
+  "total_valid_station_days": 100794,
+  "total_station_days": 111014,
+  "anomalies_log": [
+    {
+      "date": "2017-09-28",
+      "city": "Delhi",
+      "station_name": "NSIT Dwarka Delhi CPCB",
+      "hour": "14",
+      "aqi_raw": "543.0"
+    },
+    {
+      "date": "2017-09-28",
+      "city": "Delhi",
+      "station_name": "NSIT Dwarka Delhi CPCB",
+      "hour": "15",
+      "aqi_raw": "1182.0"
+    },
+    {
+      "date": "2017-10-01",
+      "city": "Delhi",
+      "station_name": "Sirifort Delhi CPCB",
+      "hour": "5",
+      "aqi_raw": "678.0"
+    },
+    {
+      "date": "2017-10-10",
+      "city": "Noida",
+      "station_name": "Sector 125 Noida UPPCB",
+      "hour": "11",
+      "aqi_raw": "3303.0"
+    },
+    {
+      "date": "2017-10-11",
+      "city": "Noida",
+      "station_name": "Sector 125 Noida UPPCB",
+      "hour": "11",
+      "aqi_raw": "2956.0"
+    },
+    {
+      "date": "2017-10-12",
+      "city": "Noida",
+      "station_name": "Sector 125 Noida UPPCB",
+      "hour": "11",
+      "aqi_raw": "2845.0"
+    },
+    {
+      "date": "2017-10-14",
+      "city": "Noida",
+      "station_name": "Sector 125 Noida UPPCB",
+      "hour": "11",
+      "aqi_raw": "2902.0"
+    },
+    {
+      "date": "2017-10-16",
+      "city": "Noida",
+      "station_name": "Sector 125 Noida UPPCB",
+      "hour": "11",
+      "aqi_raw": "1051.0"
+    },
+    {
+      "date": "2017-10-17",
+      "city": "Noida",
+      "station_name": "Sector 125 Noida UPPCB",
+      "hour": "11",
+      "aqi_raw": "3797.0"
+    },
+    {
+      "date": "2017-10-18",
+      "city": "Noida",
+      "station_name": "Sector 125 Noida UPPCB",
+      "hour": "11",
+      "aqi_raw": "3354.0"
+    }
+  ]
+}
