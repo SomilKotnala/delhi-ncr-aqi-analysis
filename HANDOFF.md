@@ -81,26 +81,36 @@ Output: **59 passed in 15.70s**.
 
 ---
 
-## 2. Key Architectural Decisions to Preserve
+## 4. Immediate Next Actions: Manual Power BI Desktop Assembly
 
-1. **Storage Rules & C: Drive Protection:** Database tablespace and all large datasets remain pinned to `D:\pg_tablespaces\delhi_aqi` and `D:\delhi-ncr-aqi-analysis`. Never write large tables or dumps to `C:\`.
-2. **Dual-Mode Data Sourcing:** Streamlit dashboard auto-detects PostgreSQL `localhost:5432`; if PostgreSQL is offline, it falls back seamlessly to Parquet files in `data/processed/`.
-3. **Pure Function Separation:** All mathematical and visual data transformations in `dashboard/metrics.py` are pure functions, completely decoupled from Streamlit UI code for automated testing.
-4. **Preserve Completeness Denominator:** Always compute completeness using total scheduled station-days in the active scope as the denominator, preventing validity pre-filters from collapsing completeness to 100%.
+All data tables, dimensional schemas, DAX formulas, and benchmark targets are pre-compiled and tested (59/59 passing). Because Power BI Desktop operates via a GUI without a headless `.pbix` compiler, the user should execute the following steps in Power BI Desktop:
 
----
-
-## 3. How to Launch and Verify the Project
-
-### Launch the Streamlit Dashboard:
-```powershell
-cd D:\delhi-ncr-aqi-analysis
-D:\anaconda3\python.exe -m streamlit run dashboard/app.py
-```
-Open **`http://localhost:8501`** in any web browser.
-
-### Run the Automated Test Suite:
-```powershell
-D:\anaconda3\python.exe -m pytest D:\delhi-ncr-aqi-analysis\tests -v
-```
-Output: **54 passed in 20.65s**.
+1. **Launch Power BI Desktop:**
+   ```powershell
+   Start-Process "C:\Users\Dell\AppData\Local\Microsoft\WindowsApps\PBIDesktopStore.exe"
+   ```
+2. **Follow the Assembly Manual:**
+   Open `D:\delhi-ncr-aqi-analysis\powerbi\POWER_BI_STEP_BY_STEP_ASSEMBLY_GUIDE.md`.
+3. **Load the 6 Cleaned CSV Tables:**
+   From `D:\delhi-ncr-aqi-analysis\data\processed\`:
+   - `fact_daily_aqi.csv` (111,014 rows, station-day grain)
+   - `dim_station.csv` (56 rows, station grain)
+   - `dim_date.csv` (2,556 rows, calendar-day grain)
+   - `agg_hourly_diurnal.csv` (288 rows, city-hour-season grain)
+   - `fact_diwali_pairs.csv` (306 rows, station-year festival pair grain)
+   - `dim_diwali_cohorts.csv` (2 rows, timing cohort grain)
+4. **Configure Star Schema Relationships:**
+   - `dim_station[station_key]` (1) $\to$ `fact_daily_aqi[station_key]` (*)
+   - `dim_date[calendar_date]` (1) $\to$ `fact_daily_aqi[date]` (*)
+   - `dim_station[station_key]` (1) $\to$ `fact_diwali_pairs[station_key]` (*)
+   - `dim_diwali_cohorts[timing_cohort]` (1) $\to$ `fact_diwali_pairs[timing_cohort]` (*)
+5. **Paste DAX Measures:**
+   Copy the 20 pre-compiled measures from `D:\delhi-ncr-aqi-analysis\powerbi\measures.dax` into a new `_Measures` table.
+6. **Assemble the 3 Pages:**
+   - Page 1: Regional AQI Overview (4 KPI cards, monthly trend line, CPCB category donut, diurnal line chart).
+   - Page 2: Seasonal & Spatial Dynamics (4 comparison cards, city x season column, top 10 / bottom 10 tables).
+   - Page 3: Diwali Episode Analysis (4 KPI cards, event study timeline, October vs November cohort matrix).
+7. **Verify Against Benchmark Matrix:**
+   Cross-check visual callouts against `powerbi/benchmarks_reconciliation.csv` (all 20 measures marked *Expected / Pending Power BI Validation*).
+8. **Save Report File:**
+   Save directly to: `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.pbix`.

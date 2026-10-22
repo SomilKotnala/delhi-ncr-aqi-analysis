@@ -94,7 +94,7 @@
 ```powershell
 python -m pytest "D:\delhi-ncr-aqi-analysis\tests" -v
 ```
-**Outcome:** `54 passed in 20.65s` (100% pass rate across data cleaning, database, statistics, robustness audit, and dashboard metrics).
+**Outcome:** `59 passed in 15.70s` (100% pass rate across data cleaning, database, statistics, robustness audit, dashboard metrics, and Power BI data schema).
 
 ---
 
@@ -104,3 +104,17 @@ python -m pytest "D:\delhi-ncr-aqi-analysis\tests" -v
 - **Database Status:** PostgreSQL 18 running on `localhost:5432` with database `delhi_aqi` on `D:\pg_tablespaces\delhi_aqi` (2.66M rows verified).
 - **Streamlit Web Application:** Live and responsive at `http://localhost:8501`.
 - **Budget Compliance:** ₹0 spent; strictly open-source local tools.
+
+---
+
+## 6. Immediate Next Task: Manual Power BI Desktop Assembly
+
+- **Tool:** Power BI Desktop (`C:\Users\Dell\AppData\Local\Microsoft\WindowsApps\PBIDesktopStore.exe`).
+- **Assembly Manual:** `D:\delhi-ncr-aqi-analysis\powerbi\POWER_BI_STEP_BY_STEP_ASSEMBLY_GUIDE.md`.
+- **Action Sequence:**
+  1. Ingest all 6 CSVs from `data/processed/` (`fact_daily_aqi.csv`, `dim_station.csv`, `dim_date.csv`, `agg_hourly_diurnal.csv`, `fact_diwali_pairs.csv`, `dim_diwali_cohorts.csv`).
+  2. Configure 1-to-many relationships in Model View.
+  3. Create `_Measures` table and copy the 20 pre-compiled DAX formulas from `powerbi/measures.dax`.
+  4. Build the 3 report pages (Regional AQI Overview, Seasonal & Spatial Dynamics, Diwali Episode Analysis).
+  5. Validate visual callout values against `powerbi/benchmarks_reconciliation.csv` (currently marked *Expected / Pending Power BI Validation*).
+  6. Save report directly to `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.pbix`.

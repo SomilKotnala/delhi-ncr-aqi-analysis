@@ -20,36 +20,37 @@ Because Power BI Desktop operates via a client GUI without a headless command-li
 
 ---
 
-## 2. Source Files & Data Schema Preparation
+## 2. Source Files & Data Schema Preparation (The 6 Required CSV Files)
 
-All datasets are pre-exported and verified in `D:\delhi-ncr-aqi-analysis\data\processed\`:
+All datasets are pre-exported and verified in `D:\delhi-ncr-aqi-analysis\data\processed\`. Every file serves an explicit role in the star-schema data model:
 
-| File Name | Row Count | Primary Key | Description & Purpose |
-| :--- | :---: | :---: | :--- |
-| **`fact_daily_aqi.csv`** | 111,014 | `(station_key, date)` | Core daily measurements, valid/capped flags, CPCB category |
-| **`dim_station.csv`** | 56 | `station_key` | Physical CAAQMS station names, city, agency, uptime % |
-| **`dim_date.csv`** | 2,556 | `calendar_date` | 2017–2023 calendar attributes, meteorological season, Diwali window |
-| **`agg_hourly_diurnal.csv`** | 288 | `(city, hour, is_winter)` | Diurnal 24-hour rush-hour and nocturnal inversion profiling |
-| **`fact_diwali_pairs.csv`** | 306 | `(station_key, year)` | Matched pre/post station pairs ($t+1$ vs $t-1$) across 7 years |
-| **`dim_diwali_cohorts.csv`** | 2 | `timing_cohort` | October Diwali vs November Diwali pooled & unweighted metrics |
+| # | File Name | Power BI Table Name | Table Grain | Primary Key | Foreign Keys / Relationships | Row Count | Visual Mapping & Purpose |
+| :-: | :--- | :--- | :--- | :--- | :--- | :---: | :--- |
+| **1** | **`fact_daily_aqi.csv`** | `fact_daily_aqi` | Station-Day ($s, d$) | Composite `(station_key, date)` | `station_key` $\to$ `dim_station`<br>`date` $\to$ `dim_date` | 111,014 | Core daily facts, CPCB category classifications, monthly trends, seasonal elevation |
+| **2** | **`dim_station.csv`** | `dim_station` | Station ($s$) | `station_key` | 1-to-many parent to `fact_daily_aqi` and `fact_diwali_pairs` | 56 | Station metadata, physical names, cities, agencies, spatial inequality tables |
+| **3** | **`dim_date.csv`** | `dim_date` | Calendar Day ($d$) | `calendar_date` | 1-to-many parent to `fact_daily_aqi` | 2,556 | 2017–2023 calendar attributes, seasons, year slicer, Diwali relative days |
+| **4** | **`agg_hourly_diurnal.csv`** | `agg_hourly_diurnal` | City-Hour-Season ($c, h, w$) | Composite `(city, hour, is_winter)` | Standalone analysis table | 288 | Page 1 diurnal line chart (rush-hour vs nocturnal thermal inversion) |
+| **5** | **`fact_diwali_pairs.csv`** | `fact_diwali_pairs` | Station-Year Pair ($s, y$) | Composite `(station_key, year)` | `station_key` $\to$ `dim_station`<br>`timing_cohort` $\to$ `dim_diwali_cohorts` | 306 | Page 3 matched paired differences ($t+1$ vs $t-1$), station-year surge metrics |
+| **6** | **`dim_diwali_cohorts.csv`** | `dim_diwali_cohorts` | Timing Cohort ($c$) | `timing_cohort` | 1-to-many parent to `fact_diwali_pairs` | 2 | Page 3 October Diwali vs November Diwali pooled & unweighted comparison matrix |
 
 ---
 
 ## 3. Step-by-Step Power BI Desktop Build Instructions
 
-### Step 3.1: Launch Power BI Desktop & Load Data
+### Step 3.1: Launch Power BI Desktop & Load All 6 CSV Tables
 1. Launch **Power BI Desktop** from Windows Start Menu or run:
    ```powershell
    Start-Process "C:\Users\Dell\AppData\Local\Microsoft\WindowsApps\PBIDesktopStore.exe"
    ```
 2. In the splash dialog, click **Get Data** > select **Text/CSV** > click **Connect**.
 3. Navigate to `D:\delhi-ncr-aqi-analysis\data\processed\`:
-   - Select `fact_daily_aqi.csv` $\to$ click **Transform Data** (opens Power Query).
+   - Select `fact_daily_aqi.csv` $\to$ click **Transform Data** (opens Power Query Editor).
    - In Power Query, verify `date` is set to **Date**, `daily_mean_aqi` is set to **Decimal Number**, and `is_day_valid` is set to **True/False**.
    - On the Home ribbon, click **New Source** > **Text/CSV** > load `dim_station.csv`.
    - On the Home ribbon, click **New Source** > **Text/CSV** > load `dim_date.csv` (verify `calendar_date` is **Date**).
    - On the Home ribbon, click **New Source** > **Text/CSV** > load `agg_hourly_diurnal.csv`.
-   - On the Home ribbon, click **New Source** > **Text/CSV** > load `fact_diwali_pairs.csv`.
+   - On the Home ribbon, click **New Source** > **Text/CSV** > load `fact_diwali_pairs.csv` (verify `paired_surge` is **Decimal Number**, `is_elevated` is **True/False**).
+   - On the Home ribbon, click **New Source** > **Text/CSV** > load `dim_diwali_cohorts.csv`.
 4. Click **Close & Apply** on the top-left ribbon.
 
 ---
@@ -64,6 +65,9 @@ Navigate to **Model View** (left navigation bar, third icon):
    - Cardinality: **One to Many (1:*)**, Cross filter: **Single**, Active: **Checked**.
 3. **`dim_station` to `fact_diwali_pairs`**:
    - Drag `dim_station[station_key]` to `fact_diwali_pairs[station_key]`.
+   - Cardinality: **One to Many (1:*)**, Cross filter: **Single**, Active: **Checked**.
+4. **`dim_diwali_cohorts` to `fact_diwali_pairs`**:
+   - Drag `dim_diwali_cohorts[timing_cohort]` to `fact_diwali_pairs[timing_cohort]`.
    - Cardinality: **One to Many (1:*)**, Cross filter: **Single**, Active: **Checked**.
 
 ---
@@ -196,22 +200,36 @@ In Power BI, navigate to **View** > **Themes** > **Customize Current Theme** and
 
 ---
 
-## 6. Verification & Sign-Off Checklist
+## 6. Verification, Validation Protocol & Sign-Off Checklist
 
-After assembling the visuals in Power BI Desktop, verify that the callout values match `powerbi/benchmarks_reconciliation.csv`:
+### 6.1 Four-Tier Verification Protocol
+To ensure 100% analytical honesty, this project strictly separates data verification into four distinct architectural tiers:
 
-- [ ] Network Median AQI displays **199.3**
-- [ ] Network Mean AQI displays **213.6**
-- [ ] Valid Station-Days displays **100,794**
-- [ ] Data Completeness displays **90.8%**
-- [ ] Severe Days % displays **6.3%**
-- [ ] Sensor Capped Days % displays **12.4%**
-- [ ] Winter Median displays **335.6** vs Non-Winter **154.0** (Elevation: **+181.6 pts**, **2.18x**)
-- [ ] Diwali Matched Pairs displays **306**
-- [ ] Diwali Pooled Mean Surge displays **+81.6** (Median: **+80.4**)
-- [ ] Diwali Station-Years Elevated displays **85.95%**
-- [ ] October Diwali displays **+58.9 pts** surge (84.3% pooled up)
-- [ ] November Diwali displays **+93.9 pts** surge (86.9% pooled up)
+1. **Tier 1: PostgreSQL SQL Ground Truth (`VERIFIED_DB`)**  
+   Executed directly in PostgreSQL 18 (`localhost:5432 / delhi_aqi`) via `sql/analytical_queries.sql`.
+2. **Tier 2: Python / Streamlit Analytical Engine (`VERIFIED_PARQUET`)**  
+   Executed directly in Python 3.14 via `dashboard/metrics.py` and validated by 59 automated pytest tests.
+3. **Tier 3: DAX Formulas Prepared for Power BI**  
+   Pre-compiled in `powerbi/measures.dax` and documented in `docs/POWER_BI_DASHBOARD_GUIDE.md`.
+4. **Tier 4: Power BI Desktop Runtime Results (`Expected / Pending Power BI Validation`)**  
+   Benchmarks listed in `powerbi/benchmarks_reconciliation.csv` represent the *expected targets* for Power BI. They are marked **"Expected / Pending Power BI Validation"** until the `.pbix` report is manually assembled in Power BI Desktop and callout values are visually verified on the canvas.
 
-Save the file as:  
-`D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.pbix`
+### 6.2 Visual Inspection Checklist in Power BI Desktop
+After assembling the visuals, cross-examine each visual callout value against `powerbi/benchmarks_reconciliation.csv`:
+
+- [ ] **Page 1:** Network Median AQI displays **`199.3`** (Mean: `213.6`)
+- [ ] **Page 1:** Valid Station-Days displays **`100,794`**
+- [ ] **Page 1:** Data Completeness displays **`90.8%`** (Denominator: 111,014 scheduled days)
+- [ ] **Page 1:** Severe Days % displays **`6.3%`** (6,389 days)
+- [ ] **Page 1:** Sensor Capped Days % displays **`12.4%`** (12,536 days)
+- [ ] **Page 2:** Winter Median displays **`335.6`** vs Non-Winter **`154.0`** (Elevation: **`+181.6 pts`**, **`2.18x`**)
+- [ ] **Page 3:** Diwali Matched Station-Years displays **`306 pairs`**
+- [ ] **Page 3:** Diwali Pooled Mean Surge displays **`+81.57`** (Pooled Median: **`+80.38`**)
+- [ ] **Page 3:** Diwali Station-Years Elevated displays **`85.95%`** (263 / 306 pairs)
+- [ ] **Page 3:** October Diwali displays **`+58.9 pts`** pooled surge (84.3% pooled up, 86.3% unweighted avg)
+- [ ] **Page 3:** November Diwali displays **`+93.9 pts`** pooled surge (86.9% pooled up, 87.2% unweighted avg)
+
+### 6.3 Saving the Authoritative Report
+Once the visual checklist passes, click **File** > **Save As** and save directly to:  
+`D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.pbix`  
+*Do not claim runtime completion until the `.pbix` file exists on disk and is confirmed.*
