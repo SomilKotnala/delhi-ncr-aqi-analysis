@@ -4,8 +4,8 @@
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
 **Current Stage:** **Stage 3: Professional, Resume-Ready AQI Dashboard & Business Intelligence (Audited & Reconciled)**  
 **Stage Status:** **VERIFIED COMPLETE & AUDITED**  
-**Latest Git Commit:** Pending Diwali Cohort Reporting Quality Check  
-**Latest Backup Archive:** `stage-3-diwali-cohort-reconciliation-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
+**Latest Git Commit:** `b517fc5` (feat: prepare Power BI Desktop model, DAX measures, benchmarks, and assembly guide)  
+**Latest Backup Archive:** `stage-3-powerbi-prep-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
 
 ---
 
