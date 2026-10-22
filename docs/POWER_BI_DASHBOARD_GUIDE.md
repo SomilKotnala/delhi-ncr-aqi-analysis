@@ -258,9 +258,9 @@ PostDiwaliAQI - PreDiwaliAQI
 - **Row 2: Event Timeline ($t-7$ to $t+7$):**
   - **Line Chart:** X-Axis: `dim_date[diwali_relative_day]`, Y-Axis: `[Median AQI]`, Legend: `dim_date[year]`.
   - Vertical Reference Line at `X = 0` (Diwali Day).
-- **Row 3: Timing Cohort Comparison (Late October vs Mid November):**
+- **Row 3: Timing Cohort Comparison (October Diwali vs November Diwali):**
   - **Clustered Bar Chart:** X-Axis: `year`, Y-Axis: `[Diwali Matched Surge]`.
-  - **Matrix Table:** Cohort (`Late Oct` vs `Mid Nov`), Pre-Diwali Baseline Median, Post-Diwali Peak Median, Mean Surge.
+  - **Matrix Table:** Cohort (`October Diwali` vs `November Diwali`), Station-Years Count, Pre-Diwali Baseline Median, Post-Diwali Peak Median, Pooled Mean Surge, Pooled % Elevated, Unweighted Annual Avg % Elevated.
 - **Row 4: Causal Confounding Callout:**
   - Analytical note explaining the co-occurrence of agricultural burning and boundary layer collapse.
 

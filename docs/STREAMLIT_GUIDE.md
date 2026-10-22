@@ -120,9 +120,9 @@ Open **`http://localhost:8501`** in any modern web browser (Chrome, Edge, Firefo
 - **Station-Matched Paired Difference Analysis ($t+1$ vs $t-1$):**
   - Compares stations active on both pre- and post-Diwali days to eliminate composition bias.
   - Multi-year average paired surge: **$+81.57$ AQI points** (mean) and **$+80.38$ AQI points** (median), with **85.95%** of matched station-year pairs elevating across 306 valid pairs.
-- **Timing Cohort Decomposition (Late October vs Mid November):**
-  - Contrasts early Diwali years (e.g. 2017, 2019, 2022) with mid-November Diwali years (e.g. 2018, 2020, 2021).
-  - Demonstrates that early Diwali produces sharp, conspicuous spikes (+82.3 pts mean) because baseline pollution is moderate (~280), whereas mid-November Diwali occurs on pre-existing severe winter inversion baselines (>350).
+- **Timing Cohort Decomposition (October Diwali vs November Diwali):**
+  - Contrasts early Diwali years (October Diwali: 2017, 2019, 2022; 108 station-years) with November Diwali years (2018, 2020, 2021, 2023; 198 station-years).
+  - Highlights pooled metrics (+58.92 pts mean surge, 84.26% elevated in October vs +93.92 pts mean surge, 86.87% elevated in November) alongside unweighted annual averages (86.32% vs 87.21%).
 - **Causal Attribution & Meteorological Confounding Disclaimer:**
   - Deep methodological explanation highlighting why firecrackers cannot be causally isolated from agricultural stubble burning and boundary layer collapse without chemical speciation tracers.
 

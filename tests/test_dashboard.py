@@ -305,3 +305,31 @@ class TestDiwaliEventAnalysis:
         # Verify defensive handling for station with zero records
         empty_res = compute_diwali_event_analysis(pd.DataFrame())
         assert empty_res["overall_paired_diff"]["total_pairs"] == 0
+
+    def test_diwali_cohort_calculations(self, benchmark_daily_df):
+        """Verify October vs November Diwali cohort calculations and pooled vs unweighted distinctions."""
+        res = compute_diwali_event_analysis(benchmark_daily_df)
+        cohort_df = res["timing_cohort_summary"]
+        assert not cohort_df.empty
+        assert set(cohort_df["timing_cohort"]) == {"October Diwali", "November Diwali"}
+
+        c_map = cohort_df.set_index("timing_cohort")
+
+        # October Diwali: 3 years (2017, 2019, 2022)
+        assert c_map.loc["October Diwali", "years_count"] == 3
+        assert c_map.loc["October Diwali", "matched_station_years"] == 108
+        assert c_map.loc["October Diwali", "pooled_mean_surge"] == pytest.approx(58.92, abs=0.1)
+        assert c_map.loc["October Diwali", "pooled_median_surge"] == pytest.approx(59.23, abs=0.1)
+        assert c_map.loc["October Diwali", "pooled_pct_elevated"] == pytest.approx(84.26, abs=0.1)
+        assert c_map.loc["October Diwali", "unweighted_annual_pct_elevated"] == pytest.approx(86.32, abs=0.1)
+
+        # November Diwali: 4 years (2018, 2020, 2021, 2023)
+        assert c_map.loc["November Diwali", "years_count"] == 4
+        assert c_map.loc["November Diwali", "matched_station_years"] == 198
+        assert c_map.loc["November Diwali", "pooled_mean_surge"] == pytest.approx(93.92, abs=0.1)
+        assert c_map.loc["November Diwali", "pooled_median_surge"] == pytest.approx(92.54, abs=0.1)
+        assert c_map.loc["November Diwali", "pooled_pct_elevated"] == pytest.approx(86.87, abs=0.1)
+        assert c_map.loc["November Diwali", "unweighted_annual_pct_elevated"] == pytest.approx(87.21, abs=0.1)
+
+        # Sum of station-years matches network total
+        assert c_map["matched_station_years"].sum() == 306

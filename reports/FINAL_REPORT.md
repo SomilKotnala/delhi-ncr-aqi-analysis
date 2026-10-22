@@ -74,8 +74,8 @@ Across the 7 observed years, the station-matched paired surge ($t+1$ vs $t-1$) a
 - **Combined 7-Year Total:** **+81.57 pt mean change**, **+80.38 pt median change**, **85.95% of station-years elevated** ($N=306$ matched pairs).
 
 **Timing Cohort & Confounding Finding:**
-- **Late October Cohort (2017, 2019, 2022):** Occurs before full winter boundary layer collapse (pre-event median ~282–311). Firecracker pulses generate conspicuous surges (+68.61 pts mean change).
-- **Mid November Cohort (2018, 2020, 2021, 2023):** Coincides with peak agricultural stubble burning and pre-existing severe winter inversion baselines (>350). In 2023, rare pre-event rains created an unusually clean baseline (180.1 AQI), resulting in the largest observed single-day surge (+196.9 pts).
+- **October Diwali (2017, 2019, 2022 — 3 Years, 108 Station-Years):** Occurs before full winter boundary layer collapse (pooled baseline median: 293.44). Generates a pooled mean surge of **+58.92 pts** (pooled median **+59.23 pts**), with **84.26%** of station-years elevated (unweighted annual average: **86.32%**).
+- **November Diwali (2018, 2020, 2021, 2023 — 4 Years, 198 Station-Years):** Coincides with peak agricultural stubble burning and pre-existing severe winter inversion baselines (pooled baseline median: 314.36). Generates a pooled mean surge of **+93.92 pts** (pooled median **+92.54 pts**), with **86.87%** of station-years elevated (unweighted annual average: **87.21%**). In 2023, rare pre-event rains created an unusually clean baseline (180.1 AQI), resulting in the largest observed single-day surge (+196.90 pts).
 
 ---
 

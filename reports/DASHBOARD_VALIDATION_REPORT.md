@@ -88,13 +88,13 @@ Detailed reconciliation of the station-matched paired difference analysis ($t+1$
 
 | Year | Diwali Date | Timing Cohort | Matched Station-Year Pairs | Pre-Diwali Median ($t-1$) | Post-Diwali Median ($t+1$) | Mean Paired Surge | Median Paired Surge | Station-Years Elevated (%) | Status |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **2017** | 2017-10-19 | Late October | 16 | 311.32 | 418.91 | +103.49 | +94.25 | 93.75% | **MATCH** |
-| **2018** | 2018-11-07 | Mid November | 40 | 316.50 | 398.05 | +75.86 | +95.71 | 90.00% | **MATCH** |
-| **2019** | 2019-10-27 | Late October | 46 | 303.64 | 386.52 | +82.82 | +89.85 | 93.48% | **MATCH** |
-| **2020** | 2020-11-14 | Mid November | 53 | 345.92 | 381.54 | +27.56 | +31.83 | 67.92% | **MATCH** |
-| **2021** | 2021-11-04 | Mid November | 55 | 332.79 | 400.71 | +77.39 | +78.25 | 90.91% | **MATCH** |
-| **2022** | 2022-10-24 | Late October | 46 | 282.83 | 297.33 | +19.51 | +10.52 | 71.74% | **MATCH** |
-| **2023** | 2023-11-12 | Mid November | 50 | 180.08 | 392.11 | +196.90 | +198.17 | 100.00% | **MATCH** |
+| **2017** | 2017-10-19 | October Diwali | 16 | 311.32 | 418.91 | +103.49 | +94.25 | 93.75% | **MATCH** |
+| **2018** | 2018-11-07 | November Diwali | 40 | 316.50 | 398.05 | +75.86 | +95.71 | 90.00% | **MATCH** |
+| **2019** | 2019-10-27 | October Diwali | 46 | 303.64 | 386.52 | +82.82 | +89.85 | 93.48% | **MATCH** |
+| **2020** | 2020-11-14 | November Diwali | 53 | 345.92 | 381.54 | +27.56 | +31.83 | 67.92% | **MATCH** |
+| **2021** | 2021-11-04 | November Diwali | 55 | 332.79 | 400.71 | +77.39 | +78.25 | 90.91% | **MATCH** |
+| **2022** | 2022-10-24 | October Diwali | 46 | 282.83 | 297.33 | +19.51 | +10.52 | 71.74% | **MATCH** |
+| **2023** | 2023-11-12 | November Diwali | 50 | 180.08 | 392.11 | +196.90 | +198.17 | 100.00% | **MATCH** |
 | **Combined** | **—** | **7 Years** | **306** | **303.64** | **392.11** | **+81.57** | **+80.38** | **85.95%** | **MATCH** |
 
 ### 5.2 Denominator & Pairing Unit Clarification
@@ -108,9 +108,19 @@ Detailed reconciliation of the station-matched paired difference analysis ($t+1$
 - **Root Cause of Preliminary Figures (+65.71 AQI, 281 Pairs, 84.82% Elevated):** An earlier draft report recorded metrics from a preliminary run where stations with partial hourly missingness had been dropped from the matching pool (yielding 30 pairs in 2018, 44 in 2021, and 46 in 2023; total $281$). That 281-pair subset yielded a mean surge of $+65.71$ AQI points and $84.82\%$ elevated.
 - **Empirical Ground Truth (+81.57 AQI, 306 Pairs, 85.95% Elevated):** The authoritative processed dataset (`fact_daily_aqi.parquet` and PostgreSQL `fact_daily_aqi`) adheres to CPCB statutory validation ($\ge 16$ valid hours/day). Applying this statutory criterion across all 7 years preserves 40 pairs in 2018, 55 in 2021, and 50 in 2023, totaling **306 station-year pairs**. The live Streamlit engine computes these metrics dynamically without hardcoding.
 
-### 5.4 Timing Cohort Analysis:
-- **Late October Cohort (2017, 2019, 2022 - 3 Years):** Average pre-Diwali baseline median is **299.26** (moderate background before winter boundary layer collapse). Acute post-firecracker emission surge generates conspicuous spikes (average mean change **+68.61 pts**, median **+64.87 pts**), with **86.32%** of station-years elevating.
-- **Mid November Cohort (2018, 2020, 2021, 2023 - 4 Years):** Average pre-Diwali baseline median is **293.82** (post-monsoon transition; varies widely due to meteorological events like 2023 pre-event rain vs 2020 severe stubble burning baselines). Generates massive absolute spikes (average mean change **+94.43 pts**, median **+100.99 pts**), with **87.21%** of station-years elevating.
+### 5.4 Timing Cohort Analysis: October Diwali vs November Diwali
+
+| Timing Cohort | Festival Years Included | Matched Station-Years | Pooled Pre Median | Pooled Post Median | Pooled Mean Surge | Pooled Median Surge | Pooled % Elevated | Unweighted Annual Avg % Elevated |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **October Diwali** | 2017, 2019, 2022 (3 years) | **108** | 293.44 | 362.50 | **+58.92** | **+59.23** | **84.26%** (91/108) | **86.32%** |
+| **November Diwali** | 2018, 2020, 2021, 2023 (4 years) | **198** | 314.36 | 392.02 | **+93.92** | **+92.54** | **86.87%** (172/198) | **87.21%** |
+| **Combined / Network** | All 7 Years | **306** | 303.64 | 392.11 | **+81.57** | **+80.38** | **85.95%** (263/306) | **86.83%** |
+
+- **Methodological Distinction (Pooled vs Unweighted):**
+  - **Pooled % Elevated:** Calculated across all station-year pairs in the cohort ($\frac{\sum \text{Elevated Station-Years}}{\sum \text{Matched Station-Years}}$). This is the mathematically rigorous measure of network-wide station risk.
+  - **Unweighted Annual Average %:** Simple arithmetic mean of annual percentages ($\frac{1}{K} \sum \text{pct}_y$). It treats each year equally regardless of network size (e.g. 2017 with 16 stations carries equal weight to 2021 with 55 stations).
+- **October Diwali Dynamics (3 Years, 108 Pairs):** Baseline median is **293.44** (moderate pre-inversion). Generates a pooled mean surge of **+58.92 pts** (pooled median **+59.23 pts**), with **84.26%** of station-years elevating (unweighted annual average: **86.32%**).
+- **November Diwali Dynamics (4 Years, 198 Pairs):** Baseline median is **314.36** (coinciding with peak crop residue burning). Generates a pooled mean surge of **+93.92 pts** (pooled median **+92.54 pts**), with **86.87%** of station-years elevating (unweighted annual average: **87.21%**).
 
 ### 5.5 Causal Deconfounding Disclaimer:
 1. **Regional Agricultural Stubble Burning:** Post-monsoon paddy stubble burning in Punjab and Haryana peaks annually between October 25 and November 15, directly overlapping the Diwali calendar window.

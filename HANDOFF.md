@@ -2,7 +2,7 @@
 
 **Project Name:** Delhi-NCR Air Quality Analysis: Seasonal Trends, Station-Level Differences, and Diwali Episodes  
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
-**Latest Backup Archive:** `D:\delhi-ncr-aqi-analysis-backups\stage-3-diwali-reconciliation-2026-10-22.zip`  
+**Latest Backup Archive:** `D:\delhi-ncr-aqi-analysis-backups\stage-3-diwali-cohort-reconciliation-2026-10-22.zip`  
 **Current State:** **Stage 3 Verified Complete, Reconciled & Fully Audited**  
 **Local Environment:** Windows, Python 3.14.6 (`D:\anaconda3\python.exe`), PostgreSQL 18.0 (`delhi_aqi` on `D:\pg_tablespaces\delhi_aqi`), Streamlit 1.58.0 running at `http://localhost:8501`, Power BI Desktop installed, Git 2.49.0.
 
@@ -32,11 +32,18 @@
   - Verified defensive single-station case handling and confirmed presence of the 3-part causal confounding disclaimer (stubble burning, boundary layer collapse, sensor saturation).
 - **Automated Testing:**
   - Added new unit test `test_diwali_single_station_filter` and extended `test_diwali_analysis_structure` in `tests/test_dashboard.py`.
-  - **All 55 tests passing in 9.50s**.
+  - Added `test_diwali_cohort_calculations` in `tests/test_dashboard.py` verifying pooled vs unweighted metrics across cohorts.
+  - **All 56 tests passing in 15.49s**.
+- **Diwali Timing Cohorts & Reporting Quality:**
+  - Standardized cohort taxonomy to **"October Diwali"** (3 years, 108 station-years) and **"November Diwali"** (4 years, 198 station-years), preserving verified dates including `2021-11-04`.
+  - Disentangled pooled station-year percentages from unweighted annual averages:
+    - October Diwali: Pooled mean surge **+58.92 pts**, pooled median **+59.23 pts**, pooled % elevated **84.26%** (91/108), unweighted annual average **86.32%**.
+    - November Diwali: Pooled mean surge **+93.92 pts**, pooled median **+92.54 pts**, pooled % elevated **86.87%** (172/198), unweighted annual average **87.21%**.
+    - Full Network: Pooled mean surge **+81.57 pts**, pooled median **+80.38 pts**, pooled % elevated **85.95%** (263/306), unweighted annual average **86.83%**.
 - **Reconciliation Deliverables Updated:**
-  - Section 8 added to `reports/DASHBOARD_KPI_RECONCILIATION.md`.
+  - Section 8 added and extended in `reports/DASHBOARD_KPI_RECONCILIATION.md`.
   - Section 5 and Master Matrix updated in `reports/DASHBOARD_VALIDATION_REPORT.md`.
-  - `reports/FINAL_REPORT.md`, `docs/POWER_BI_DASHBOARD_GUIDE.md`, `docs/STREAMLIT_GUIDE.md`, and `docs/DASHBOARD_INTERVIEW_GUIDE.md` updated with authoritative figures.
+  - `reports/FINAL_REPORT.md`, `docs/POWER_BI_DASHBOARD_GUIDE.md`, and `docs/STREAMLIT_GUIDE.md` updated with authoritative figures.
 
 ---
 
@@ -63,7 +70,7 @@ Open **`http://localhost:8501`** in any web browser.
 ```powershell
 D:\anaconda3\python.exe -m pytest D:\delhi-ncr-aqi-analysis\tests -v
 ```
-Output: **55 passed in 9.50s**.
+Output: **56 passed in 15.49s**.
 
 ---
 

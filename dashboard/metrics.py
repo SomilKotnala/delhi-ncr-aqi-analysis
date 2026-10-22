@@ -623,10 +623,10 @@ def compute_diwali_event_analysis(df: pd.DataFrame) -> Dict[str, Any]:
         baseline_med = float(paired_pre.median())
         post_med = float(paired_post.median())
 
-        # Determine timing cohort: Late October vs Mid November
+        # Determine timing cohort: October Diwali vs November Diwali
         diwali_date = DIWALI_DATES.get(yr, "Unknown")
         month = int(diwali_date.split("-")[1]) if "-" in diwali_date else 11
-        timing_cohort = "Late October" if month == 10 else "Mid November"
+        timing_cohort = "October Diwali" if month == 10 else "November Diwali"
 
         yearly_diff_records.append({
             "year": yr,
@@ -643,17 +643,53 @@ def compute_diwali_event_analysis(df: pd.DataFrame) -> Dict[str, Any]:
 
     yearly_diff_df = pd.DataFrame(yearly_diff_records)
 
-    # Cohort comparison: Late Oct vs Mid Nov
-    cohort_summary = pd.DataFrame()
-    if not yearly_diff_df.empty and "timing_cohort" in yearly_diff_df.columns:
-        cohort_summary = yearly_diff_df.groupby("timing_cohort").agg(
-            years_count=("year", "count"),
-            avg_pre_median=("pre_diwali_median", "mean"),
-            avg_post_median=("post_diwali_median", "mean"),
-            avg_mean_change=("mean_paired_change", "mean"),
-            avg_median_change=("median_paired_change", "mean"),
-            avg_pct_elevated=("pct_stations_elevated", "mean"),
-        ).reset_index().round(2)
+    # Cohort comparison: October Diwali vs November Diwali
+    # Distinguishes pooled station-year statistics from unweighted annual averages
+    cohort_records = []
+    cohort_pair_data = {
+        "October Diwali": {"pre": [], "post": [], "diffs": []},
+        "November Diwali": {"pre": [], "post": [], "diffs": []},
+    }
+
+    for yr in years:
+        yr_data = event_df[event_df["year"] == yr]
+        pre = yr_data[yr_data["diwali_relative_day"] == -1].set_index("station_key")["daily_mean_aqi"]
+        post = yr_data[yr_data["diwali_relative_day"] == 1].set_index("station_key")["daily_mean_aqi"]
+        common = pre.index.intersection(post.index)
+        if len(common) == 0:
+            continue
+        paired_pre = pre.loc[common]
+        paired_post = post.loc[common]
+        diffs = paired_post - paired_pre
+
+        d_date = DIWALI_DATES.get(yr, "Unknown")
+        m_int = int(d_date.split("-")[1]) if "-" in d_date else 11
+        c_label = "October Diwali" if m_int == 10 else "November Diwali"
+
+        cohort_pair_data[c_label]["pre"].extend(paired_pre.tolist())
+        cohort_pair_data[c_label]["post"].extend(paired_post.tolist())
+        cohort_pair_data[c_label]["diffs"].extend(diffs.tolist())
+
+    for c_name in ["October Diwali", "November Diwali"]:
+        c_diffs = np.array(cohort_pair_data[c_name]["diffs"])
+        c_pre = np.array(cohort_pair_data[c_name]["pre"])
+        c_post = np.array(cohort_pair_data[c_name]["post"])
+        sub_yr = yearly_diff_df[yearly_diff_df["timing_cohort"] == c_name] if not yearly_diff_df.empty else pd.DataFrame()
+
+        if len(c_diffs) > 0:
+            cohort_records.append({
+                "timing_cohort": c_name,
+                "years_count": len(sub_yr),
+                "matched_station_years": len(c_diffs),
+                "pooled_pre_median": round(float(np.median(c_pre)), 2),
+                "pooled_post_median": round(float(np.median(c_post)), 2),
+                "pooled_mean_surge": round(float(np.mean(c_diffs)), 2),
+                "pooled_median_surge": round(float(np.median(c_diffs)), 2),
+                "pooled_pct_elevated": round(float(np.sum(c_diffs > 0) / len(c_diffs) * 100.0), 2),
+                "unweighted_annual_pct_elevated": round(float(sub_yr["pct_stations_elevated"].mean()), 2) if not sub_yr.empty else 0.0,
+            })
+
+    cohort_summary = pd.DataFrame(cohort_records)
 
     overall_stats = default_overall.copy()
     if len(all_paired_changes) > 0:

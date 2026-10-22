@@ -761,18 +761,21 @@ with tab3:
                 column_config={
                     "timing_cohort": "Cohort",
                     "years_count": "Years",
-                    "avg_pre_median": st.column_config.NumberColumn("Pre Median", format="%.1f"),
-                    "avg_post_median": st.column_config.NumberColumn("Post Median", format="%.1f"),
-                    "avg_mean_change": st.column_config.NumberColumn("Mean Surge", format="%+.1f"),
-                    "avg_pct_elevated": st.column_config.NumberColumn("Elevated %", format="%.1f%%"),
+                    "matched_station_years": "Station-Years",
+                    "pooled_pre_median": st.column_config.NumberColumn("Pre Median", format="%.1f"),
+                    "pooled_post_median": st.column_config.NumberColumn("Post Median", format="%.1f"),
+                    "pooled_mean_surge": st.column_config.NumberColumn("Pooled Surge", format="%+.1f"),
+                    "pooled_pct_elevated": st.column_config.NumberColumn("Pooled % Up", format="%.1f%%"),
+                    "unweighted_annual_pct_elevated": st.column_config.NumberColumn("Unweighted % Up", format="%.1f%%"),
                 },
                 hide_index=True,
                 use_container_width=True,
             )
         st.markdown("""
-        **Key Empirical Finding:**  
-        - **Late October Diwali (2017, 2019, 2022):** Occurs before full winter boundary layer collapse (baseline ~230–280). Firecracker pulses generate acute, conspicuous surges (+82.3 pts mean).
-        - **Mid November Diwali (2018, 2020, 2021, 2023):** Coincides with peak agricultural stubble burning and pre-existing severe winter inversion baselines (>350).
+        **Key Empirical Finding & Methodological Distinction:**  
+        - **October Diwali (2017, 2019, 2022 — 3 Years, 108 Station-Years):** Baseline median is 293.4 (pre-inversion). Generates a pooled mean surge of **+58.9 pts** (pooled median **+59.2 pts**), with **84.3%** of station-years elevated (unweighted annual average: **86.3%**).
+        - **November Diwali (2018, 2020, 2021, 2023 — 4 Years, 198 Station-Years):** Baseline median is 314.4 (coinciding with peak crop residue burning). Generates a pooled mean surge of **+93.9 pts** (pooled median **+92.5 pts**), with **86.9%** of station-years elevated (unweighted annual average: **87.2%**).  
+        *Note: "Pooled % Up" reflects all station-year pairs in the cohort; "Unweighted % Up" reflects the simple average of annual percentage rates.*
         """)
 
     # Causal Confounding Disclaimer Callout

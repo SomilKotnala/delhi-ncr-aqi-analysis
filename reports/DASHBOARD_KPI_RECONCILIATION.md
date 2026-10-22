@@ -209,3 +209,19 @@ The dashboard Tab 3 includes an explicit causal attribution callout:
 1. **Regional Agricultural Burning:** Stubble burning in Punjab and Haryana peaks between Oct 25 and Nov 15, directly overlapping Diwali.
 2. **Boundary Layer Collapse:** Winter mixing depth drops from $>1,500\text{m}$ to $<300\text{m}$, compressing ambient pollution.
 3. **Sensor Ceiling Saturation:** Capping at 500.0 compresses observable surges when baselines are already near 400 AQI. Naive attribution of 100% of the post-Diwali surge to fireworks is unscientific.
+
+### 8.6 Timing Cohorts: October Diwali vs November Diwali & Pooled vs Unweighted Reporting
+To evaluate the interaction between festival emissions and background meteorological seasonality, festival years are grouped by calendar month:
+- **October Diwali (2017, 2019, 2022 — 3 Years):** Pre-inversion baseline (median 293.44 AQI).
+- **November Diwali (2018, 2020, 2021, 2023 — 4 Years):** Severe agricultural stubble smoke and early winter boundary layer collapse baseline (median 314.36 AQI).
+
+#### Cohort Comparison Matrix:
+| Timing Cohort | Years Count | Matched Station-Years | Pooled Pre Median | Pooled Post Median | Pooled Mean Surge | Pooled Median Surge | Pooled % Elevated | Unweighted Annual Avg % |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **October Diwali** | 3 | **108** | 293.44 | 362.50 | **+58.92** | **+59.23** | **84.26%** (91/108) | **86.32%** |
+| **November Diwali** | 4 | **198** | 314.36 | 392.02 | **+93.92** | **+92.54** | **86.87%** (172/198) | **87.21%** |
+| **Full Network** | 7 | **306** | 303.64 | 392.11 | **+81.57** | **+80.38** | **85.95%** (263/306) | **86.83%** |
+
+#### Analytical Distinction:
+1. **Pooled % Elevated:** Uses the pooled numerator and denominator across all station-year pairs within the cohort ($\frac{91}{108} = 84.26\%$ and $\frac{172}{198} = 86.87\%$). This correctly weights each station-year observation equally.
+2. **Unweighted Annual Average %:** Takes the unweighted arithmetic mean of annual percentages ($(93.75 + 93.48 + 71.74)/3 = 86.32\%$ and $(90.00 + 67.92 + 90.91 + 100.00)/4 = 87.21\%$). Both figures are now transparently reported and distinguished in the dashboard and authoritative reports.

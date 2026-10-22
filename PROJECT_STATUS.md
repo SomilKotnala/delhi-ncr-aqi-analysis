@@ -4,8 +4,8 @@
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
 **Current Stage:** **Stage 3: Professional, Resume-Ready AQI Dashboard & Business Intelligence (Audited & Reconciled)**  
 **Stage Status:** **VERIFIED COMPLETE & AUDITED**  
-**Latest Git Commit:** Pending Diwali Reconciliation Commit  
-**Latest Backup Archive:** `stage-3-diwali-reconciliation-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
+**Latest Git Commit:** Pending Diwali Cohort Reporting Quality Check  
+**Latest Backup Archive:** `stage-3-diwali-cohort-reconciliation-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
 
 ---
 
@@ -17,7 +17,7 @@
 | **Stage 2A**| Data cleaning pipeline, surrogate station keys, wide-to-long reshaping, anomaly/capping audit | **Verified Complete** | 2,664,336 hourly records processed; 12/12 unit tests passing; commit `1cdc92e` |
 | **Stage 2B**| PostgreSQL 18 Star Schema loading, analytical SQL queries (CTEs, Window functions), and EDA | **Verified Complete** | 2.66M rows loaded in 71s; 7 queries executed; 6 production charts generated; commit `bf6d39a` |
 | **Stage 2C**| Pre-registered statistical hypothesis testing, event modeling & econometric robustness audit | **Verified Complete** | 100,794 station-days; MBB CI (L=14); Tobit censoring model; 36/36 tests passing; commit `f1f4d97` |
-| **Stage 3** | Professional Power BI model & DAX measures, interactive Streamlit app, validation & reconciliation audit | **Verified Complete** | Dual-mode Streamlit app running (port 8501); 10 DAX measures verified; 55/55 tests passing |
+| **Stage 3** | Professional Power BI model & DAX measures, interactive Streamlit app, validation & reconciliation audit | **Verified Complete** | Dual-mode Streamlit app running (port 8501); 10 DAX measures verified; 56/56 tests passing |
 | **Stage 4** | Final synthesis, executive report generation, and interview preparation | **Verified Complete** | `reports/FINAL_REPORT.md`, `docs/DASHBOARD_INTERVIEW_GUIDE.md` completed |
 
 ---
@@ -35,12 +35,19 @@
   - Root Cause: Preliminary audit draft recorded metrics (+65.71 mean surge, 84.82% elevated) on an early exploratory subset with only 281 pairs. The authoritative CPCB validity rule ($\ge 16$ valid hrs/day) applied across the 7 festival years in `fact_daily_aqi.parquet` produces 40 pairs in 2018 (vs 30), 55 in 2021 (vs 44), and 50 in 2023 (vs 46), totaling exactly **306 matched station-year pairs**.
   - Resolution: Reconciled documentation and verified dynamic computation in `dashboard/metrics.py`: mean paired surge **+81.57 AQI**, median paired surge **+80.38 AQI**, elevated proportion **85.95%** (263/306 pairs).
   - Clarified denominator in UI: updated labels in `dashboard/app.py` from "Matched Station Pairs" $\to$ **"Matched Station-Year Pairs"** and "Stations Elevated" $\to$ **"Station-Years Elevated"** to clearly convey that the denominator is 306 station-year pairs across 7 years, not unique physical monitoring stations (which total 56).
+- [x] **Diwali Timing Cohort Quality Audit (October Diwali vs November Diwali)**:
+  - Renamed cohorts to **"October Diwali"** (2017, 2019, 2022; $N=108$ station-year pairs) and **"November Diwali"** (2018, 2020, 2021, 2023; $N=198$ station-year pairs), preserving verified dates including `2021-11-04`.
+  - Disentangled pooled station-year metrics from unweighted annual averages:
+    - October Diwali: Pooled mean surge **+58.92 pts**, pooled median **+59.23 pts**, pooled % elevated **84.26%** (91/108), unweighted annual average **86.32%**.
+    - November Diwali: Pooled mean surge **+93.92 pts**, pooled median **+92.54 pts**, pooled % elevated **86.87%** (172/198), unweighted annual average **87.21%**.
+    - Full Network: Pooled mean surge **+81.57 pts**, pooled median **+80.38 pts**, pooled % elevated **85.95%** (263/306), unweighted annual average **86.83%**.
+  - Updated `dashboard/app.py` UI table columns and markdown captions to transparently present both statistics.
 - [x] **Automated Unit Testing**:
-  - Full test suite: **55 of 55 tests passing in 9.50s**. Includes dedicated tests for overall Diwali event structure and single-station filter handling.
-- [x] **Documentation & Reconciliation Deliverables**:
-  - Authored Section 8 in `reports/DASHBOARD_KPI_RECONCILIATION.md`.
-  - Reconciled Table in Section 5 of `reports/DASHBOARD_VALIDATION_REPORT.md`.
-  - Reconciled `reports/FINAL_REPORT.md`, `docs/POWER_BI_DASHBOARD_GUIDE.md`, `docs/STREAMLIT_GUIDE.md`, and `docs/DASHBOARD_INTERVIEW_GUIDE.md`.
+  - Added `test_diwali_cohort_calculations` in `tests/test_dashboard.py`.
+  - Full test suite: **56 of 56 tests passing in 15.49s**.
+- [x] **Documentation & Deliverables Sync**:
+  - Reconciled Section 5.4 in `reports/DASHBOARD_VALIDATION_REPORT.md` and Section 8.6 in `reports/DASHBOARD_KPI_RECONCILIATION.md`.
+  - Updated `reports/FINAL_REPORT.md`, `docs/POWER_BI_DASHBOARD_GUIDE.md`, and `docs/STREAMLIT_GUIDE.md`.
 
 ---
 
