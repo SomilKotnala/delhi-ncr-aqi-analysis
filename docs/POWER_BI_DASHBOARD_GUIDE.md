@@ -200,7 +200,7 @@ VAR PostDiwaliAQI =
 RETURN
 PostDiwaliAQI - PreDiwaliAQI
 ```
-*Benchmark Verification:* 7-year multi-year paired median surge = `+72.48 pts`.
+*Benchmark Verification:* 7-year multi-year paired median surge = `+80.38 pts` (paired mean surge = `+81.57 pts` across 306 matched station-year pairs).
 
 ---
 

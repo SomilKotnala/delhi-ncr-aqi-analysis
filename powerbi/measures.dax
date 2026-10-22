@@ -1,0 +1,156 @@
+// =============================================================================
+// DAX MEASURES SPECIFICATION: DELHI-NCR AIR QUALITY ANALYSIS
+// Project: Delhi-NCR Air Quality Analysis (2017-2023)
+// Architecture: Power BI Star Schema on PostgreSQL / Parquet Export
+// Author: Lead Analytical AI Agent
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// TABLE: _Measures (Create a blank table in Power BI to hold all measures)
+// -----------------------------------------------------------------------------
+
+// =============================================================================
+// 1. CORE HEADLINE AIR QUALITY KPIS
+// =============================================================================
+
+// Median daily mean AQI across valid station-days
+Median AQI = 
+CALCULATE(
+    MEDIAN('fact_daily_aqi'[daily_mean_aqi]),
+    'fact_daily_aqi'[is_day_valid] = TRUE()
+)
+
+// Arithmetic mean daily mean AQI across valid station-days
+Mean AQI = 
+CALCULATE(
+    AVERAGE('fact_daily_aqi'[daily_mean_aqi]),
+    'fact_daily_aqi'[is_day_valid] = TRUE()
+)
+
+// Interquartile Range (IQR = Q3 - Q1) of daily AQI
+AQI IQR = 
+VAR Q1 = 
+    CALCULATE(
+        PERCENTILE.INC('fact_daily_aqi'[daily_mean_aqi], 0.25),
+        'fact_daily_aqi'[is_day_valid] = TRUE()
+    )
+VAR Q3 = 
+    CALCULATE(
+        PERCENTILE.INC('fact_daily_aqi'[daily_mean_aqi], 0.75),
+        'fact_daily_aqi'[is_day_valid] = TRUE()
+    )
+RETURN
+Q3 - Q1
+
+
+// =============================================================================
+// 2. DATA QUALITY, COMPLETENESS & CPCB CEILING KPIS
+// =============================================================================
+
+// Valid station-days satisfying the CPCB >= 16 valid hours/day rule
+Valid Station-Days = 
+CALCULATE(
+    COUNTROWS('fact_daily_aqi'),
+    'fact_daily_aqi'[is_day_valid] = TRUE()
+)
+
+// Total scheduled station-days across active network scope (111,014 for full 5-city network)
+Total Scheduled Station-Days = 
+COUNTROWS('fact_daily_aqi')
+
+// True statutory data completeness rate (%)
+Data Completeness % = 
+DIVIDE([Valid Station-Days], [Total Scheduled Station-Days], 0) * 100
+
+// Station-days falling into CPCB 'Severe' category (> 400 AQI)
+Severe AQI Days Count = 
+CALCULATE(
+    COUNTROWS('fact_daily_aqi'),
+    'fact_daily_aqi'[is_day_valid] = TRUE(),
+    'fact_daily_aqi'[daily_mean_aqi] > 400.0
+)
+
+// Proportion of valid days in Severe category (%)
+Severe AQI Days % = 
+DIVIDE([Severe AQI Days Count], [Valid Station-Days], 0) * 100
+
+// Station-days with at least 1 hourly reading saturating at the statutory 500.0 ceiling
+Sensor Capped Days Count = 
+CALCULATE(
+    COUNTROWS('fact_daily_aqi'),
+    'fact_daily_aqi'[is_day_valid] = TRUE(),
+    'fact_daily_aqi'[capped_hours_count] > 0
+)
+
+// Proportion of valid station-days exhibiting sensor saturation (%)
+Sensor Capped Days % = 
+DIVIDE([Sensor Capped Days Count], [Valid Station-Days], 0) * 100
+
+
+// =============================================================================
+// 3. SEASONAL INVERSION & SPATIAL DYNAMICS
+// =============================================================================
+
+// Median AQI during winter months (November, December, January, February)
+Winter Median AQI = 
+CALCULATE(
+    [Median AQI],
+    'fact_daily_aqi'[is_winter] = TRUE()
+)
+
+// Median AQI during non-winter months (March through October)
+Non-Winter Median AQI = 
+CALCULATE(
+    [Median AQI],
+    'fact_daily_aqi'[is_winter] = FALSE()
+)
+
+// Absolute seasonal excess burden (Winter - Non-Winter)
+Winter Elevation Absolute = 
+[Winter Median AQI] - [Non-Winter Median AQI]
+
+// Multiplicative seasonal elevation ratio (Winter / Non-Winter)
+Winter Elevation Ratio = 
+DIVIDE([Winter Median AQI], [Non-Winter Median AQI], 0)
+
+
+// =============================================================================
+// 4. DIWALI POLLUTION EPISODES & EVENT STUDY DECOMPOSITION
+// =============================================================================
+
+// Total matched station-year pairs across observed festival instances
+Diwali Matched Station-Years = 
+COUNTROWS('fact_diwali_pairs')
+
+// Pooled mean paired surge across all matched station-year pairs (t+1 vs t-1)
+Diwali Pooled Mean Surge = 
+AVERAGE('fact_diwali_pairs'[paired_surge])
+
+// Pooled median paired surge across all matched station-year pairs (t+1 vs t-1)
+Diwali Pooled Median Surge = 
+MEDIAN('fact_diwali_pairs'[paired_surge])
+
+// Total count of matched station-year pairs exhibiting higher post-Diwali AQI
+Diwali Elevated Station-Years Count = 
+CALCULATE(
+    COUNTROWS('fact_diwali_pairs'),
+    'fact_diwali_pairs'[is_elevated] = TRUE()
+)
+
+// Proportion of matched station-year pairs showing elevated AQI at t+1 (%)
+Diwali Station-Years Elevated % = 
+DIVIDE([Diwali Elevated Station-Years Count], [Diwali Matched Station-Years], 0) * 100
+
+// October Diwali Cohort Pooled Mean Surge
+October Diwali Pooled Mean Surge = 
+CALCULATE(
+    [Diwali Pooled Mean Surge],
+    'fact_diwali_pairs'[timing_cohort] = "October Diwali"
+)
+
+// November Diwali Cohort Pooled Mean Surge
+November Diwali Pooled Mean Surge = 
+CALCULATE(
+    [Diwali Pooled Mean Surge],
+    'fact_diwali_pairs'[timing_cohort] = "November Diwali"
+)

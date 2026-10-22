@@ -33,7 +33,14 @@
 - **Automated Testing:**
   - Added new unit test `test_diwali_single_station_filter` and extended `test_diwali_analysis_structure` in `tests/test_dashboard.py`.
   - Added `test_diwali_cohort_calculations` in `tests/test_dashboard.py` verifying pooled vs unweighted metrics across cohorts.
-  - **All 56 tests passing in 15.49s**.
+  - Added `tests/test_powerbi_data.py` (3 tests verifying CSV existence, star schema referential integrity, and DAX benchmark match).
+  - **All 59 tests passing in 15.70s**.
+- **Power BI Desktop Report Architecture & Deliverables:**
+  - `data/processed/fact_diwali_pairs.csv`: 306 matched station-year pairs with station names, pre/post AQI, surge, and elevated flags.
+  - `data/processed/dim_diwali_cohorts.csv`: Summary of October vs November cohorts.
+  - `powerbi/measures.dax`: 20 pre-compiled DAX measures ready for copy-paste into `_Measures`.
+  - `powerbi/benchmarks_reconciliation.csv`: 20 benchmark values verified against SQL and Python.
+  - `powerbi/POWER_BI_STEP_BY_STEP_ASSEMBLY_GUIDE.md`: Comprehensive manual assembly manual for Power BI Desktop (`PBIDesktopStore.exe`).
 - **Diwali Timing Cohorts & Reporting Quality:**
   - Standardized cohort taxonomy to **"October Diwali"** (3 years, 108 station-years) and **"November Diwali"** (4 years, 198 station-years), preserving verified dates including `2021-11-04`.
   - Disentangled pooled station-year percentages from unweighted annual averages:
@@ -70,7 +77,7 @@ Open **`http://localhost:8501`** in any web browser.
 ```powershell
 D:\anaconda3\python.exe -m pytest D:\delhi-ncr-aqi-analysis\tests -v
 ```
-Output: **56 passed in 15.49s**.
+Output: **59 passed in 15.70s**.
 
 ---
 

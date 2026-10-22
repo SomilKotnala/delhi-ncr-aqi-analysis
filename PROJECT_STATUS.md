@@ -17,7 +17,7 @@
 | **Stage 2A**| Data cleaning pipeline, surrogate station keys, wide-to-long reshaping, anomaly/capping audit | **Verified Complete** | 2,664,336 hourly records processed; 12/12 unit tests passing; commit `1cdc92e` |
 | **Stage 2B**| PostgreSQL 18 Star Schema loading, analytical SQL queries (CTEs, Window functions), and EDA | **Verified Complete** | 2.66M rows loaded in 71s; 7 queries executed; 6 production charts generated; commit `bf6d39a` |
 | **Stage 2C**| Pre-registered statistical hypothesis testing, event modeling & econometric robustness audit | **Verified Complete** | 100,794 station-days; MBB CI (L=14); Tobit censoring model; 36/36 tests passing; commit `f1f4d97` |
-| **Stage 3** | Professional Power BI model & DAX measures, interactive Streamlit app, validation & reconciliation audit | **Verified Complete** | Dual-mode Streamlit app running (port 8501); 10 DAX measures verified; 56/56 tests passing |
+| **Stage 3** | Professional Power BI model & DAX measures, interactive Streamlit app, validation & reconciliation audit | **Verified Complete** | Dual-mode Streamlit app running (port 8501); 20 DAX measures verified; 59/59 tests passing |
 | **Stage 4** | Final synthesis, executive report generation, and interview preparation | **Verified Complete** | `reports/FINAL_REPORT.md`, `docs/DASHBOARD_INTERVIEW_GUIDE.md` completed |
 
 ---
@@ -42,9 +42,14 @@
     - November Diwali: Pooled mean surge **+93.92 pts**, pooled median **+92.54 pts**, pooled % elevated **86.87%** (172/198), unweighted annual average **87.21%**.
     - Full Network: Pooled mean surge **+81.57 pts**, pooled median **+80.38 pts**, pooled % elevated **85.95%** (263/306), unweighted annual average **86.83%**.
   - Updated `dashboard/app.py` UI table columns and markdown captions to transparently present both statistics.
+- [x] **Power BI Desktop Report Data Model & Assembly Architecture**:
+  - Prepared verified clean CSVs for zero-friction import (`fact_daily_aqi.csv`, `dim_station.csv`, `dim_date.csv`, `agg_hourly_diurnal.csv`, `fact_diwali_pairs.csv`, `dim_diwali_cohorts.csv`).
+  - Pre-compiled all 20 DAX measures in `powerbi/measures.dax`.
+  - Established ground-truth benchmark reconciliation table in `powerbi/benchmarks_reconciliation.csv`.
+  - Authored comprehensive screen-by-screen assembly instructions in `powerbi/POWER_BI_STEP_BY_STEP_ASSEMBLY_GUIDE.md`.
+  - Created automated test suite `tests/test_powerbi_data.py` (3 passed).
 - [x] **Automated Unit Testing**:
-  - Added `test_diwali_cohort_calculations` in `tests/test_dashboard.py`.
-  - Full test suite: **56 of 56 tests passing in 15.49s**.
+  - Full test suite: **59 of 59 tests passing in 15.70s**.
 - [x] **Documentation & Deliverables Sync**:
   - Reconciled Section 5.4 in `reports/DASHBOARD_VALIDATION_REPORT.md` and Section 8.6 in `reports/DASHBOARD_KPI_RECONCILIATION.md`.
   - Updated `reports/FINAL_REPORT.md`, `docs/POWER_BI_DASHBOARD_GUIDE.md`, and `docs/STREAMLIT_GUIDE.md`.
@@ -57,7 +62,13 @@
 - `dashboard/app.py`: Interactive multi-page Streamlit application (live on port 8501).
 - `dashboard/data_access.py`: Cached dual-mode PostgreSQL/Parquet data loader.
 - `dashboard/metrics.py`: Pure analytical KPI and visualization calculation engine.
-- `tests/test_dashboard.py`: 18 automated tests for dashboard components (all passing).
+- `tests/test_dashboard.py`: 20 automated tests for dashboard components (all passing).
+- `tests/test_powerbi_data.py`: 3 automated tests for Power BI star schema, referential integrity, and DAX benchmarks.
+- `powerbi/measures.dax`: 20 pre-compiled DAX measures.
+- `powerbi/benchmarks_reconciliation.csv`: 20 ground-truth benchmark reconciliation values.
+- `powerbi/POWER_BI_STEP_BY_STEP_ASSEMBLY_GUIDE.md`: Screen-by-screen Power BI Desktop report assembly manual.
+- `data/processed/fact_diwali_pairs.csv`: 306 matched station-year paired differences across 7 years.
+- `data/processed/dim_diwali_cohorts.csv`: October Diwali vs November Diwali cohort summary table.
 - `src/ingestion/download_data.py`: Raw ingestion & sample generation.
 - `src/cleaning/clean_data.py`: Reshaping & cleaning pipeline.
 - `src/database/load_data.py`: PostgreSQL 18 Star Schema loader.
