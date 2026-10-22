@@ -1,21 +1,21 @@
-Metric_ID,Metric_Name,Report_Page,SQL_PostgreSQL_Output,SQL_DB_Status,Python_Streamlit_Output,Python_Data_Status,PowerBI_DAX_Measure,DAX_Expected_Value,PowerBI_Runtime_Status
-M01,Network Median AQI,Page 1,199.29,VERIFIED_DB,199.29,VERIFIED_PARQUET,[Median AQI],199.29,Expected / Pending Power BI Validation
-M02,Network Mean AQI,Page 1,213.56,VERIFIED_DB,213.56,VERIFIED_PARQUET,[Mean AQI],213.56,Expected / Pending Power BI Validation
-M03,AQI Interquartile Range (IQR),Page 1,185.17,VERIFIED_DB,185.17,VERIFIED_PARQUET,[AQI IQR],185.17,Expected / Pending Power BI Validation
-M04,Valid Station-Days Count,Page 1,"100,794",VERIFIED_DB,"100,794",VERIFIED_PARQUET,[Valid Station-Days],"100,794",Expected / Pending Power BI Validation
-M05,Total Scheduled Station-Days,Page 1,"111,014",VERIFIED_DB,"111,014",VERIFIED_PARQUET,[Total Scheduled Station-Days],"111,014",Expected / Pending Power BI Validation
-M06,Data Completeness %,Page 1,90.79%,VERIFIED_DB,90.79%,VERIFIED_PARQUET,[Data Completeness %],90.79%,Expected / Pending Power BI Validation
-M07,Severe AQI Days Count,Page 1,"6,389",VERIFIED_DB,"6,389",VERIFIED_PARQUET,[Severe AQI Days Count],"6,389",Expected / Pending Power BI Validation
-M08,Severe AQI Days %,Page 1,6.34%,VERIFIED_DB,6.34%,VERIFIED_PARQUET,[Severe AQI Days %],6.34%,Expected / Pending Power BI Validation
-M09,Sensor Capped Days Count,Page 1,"12,536",VERIFIED_DB,"12,536",VERIFIED_PARQUET,[Sensor Capped Days Count],"12,536",Expected / Pending Power BI Validation
-M10,Sensor Capped Days %,Page 1,12.44%,VERIFIED_DB,12.44%,VERIFIED_PARQUET,[Sensor Capped Days %],12.44%,Expected / Pending Power BI Validation
-M11,Winter Median AQI,Page 2,335.61,VERIFIED_DB,335.61,VERIFIED_PARQUET,[Winter Median AQI],335.61,Expected / Pending Power BI Validation
-M12,Non-Winter Median AQI,Page 2,154.00,VERIFIED_DB,154.00,VERIFIED_PARQUET,[Non-Winter Median AQI],154.00,Expected / Pending Power BI Validation
-M13,Winter Elevation Absolute,Page 2,+181.61,VERIFIED_DB,+181.61,VERIFIED_PARQUET,[Winter Elevation Absolute],+181.61,Expected / Pending Power BI Validation
-M14,Winter Elevation Ratio,Page 2,2.18x,VERIFIED_DB,2.18x,VERIFIED_PARQUET,[Winter Elevation Ratio],2.18x,Expected / Pending Power BI Validation
-M15,Diwali Matched Station-Years,Page 3,306,VERIFIED_DB,306,VERIFIED_PARQUET,[Diwali Matched Station-Years],306,Expected / Pending Power BI Validation
-M16,Diwali Pooled Mean Surge,Page 3,+81.57,VERIFIED_DB,+81.57,VERIFIED_PARQUET,[Diwali Pooled Mean Surge],+81.57,Expected / Pending Power BI Validation
-M17,Diwali Pooled Median Surge,Page 3,+80.38,VERIFIED_DB,+80.38,VERIFIED_PARQUET,[Diwali Pooled Median Surge],+80.38,Expected / Pending Power BI Validation
-M18,Diwali Station-Years Elevated %,Page 3,85.95%,VERIFIED_DB,85.95%,VERIFIED_PARQUET,[Diwali Station-Years Elevated %],85.95%,Expected / Pending Power BI Validation
-M19,October Diwali Pooled Mean Surge,Page 3,+58.92,VERIFIED_DB,+58.92,VERIFIED_PARQUET,[October Diwali Pooled Mean Surge],+58.92,Expected / Pending Power BI Validation
-M20,November Diwali Pooled Mean Surge,Page 3,+93.92,VERIFIED_DB,+93.92,VERIFIED_PARQUET,[November Diwali Pooled Mean Surge],+93.92,Expected / Pending Power BI Validation
+Metric_ID,Metric_Name,Report_Page,SQL_PostgreSQL_Output,SQL_DB_Status,Python_Streamlit_Output,Python_Data_Status,PowerBI_DAX_Measure,DAX_Expected_Value,PowerBI_Runtime_Output,PowerBI_Runtime_Status
+M01,Network Median AQI,Page 1,199.29,VERIFIED_DB,199.29,VERIFIED_PARQUET,[Median AQI],199.29,199.29,VERIFIED_RUNTIME_PORT_50910
+M02,Network Mean AQI,Page 1,213.56,VERIFIED_DB,213.56,VERIFIED_PARQUET,[Mean AQI],213.56,213.56,VERIFIED_RUNTIME_PORT_50910
+M03,AQI Interquartile Range (IQR),Page 1,185.17,VERIFIED_DB,185.17,VERIFIED_PARQUET,[AQI IQR],185.17,185.17,VERIFIED_RUNTIME_PORT_50910
+M04,Valid Station-Days Count,Page 1,"100,794",VERIFIED_DB,"100,794",VERIFIED_PARQUET,[Valid Station-Days],"100,794",100794,VERIFIED_RUNTIME_PORT_50910
+M05,Total Scheduled Station-Days,Page 1,"111,014",VERIFIED_DB,"111,014",VERIFIED_PARQUET,[Total Scheduled Station-Days],"111,014",111014,VERIFIED_RUNTIME_PORT_50910
+M06,Data Completeness %,Page 1,90.79%,VERIFIED_DB,90.79%,VERIFIED_PARQUET,[Data Completeness %],90.79%,90.79%,VERIFIED_RUNTIME_PORT_50910
+M07,Severe AQI Days Count,Page 1,"6,389",VERIFIED_DB,"6,389",VERIFIED_PARQUET,[Severe AQI Days Count],"6,389",6389,VERIFIED_RUNTIME_PORT_50910
+M08,Severe AQI Days %,Page 1,6.34%,VERIFIED_DB,6.34%,VERIFIED_PARQUET,[Severe AQI Days %],6.34%,6.34%,VERIFIED_RUNTIME_PORT_50910
+M09,Sensor Capped Days Count,Page 1,"12,536",VERIFIED_DB,"12,536",VERIFIED_PARQUET,[Sensor Capped Days Count],"12,536",12536,VERIFIED_RUNTIME_PORT_50910
+M10,Sensor Capped Days %,Page 1,12.44%,VERIFIED_DB,12.44%,VERIFIED_PARQUET,[Sensor Capped Days %],12.44%,12.44%,VERIFIED_RUNTIME_PORT_50910
+M11,Winter Median AQI,Page 2,335.61,VERIFIED_DB,335.61,VERIFIED_PARQUET,[Winter Median AQI],335.61,335.61,VERIFIED_RUNTIME_PORT_50910
+M12,Non-Winter Median AQI,Page 2,154.00,VERIFIED_DB,154.00,VERIFIED_PARQUET,[Non-Winter Median AQI],154.00,154.00,VERIFIED_RUNTIME_PORT_50910
+M13,Winter Elevation Absolute,Page 2,+181.61,VERIFIED_DB,+181.61,VERIFIED_PARQUET,[Winter Elevation Absolute],+181.61,+181.61,VERIFIED_RUNTIME_PORT_50910
+M14,Winter Elevation Ratio,Page 2,2.18x,VERIFIED_DB,2.18x,VERIFIED_PARQUET,[Winter Elevation Ratio],2.18x,2.18x,VERIFIED_RUNTIME_PORT_50910
+M15,Diwali Matched Station-Years,Page 3,306,VERIFIED_DB,306,VERIFIED_PARQUET,[Diwali Matched Station-Years],306,306,VERIFIED_RUNTIME_PORT_50910
+M16,Diwali Pooled Mean Surge,Page 3,+81.57,VERIFIED_DB,+81.57,VERIFIED_PARQUET,[Diwali Pooled Mean Surge],+81.57,+81.57,VERIFIED_RUNTIME_PORT_50910
+M17,Diwali Pooled Median Surge,Page 3,+80.38,VERIFIED_DB,+80.38,VERIFIED_PARQUET,[Diwali Pooled Median Surge],+80.38,+80.38,VERIFIED_RUNTIME_PORT_50910
+M18,Diwali Station-Years Elevated %,Page 3,85.95%,VERIFIED_DB,85.95%,VERIFIED_PARQUET,[Diwali Station-Years Elevated %],85.95%,85.95%,VERIFIED_RUNTIME_PORT_50910
+M19,October Diwali Pooled Mean Surge,Page 3,+58.92,VERIFIED_DB,+58.92,VERIFIED_PARQUET,[October Diwali Pooled Mean Surge],+58.92,+58.92,VERIFIED_RUNTIME_PORT_50910
+M20,November Diwali Pooled Mean Surge,Page 3,+93.92,VERIFIED_DB,+93.92,VERIFIED_PARQUET,[November Diwali Pooled Mean Surge],+93.92,+93.92,VERIFIED_RUNTIME_PORT_50910

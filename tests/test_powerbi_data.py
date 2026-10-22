@@ -107,3 +107,57 @@ class TestPowerBIDataModel:
         assert len(nov_pairs) == 198
         assert float(oct_pairs["paired_surge"].mean()) == pytest.approx(58.92, abs=0.01)
         assert float(nov_pairs["paired_surge"].mean()) == pytest.approx(93.92, abs=0.01)
+
+    def test_powerbi_live_analysis_services_dax(self):
+        """Verify DAX measures directly inside running Power BI Desktop tabular instance (if live)."""
+        import subprocess
+        import json
+        import shutil
+
+        powershell = shutil.which("powershell")
+        if not powershell:
+            pytest.skip("PowerShell not found on system.")
+
+        script_path = POWERBI_DIR / "query_dax_runtime.ps1"
+        if not script_path.exists():
+            pytest.skip("query_dax_runtime.ps1 not found.")
+
+        result = subprocess.run(
+            [powershell, "-ExecutionPolicy", "Bypass", "-File", str(script_path)],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+
+        if result.returncode != 0:
+            pytest.skip(f"Power BI live instance not currently available: {result.stderr.strip()[:100]}")
+
+        dax_results = json.loads(result.stdout)
+
+        # 1. Page 1 Headline KPIs
+        assert dax_results["Total Scheduled Station-Days"] == 111014
+        assert dax_results["Valid Station-Days"] == 100794
+        assert (dax_results["Data Completeness %"] * 100) == pytest.approx(90.79, abs=0.01)
+        assert dax_results["Median AQI"] == pytest.approx(199.29, abs=0.01)
+        assert dax_results["Mean AQI"] == pytest.approx(213.56, abs=0.01)
+        assert dax_results["AQI IQR"] == pytest.approx(185.17, abs=0.01)
+        assert dax_results["Severe AQI Days Count"] == 6389
+        assert dax_results["Severe AQI Days %"] == pytest.approx(6.34, abs=0.01)
+        assert dax_results["Sensor Capped Days Count"] == 12536
+        assert dax_results["Sensor Capped Days %"] == pytest.approx(12.44, abs=0.01)
+
+        # 2. Page 2 Seasonal Dynamics
+        assert dax_results["Winter Median AQI"] == pytest.approx(335.61, abs=0.01)
+        assert dax_results["Non-Winter Median AQI"] == pytest.approx(154.00, abs=0.01)
+        assert dax_results["Winter Elevation Absolute"] == pytest.approx(181.61, abs=0.01)
+        assert dax_results["Winter Elevation Ratio"] == pytest.approx(2.18, abs=0.01)
+
+        # 3. Page 3 Diwali Episodes & Cohorts
+        assert dax_results["Diwali Matched Station-Years"] == 306
+        assert dax_results["Diwali Pooled Mean Surge"] == pytest.approx(81.57, abs=0.01)
+        assert dax_results["Diwali Pooled Median Surge"] == pytest.approx(80.38, abs=0.01)
+        assert dax_results["Diwali Elevated Station-Years Count"] == 263
+        assert dax_results["Diwali Station-Years Elevated %"] == pytest.approx(85.95, abs=0.01)
+        assert dax_results["October Diwali Pooled Mean Surge"] == pytest.approx(58.92, abs=0.01)
+        assert dax_results["November Diwali Pooled Mean Surge"] == pytest.approx(93.92, abs=0.01)
+

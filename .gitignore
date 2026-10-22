@@ -41,3 +41,4 @@ Desktop.ini
 *.log
 scratch/
 tmp/
+*_original.pbix
