@@ -1,0 +1,219 @@
+table _Measures
+	lineageTag: dbc1bab1-b249-43cd-96fc-9b763a5d8ae2
+
+	measure 'Total Scheduled Station-Days' = ```
+			
+			    COUNTROWS(fact_daily_aqi)
+			```
+		formatString: 0
+		lineageTag: 8a704ee4-5530-4ef1-bc1f-27eeef375973
+
+	measure 'Valid Station-Days' = ```
+			
+			    CALCULATE(
+			        COUNTROWS(fact_daily_aqi),
+			        fact_daily_aqi[is_day_valid] = TRUE()
+			    )
+			```
+		formatString: 0
+		lineageTag: d78aebcb-d319-4690-91f5-3c0b0d8219e1
+
+	measure 'Data Completeness %' = ```
+			
+			    DIVIDE(
+			        [Valid Station-Days],
+			        [Total Scheduled Station-Days],
+			        0
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 38bd32b3-6ab1-4f13-803a-85d9d31edd55
+
+	measure 'Median AQI' =
+			
+			CALCULATE(
+			    MEDIAN('fact_daily_aqi'[daily_mean_aqi]),
+			    'fact_daily_aqi'[is_day_valid] = TRUE()
+			)
+		lineageTag: d166c9e5-3287-48e4-957a-4fcbd3142686
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Mean AQI' =
+			
+			CALCULATE(
+			    AVERAGE('fact_daily_aqi'[daily_mean_aqi]),
+			    'fact_daily_aqi'[is_day_valid] = TRUE()
+			)
+		lineageTag: ff218d3d-ea92-4f5c-97ff-609a917cd4b0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AQI IQR' = ```
+			
+			VAR Q1 = 
+			    CALCULATE(
+			        PERCENTILE.INC('fact_daily_aqi'[daily_mean_aqi], 0.25),
+			        'fact_daily_aqi'[is_day_valid] = TRUE()
+			    )
+			VAR Q3 = 
+			    CALCULATE(
+			        PERCENTILE.INC('fact_daily_aqi'[daily_mean_aqi], 0.75),
+			        'fact_daily_aqi'[is_day_valid] = TRUE()
+			    )
+			RETURN
+			Q3 - Q1
+			```
+		lineageTag: 4ccff2c9-8ee6-4a53-8299-cb9375345459
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Severe AQI Days Count' =
+			
+			CALCULATE(
+			    COUNTROWS('fact_daily_aqi'),
+			    'fact_daily_aqi'[is_day_valid] = TRUE(),
+			    'fact_daily_aqi'[daily_mean_aqi] > 400.0
+			)
+		formatString: 0
+		lineageTag: 1f765e92-dfd7-45b5-9f64-57d9f1e25c14
+
+	measure 'Severe AQI Days %' =
+			
+			DIVIDE([Severe AQI Days Count], [Valid Station-Days], 0) * 100
+		lineageTag: 90e38daa-f1c2-4d72-8ea9-53fcb99624ee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sensor Capped Days Count' =
+			
+			CALCULATE(
+			    COUNTROWS('fact_daily_aqi'),
+			    'fact_daily_aqi'[is_day_valid] = TRUE(),
+			    'fact_daily_aqi'[capped_hours_count] > 0
+			)
+		formatString: 0
+		lineageTag: 668ee952-6ee1-4fbb-ae37-bad765da603c
+
+	measure 'Sensor Capped Days %' =
+			
+			DIVIDE([Sensor Capped Days Count], [Valid Station-Days], 0) * 100
+		lineageTag: 6703f23f-41b5-4b69-b3ee-7f22672e0315
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Winter Median AQI' =
+			
+			CALCULATE(
+			    [Median AQI],
+			    'fact_daily_aqi'[is_winter] = TRUE()
+			)
+		lineageTag: 0dc32840-04e6-4518-a8bd-77c356ecf0ae
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Non-Winter Median AQI' =
+			
+			CALCULATE(
+			    [Median AQI],
+			    'fact_daily_aqi'[is_winter] = FALSE()
+			)
+		lineageTag: e440e700-c85c-48eb-bd1b-566b3d276b3b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Winter Elevation Absolute' =
+			
+			[Winter Median AQI] - [Non-Winter Median AQI]
+		lineageTag: e8aa2f13-69c5-4f17-9e68-c08a0bcdb0b2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Winter Elevation Ratio' =
+			
+			DIVIDE([Winter Median AQI], [Non-Winter Median AQI], 0)
+		lineageTag: 9f5d67b2-180c-495e-859d-fb5233e73ad0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Diwali Matched Station-Years' =
+			
+			COUNTROWS('fact_diwali_pairs')
+		formatString: 0
+		lineageTag: 2da3aada-493b-4dd1-a7c2-5e70576c1592
+
+	measure 'Diwali Pooled Mean Surge' =
+			
+			AVERAGE('fact_diwali_pairs'[paired_surge])
+		lineageTag: 9a63aa8f-5d18-4f99-bbba-7873f441381d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Diwali Pooled Median Surge' =
+			
+			MEDIAN('fact_diwali_pairs'[paired_surge])
+		lineageTag: bc6e5c27-d756-4f2b-84db-9d0e8246bb52
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Diwali Elevated Station-Years Count' =
+			
+			CALCULATE(
+			    COUNTROWS('fact_diwali_pairs'),
+			    'fact_diwali_pairs'[is_elevated] = TRUE()
+			)
+		formatString: 0
+		lineageTag: 2a5e920d-f6d8-4cfb-b76f-3baa74afde7d
+
+	measure 'Diwali Station-Years Elevated %' =
+			
+			DIVIDE([Diwali Elevated Station-Years Count], [Diwali Matched Station-Years], 0) * 100
+		lineageTag: 8f7f2667-5c87-4c82-97d3-8e52b2eb2414
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'October Diwali Pooled Mean Surge' =
+			
+			CALCULATE(
+			    [Diwali Pooled Mean Surge],
+			    'fact_diwali_pairs'[timing_cohort] = "October Diwali"
+			)
+		lineageTag: 981cbd65-c4f0-4fce-a18f-0a648586763a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'November Diwali Pooled Mean Surge' =
+			
+			CALCULATE(
+			    [Diwali Pooled Mean Surge],
+			    'fact_diwali_pairs'[timing_cohort] = "November Diwali"
+			)
+		lineageTag: abbd4035-5b2f-466c-8437-92f974c96e2d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+
+	measure 'Diurnal Mean AQI' = AVERAGE('agg_hourly_diurnal'[mean_aqi])
+		lineageTag: e38f9021-d13c-44b2-9a8b-18b321a4f091
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Placeholder
+		dataType: string
+		lineageTag: 543bad5b-e983-4c29-a2ad-699ae69e16b6
+		summarizeBy: none
+		sourceColumn: Placeholder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Placeholder = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Placeholder", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

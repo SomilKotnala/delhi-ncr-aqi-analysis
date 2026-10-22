@@ -1,0 +1,36 @@
+relationship 066c3a4b-1de7-4e8b-9c59-87d200d99ee8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.calendar_date
+	toColumn: LocalDateTable_1d1de4a1-6247-4035-9bc6-2e5de425a583.Date
+
+relationship 6662c568-26af-46aa-b770-a7fc5a6c67ff
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_station.first_record_date
+	toColumn: LocalDateTable_cc8cbba8-89c6-45e6-84f8-e3c59e128eb3.Date
+
+relationship c44fe3a2-b5a5-4d75-885d-965f367258a5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_station.last_record_date
+	toColumn: LocalDateTable_9018dcdf-4472-4554-91ff-38f839cdfdb0.Date
+
+relationship AutoDetected_608c0700-97c6-479e-b34f-2ebf6c26f827
+	fromColumn: fact_daily_aqi.station_key
+	toColumn: dim_station.station_key
+
+relationship afbee46d-6833-4151-b0de-482f556fd0c8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_diwali_pairs.diwali_date
+	toColumn: LocalDateTable_6ad55947-d81b-43f0-9de3-1a7f18c995ac.Date
+
+relationship AutoDetected_eae69841-d6c7-432d-970e-cd0d28229266
+	fromColumn: fact_diwali_pairs.timing_cohort
+	toColumn: dim_diwali_cohorts.timing_cohort
+
+relationship AutoDetected_82c1d166-1acd-44b1-8ae1-48a82d01333c
+	fromColumn: fact_diwali_pairs.station_key
+	toColumn: dim_station.station_key
+
+relationship 25a5e75b-9a62-1b08-fa52-fd5ad0fa3055
+	fromColumn: fact_daily_aqi.date
+	toColumn: dim_date.calendar_date
+

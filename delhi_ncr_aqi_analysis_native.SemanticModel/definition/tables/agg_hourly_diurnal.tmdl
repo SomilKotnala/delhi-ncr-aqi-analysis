@@ -1,0 +1,99 @@
+table agg_hourly_diurnal
+	lineageTag: aa420152-42b8-4488-8765-66ff0d6a94b7
+
+	column city
+		dataType: string
+		lineageTag: e7e9fcf5-37c4-467e-9a7f-6681bd86e5cd
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column hour
+		dataType: int64
+		formatString: 0
+		lineageTag: 87f9f1a6-9502-4937-bad5-a81f98171c3f
+		summarizeBy: sum
+		sourceColumn: hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_winter
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ebe159e2-79de-4919-8c12-007225dc1813
+		summarizeBy: none
+		sourceColumn: is_winter
+
+		annotation SummarizationSetBy = Automatic
+
+	column count
+		dataType: int64
+		formatString: 0
+		lineageTag: abe0f8ac-049d-4564-b28b-17cfb88202e6
+		summarizeBy: sum
+		sourceColumn: count
+
+		annotation SummarizationSetBy = Automatic
+
+	column mean_aqi
+		dataType: double
+		lineageTag: d4c02c9a-1b67-4f86-acfb-6d5f15cdac19
+		summarizeBy: sum
+		sourceColumn: mean_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column median_aqi
+		dataType: double
+		lineageTag: cb3a50ad-089b-4e65-99fe-9e004b06d545
+		summarizeBy: sum
+		sourceColumn: median_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column p25_aqi
+		dataType: double
+		lineageTag: d9575bc3-f18c-4526-ab88-c97da93e5828
+		summarizeBy: sum
+		sourceColumn: p25_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column p75_aqi
+		dataType: double
+		lineageTag: b40b95a2-19c2-4c7c-bd15-11bcb69f6b51
+		summarizeBy: sum
+		sourceColumn: p75_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column capped_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 80c21545-b1c6-4a6a-a9fc-853dbfc581a9
+		summarizeBy: sum
+		sourceColumn: capped_count
+
+		annotation SummarizationSetBy = Automatic
+
+	partition agg_hourly_diurnal = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\delhi-ncr-aqi-analysis\data\processed\agg_hourly_diurnal.csv"),[Delimiter=",", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"city", type text}, {"hour", Int64.Type}, {"is_winter", type logical}, {"count", Int64.Type}, {"mean_aqi", type number}, {"median_aqi", type number}, {"p25_aqi", type number}, {"p75_aqi", type number}, {"capped_count", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

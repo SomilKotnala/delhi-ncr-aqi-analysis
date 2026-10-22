@@ -1,0 +1,110 @@
+table dim_diwali_cohorts
+	lineageTag: eb07a0e6-c87e-467f-9297-e90eb0ecac4f
+
+	column timing_cohort
+		dataType: string
+		lineageTag: f9f1fe0e-76ca-411d-a0db-a8ac65a93a37
+		summarizeBy: none
+		sourceColumn: timing_cohort
+
+		annotation SummarizationSetBy = Automatic
+
+	column years_count
+		dataType: int64
+		formatString: 0
+		lineageTag: d0bfb5a3-ac00-48a7-9726-3f568b95fca2
+		summarizeBy: none
+		sourceColumn: years_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column matched_station_years
+		dataType: int64
+		formatString: 0
+		lineageTag: 15d6f905-8572-44a7-8384-71c3a4c24482
+		summarizeBy: none
+		sourceColumn: matched_station_years
+
+		annotation SummarizationSetBy = Automatic
+
+	column pooled_pre_median
+		dataType: double
+		lineageTag: 9a3a7bd0-3fff-4647-9bd0-17718ccac97f
+		summarizeBy: none
+		sourceColumn: pooled_pre_median
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pooled_post_median
+		dataType: double
+		lineageTag: 77979f8f-afef-44cf-88f2-c6a44c75729b
+		summarizeBy: none
+		sourceColumn: pooled_post_median
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pooled_mean_surge
+		dataType: double
+		lineageTag: e754bd42-7f5e-43fe-a2b8-acef3ad731b5
+		summarizeBy: none
+		sourceColumn: pooled_mean_surge
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pooled_median_surge
+		dataType: double
+		lineageTag: a8283dd0-8d8f-4421-8a44-d7134cee9474
+		summarizeBy: none
+		sourceColumn: pooled_median_surge
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pooled_elevated_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 502324dd-5412-492c-a168-d1739de7b432
+		summarizeBy: none
+		sourceColumn: pooled_elevated_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column pooled_pct_elevated
+		dataType: double
+		lineageTag: 1e04db4b-d1c0-4e02-93ef-6a5b07320226
+		summarizeBy: none
+		sourceColumn: pooled_pct_elevated
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unweighted_annual_pct_elevated
+		dataType: double
+		lineageTag: 00e5169c-e84c-4135-a380-234028c614f1
+		summarizeBy: none
+		sourceColumn: unweighted_annual_pct_elevated
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_diwali_cohorts = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\delhi-ncr-aqi-analysis\data\processed\dim_diwali_cohorts.csv"),[Delimiter=",", Columns=10, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"timing_cohort", type text}, {"years_count", Int64.Type}, {"matched_station_years", Int64.Type}, {"pooled_pre_median", type number}, {"pooled_post_median", type number}, {"pooled_mean_surge", type number}, {"pooled_median_surge", type number}, {"pooled_elevated_count", Int64.Type}, {"pooled_pct_elevated", type number}, {"unweighted_annual_pct_elevated", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

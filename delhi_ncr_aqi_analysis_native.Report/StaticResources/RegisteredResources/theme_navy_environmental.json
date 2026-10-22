@@ -1,0 +1,259 @@
+{
+  "name": "Delhi-NCR Environmental Dark Navy",
+  "dataColors": [
+    "#2DD4BF",
+    "#38BDF8",
+    "#10B981",
+    "#84CC16",
+    "#F59E0B",
+    "#F97316",
+    "#EF4444",
+    "#991B1B",
+    "#A78BFA",
+    "#60A5FA"
+  ],
+  "background": "#0B1220",
+  "foreground": "#111C2E",
+  "tableAccent": "#2DD4BF",
+  "visualStyles": {
+    "*": {
+      "*": {
+        "outspace": [
+          {
+            "color": {
+              "solid": {
+                "color": "#0B1220"
+              }
+            }
+          }
+        ],
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#111C2E"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#1E293B"
+              }
+            },
+            "radius": 6
+          }
+        ],
+        "title": [
+          {
+            "show": true,
+            "fontColor": {
+              "solid": {
+                "color": "#F1F5F9"
+              }
+            },
+            "fontSize": 12,
+            "fontFamily": "Segoe UI Semibold"
+          }
+        ],
+        "labels": [
+          {
+            "color": {
+              "solid": {
+                "color": "#A7B4C7"
+              }
+            },
+            "fontFamily": "Segoe UI",
+            "fontSize": 10
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#0B1220"
+              }
+            },
+            "transparency": 0
+          }
+        ]
+      }
+    },
+    "card": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#172438"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#1E293B"
+              }
+            },
+            "radius": 8
+          }
+        ],
+        "labels": [
+          {
+            "color": {
+              "solid": {
+                "color": "#2DD4BF"
+              }
+            },
+            "fontSize": 28,
+            "fontFamily": "Segoe UI Bold"
+          }
+        ],
+        "categoryLabels": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#F1F5F9"
+              }
+            },
+            "fontSize": 10,
+            "fontFamily": "Segoe UI Semibold"
+          }
+        ]
+      }
+    },
+    "cardVisual": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#172438"
+              }
+            },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#1E293B"
+              }
+            },
+            "radius": 8
+          }
+        ]
+      }
+    },
+    "tableEx": {
+      "*": {
+        "grid": [
+          {
+            "gridVertical": true,
+            "gridVerticalColor": {
+              "solid": {
+                "color": "#1E293B"
+              }
+            },
+            "gridHorizontal": true,
+            "gridHorizontalColor": {
+              "solid": {
+                "color": "#1E293B"
+              }
+            },
+            "rowPadding": 4
+          }
+        ],
+        "columnHeaders": [
+          {
+            "fontColor": {
+              "solid": {
+                "color": "#F1F5F9"
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": "#1E293B"
+              }
+            },
+            "fontFamily": "Segoe UI Semibold",
+            "fontSize": 10
+          }
+        ],
+        "values": [
+          {
+            "fontColorPrimary": {
+              "solid": {
+                "color": "#CBD5E1"
+              }
+            },
+            "fontColorSecondary": {
+              "solid": {
+                "color": "#94A3B8"
+              }
+            },
+            "backColorPrimary": {
+              "solid": {
+                "color": "#111C2E"
+              }
+            },
+            "backColorSecondary": {
+              "solid": {
+                "color": "#0F172A"
+              }
+            },
+            "fontFamily": "Segoe UI",
+            "fontSize": 9
+          }
+        ]
+      }
+    },
+    "slicer": {
+      "*": {
+        "header": [
+          {
+            "show": true,
+            "fontColor": {
+              "solid": {
+                "color": "#2DD4BF"
+              }
+            },
+            "fontSize": 10,
+            "fontFamily": "Segoe UI Semibold"
+          }
+        ],
+        "items": [
+          {
+            "fontColor": {
+              "solid": {
+                "color": "#F1F5F9"
+              }
+            },
+            "background": {
+              "solid": {
+                "color": "#172438"
+              }
+            },
+            "fontFamily": "Segoe UI",
+            "fontSize": 9
+          }
+        ]
+      }
+    }
+  }
+}

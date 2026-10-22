@@ -1,0 +1,162 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "p2_v10_tabletop10",
+  "position": {
+    "x": 20,
+    "y": 700,
+    "z": 10,
+    "width": 610,
+    "height": 360,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_station"
+                    }
+                  },
+                  "Property": "station_name"
+                }
+              },
+              "queryRef": "dim_station.station_name",
+              "nativeQueryRef": "station_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_station"
+                    }
+                  },
+                  "Property": "city"
+                }
+              },
+              "queryRef": "dim_station.city",
+              "nativeQueryRef": "city"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Valid Station-Days"
+                }
+              },
+              "queryRef": "_Measures.Valid Station-Days",
+              "nativeQueryRef": "Valid Station-Days"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Median AQI"
+                }
+              },
+              "queryRef": "_Measures.Median AQI",
+              "nativeQueryRef": "Median AQI"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Median AQI"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "filterConfig": {
+      "filters": [
+        {
+          "name": "Top10PollutedFilter",
+          "howCreated": "UserInput",
+          "filter": {
+            "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/filters/v1.0.0/schema.json",
+            "filterType": "TopN",
+            "operator": "Top",
+            "itemCount": 10,
+            "target": {
+              "table": "dim_station",
+              "column": "station_name"
+            },
+            "orderBy": {
+              "entity": "_Measures",
+              "property": "Median AQI"
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top 10 Most Polluted Stations (Highest Median AQI)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Ranked descending by valid station-day median AQI'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

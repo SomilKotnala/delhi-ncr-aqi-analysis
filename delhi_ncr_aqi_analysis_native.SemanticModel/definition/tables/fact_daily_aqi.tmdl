@@ -1,0 +1,236 @@
+table fact_daily_aqi
+	lineageTag: 6d976222-b0c4-450b-bd81-e5816de57b99
+
+	column station_key
+		dataType: string
+		lineageTag: 761123fc-e647-4325-a1e4-500fc067c661
+		summarizeBy: none
+		sourceColumn: station_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_station_id
+		dataType: string
+		lineageTag: 187ee58c-f7b7-48c8-a838-0f9cdef1f2ab
+		summarizeBy: none
+		sourceColumn: raw_station_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column station_name
+		dataType: string
+		lineageTag: 6dd3124e-0f03-4b05-892b-73242654ec11
+		summarizeBy: none
+		sourceColumn: station_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 22c3af8a-a52f-4616-8248-634b8e9a3d36
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: d8c05557-9055-46e8-8d3b-5b24ded3cc26
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column agency
+		dataType: string
+		lineageTag: a1d79c70-5509-48c7-8a35-4c26062a915b
+		summarizeBy: none
+		sourceColumn: agency
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e9d9b2ce-de4e-4d3c-a72d-364207289daf
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column total_hours
+		dataType: int64
+		formatString: 0
+		lineageTag: c3bc4504-3c0c-4c00-8c6b-5dbf84b4a7e9
+		summarizeBy: sum
+		sourceColumn: total_hours
+
+		annotation SummarizationSetBy = Automatic
+
+	column valid_hours_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 46f42f77-f197-4c5d-b618-2a4ae24db3f5
+		summarizeBy: sum
+		sourceColumn: valid_hours_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column missing_hours_count
+		dataType: int64
+		formatString: 0
+		lineageTag: bced8065-4a71-49f1-a500-4d59eb759362
+		summarizeBy: sum
+		sourceColumn: missing_hours_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column capped_hours_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 88620607-b3ff-4c13-8057-61692ba83de6
+		summarizeBy: sum
+		sourceColumn: capped_hours_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column anomalous_hours_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 5bb7a1be-9dc4-4735-b76a-54d193aeda4e
+		summarizeBy: sum
+		sourceColumn: anomalous_hours_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column daily_mean_aqi
+		dataType: double
+		lineageTag: d1589898-2de4-4026-88d3-4efe31045877
+		summarizeBy: sum
+		sourceColumn: daily_mean_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column daily_median_aqi
+		dataType: double
+		lineageTag: 89c5f358-a1fc-46ec-8098-d79ef7b51c43
+		summarizeBy: sum
+		sourceColumn: daily_median_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column daily_min_aqi
+		dataType: int64
+		formatString: 0
+		lineageTag: d510eb69-062f-4335-bae6-21ce81fae178
+		summarizeBy: sum
+		sourceColumn: daily_min_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+	column daily_max_aqi
+		dataType: int64
+		formatString: 0
+		lineageTag: 31be9b09-66c5-4185-aad7-7705d32cd400
+		summarizeBy: sum
+		sourceColumn: daily_max_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 64acf71c-f4e2-4346-b09c-ed065648fa75
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 42b819f2-9508-4296-8bb8-ea3083157be9
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: int64
+		formatString: 0
+		lineageTag: 8d950801-f091-4437-9ce6-2afde9815dd4
+		summarizeBy: sum
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column season
+		dataType: string
+		lineageTag: 8e88d21a-e981-4a17-a317-2b4242a67400
+		summarizeBy: none
+		sourceColumn: season
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_winter
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8ee7b95c-c39e-437b-937c-734964aeec10
+		summarizeBy: none
+		sourceColumn: is_winter
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_diwali_window
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 171da383-3005-4d10-ac9d-f3a99b0689b1
+		summarizeBy: none
+		sourceColumn: is_diwali_window
+
+		annotation SummarizationSetBy = Automatic
+
+	column diwali_relative_day
+		dataType: int64
+		formatString: 0
+		lineageTag: 3eef31a9-3934-44c9-9ef1-0652c2076380
+		summarizeBy: sum
+		sourceColumn: diwali_relative_day
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_day_valid
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c3256d39-6627-46e6-a0a6-d5029f6e4017
+		summarizeBy: none
+		sourceColumn: is_day_valid
+
+		annotation SummarizationSetBy = Automatic
+
+	column daily_category
+		dataType: string
+		lineageTag: a446b768-4a74-4693-9d14-1523aac6a87d
+		summarizeBy: none
+		sourceColumn: daily_category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_daily_aqi = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\delhi-ncr-aqi-analysis\data\processed\fact_daily_aqi.csv"),[Delimiter=",", Columns=25, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"station_key", type text}, {"raw_station_id", type text}, {"station_name", type text}, {"city", type text}, {"state", type text}, {"agency", type text}, {"date", type date}, {"total_hours", Int64.Type}, {"valid_hours_count", Int64.Type}, {"missing_hours_count", Int64.Type}, {"capped_hours_count", Int64.Type}, {"anomalous_hours_count", Int64.Type}, {"daily_mean_aqi", type number}, {"daily_median_aqi", type number}, {"daily_min_aqi", Int64.Type}, {"daily_max_aqi", Int64.Type}, {"year", Int64.Type}, {"month", Int64.Type}, {"day", Int64.Type}, {"season", type text}, {"is_winter", type logical}, {"is_diwali_window", type logical}, {"diwali_relative_day", Int64.Type}, {"is_day_valid", type logical}, {"daily_category", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

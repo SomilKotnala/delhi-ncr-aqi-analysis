@@ -1,0 +1,99 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "p1_v09_donutcat",
+  "position": {
+    "x": 1290,
+    "y": 240,
+    "z": 9,
+    "height": 440,
+    "width": 610,
+    "tabOrder": 9
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_daily_aqi"
+                    }
+                  },
+                  "Property": "daily_category"
+                }
+              },
+              "queryRef": "fact_daily_aqi.daily_category",
+              "nativeQueryRef": "daily_category",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Valid Station-Days"
+                }
+              },
+              "queryRef": "_Measures.Valid Station-Days",
+              "nativeQueryRef": "Valid Station-Days"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'CPCB AQI Category Distribution (100,794 Valid Station-Days)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Official statutory air quality tiers from Good (0-50) to Severe (401-500)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

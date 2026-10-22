@@ -1,0 +1,198 @@
+table dim_station
+	lineageTag: dc2c1721-ba26-4ceb-a7bc-05655d5ce534
+
+	column station_key
+		dataType: string
+		lineageTag: a14bee75-a6db-4e40-a1ed-aecbac01ac83
+		summarizeBy: none
+		sourceColumn: station_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_station_id
+		dataType: string
+		lineageTag: 2ecba5ab-c85e-4a35-92bc-102b9b35b30a
+		summarizeBy: none
+		sourceColumn: raw_station_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column station_name
+		dataType: string
+		lineageTag: 55cfb2bb-ccbc-4cc1-8b9c-f87344a6b2ff
+		summarizeBy: none
+		sourceColumn: station_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 1de432ec-8881-49dd-89fc-144d3de83017
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: 0700fe8c-a5e8-4f81-8f68-f261ffa861ac
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column agency
+		dataType: string
+		lineageTag: f46c06b1-f961-48f5-a3d1-843a73252dd9
+		summarizeBy: none
+		sourceColumn: agency
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_record_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6acec983-1271-45b2-9188-4f722b8e0d4e
+		summarizeBy: none
+		sourceColumn: first_record_date
+
+		variation Variation
+			isDefault
+			relationship: 6662c568-26af-46aa-b770-a7fc5a6c67ff
+			defaultHierarchy: LocalDateTable_cc8cbba8-89c6-45e6-84f8-e3c59e128eb3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column last_record_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cdd358c4-5043-4053-9e6c-d61a4ba861be
+		summarizeBy: none
+		sourceColumn: last_record_date
+
+		variation Variation
+			isDefault
+			relationship: c44fe3a2-b5a5-4d75-885d-965f367258a5
+			defaultHierarchy: LocalDateTable_9018dcdf-4472-4554-91ff-38f839cdfdb0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column total_recorded_days
+		dataType: int64
+		formatString: 0
+		lineageTag: f91575f2-3129-458f-92d3-ba232780e734
+		summarizeBy: sum
+		sourceColumn: total_recorded_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_hourly_records
+		dataType: int64
+		formatString: 0
+		lineageTag: b2f714bd-323d-45f6-9bf5-57780fd9c9f4
+		summarizeBy: sum
+		sourceColumn: total_hourly_records
+
+		annotation SummarizationSetBy = Automatic
+
+	column valid_hourly_records
+		dataType: int64
+		formatString: 0
+		lineageTag: 6a621983-6fc3-442b-b6e5-8811b0f8d3fb
+		summarizeBy: sum
+		sourceColumn: valid_hourly_records
+
+		annotation SummarizationSetBy = Automatic
+
+	column missing_hourly_records
+		dataType: int64
+		formatString: 0
+		lineageTag: d15c2986-cec8-430c-a10e-fadda9fa86f1
+		summarizeBy: sum
+		sourceColumn: missing_hourly_records
+
+		annotation SummarizationSetBy = Automatic
+
+	column capped_hours_count
+		dataType: int64
+		formatString: 0
+		lineageTag: e1701ee6-43df-454f-affb-dedbda1a4284
+		summarizeBy: sum
+		sourceColumn: capped_hours_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column anomalous_hours_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 561be60d-9ac9-481e-a2c9-137639522793
+		summarizeBy: sum
+		sourceColumn: anomalous_hours_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column mean_aqi
+		dataType: double
+		lineageTag: 7b047517-d96e-4c85-83f1-c4db66e5cfbf
+		summarizeBy: sum
+		sourceColumn: mean_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column median_aqi
+		dataType: int64
+		formatString: 0
+		lineageTag: ec2499fd-aa9b-4988-9a91-3bc7313939fa
+		summarizeBy: sum
+		sourceColumn: median_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+	column temporal_coverage_pct
+		dataType: double
+		lineageTag: f4fda599-5179-4dc2-a2ea-0d723f68156b
+		summarizeBy: sum
+		sourceColumn: temporal_coverage_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column uptime_hourly_pct
+		dataType: double
+		lineageTag: fbc3083d-ea64-4a36-9073-b51a5a53d82a
+		summarizeBy: sum
+		sourceColumn: uptime_hourly_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column capped_hours_pct
+		dataType: double
+		lineageTag: 79702f2e-2af2-4f68-a119-9dea30c7edc6
+		summarizeBy: sum
+		sourceColumn: capped_hours_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_station = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\delhi-ncr-aqi-analysis\data\processed\dim_station.csv"),[Delimiter=",", Columns=19, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"station_key", type text}, {"raw_station_id", type text}, {"station_name", type text}, {"city", type text}, {"state", type text}, {"agency", type text}, {"first_record_date", type date}, {"last_record_date", type date}, {"total_recorded_days", Int64.Type}, {"total_hourly_records", Int64.Type}, {"valid_hourly_records", Int64.Type}, {"missing_hourly_records", Int64.Type}, {"capped_hours_count", Int64.Type}, {"anomalous_hours_count", Int64.Type}, {"mean_aqi", type number}, {"median_aqi", Int64.Type}, {"temporal_coverage_pct", type number}, {"uptime_hourly_pct", type number}, {"capped_hours_pct", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

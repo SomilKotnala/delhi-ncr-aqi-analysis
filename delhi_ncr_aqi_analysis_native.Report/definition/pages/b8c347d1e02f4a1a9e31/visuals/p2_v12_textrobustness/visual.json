@@ -1,0 +1,97 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "p2_v12_textrobustness",
+  "position": {
+    "x": 1280,
+    "y": 700,
+    "z": 12,
+    "width": 620,
+    "height": 360,
+    "tabOrder": 12
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Statistical Robustness & Censoring Audit",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold",
+                      "fontSize": "15pt",
+                      "color": "#F1F5F9"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Econometric & Statistical Verification Highlights:",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "10pt",
+                      "color": "#A7B4C7"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "- Temporal Autocorrelation: Daily AR(1) = 0.81 violates naive OLS independence assumptions. Standard error adjustment is mandatory.",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "9pt",
+                      "color": "#CBD5E1"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "- Moving Block Bootstrap (L=14 days): 95% Confidence Interval for Winter Elevation is [+156.98, +202.14] AQI points.",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "9pt",
+                      "color": "#CBD5E1"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "- Statutory Censoring (Tobit ML): Correcting for the CPCB 500 ceiling estimates true latent elevation at +154.17 AQI points (p < 0.001).",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "9pt",
+                      "color": "#CBD5E1"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "- Spatial Invariance: 56 of 56 stations exhibit statistically significant winter elevation (Mann-Whitney U, FDR-adjusted p < 0.001).",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "9pt",
+                      "color": "#CBD5E1"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

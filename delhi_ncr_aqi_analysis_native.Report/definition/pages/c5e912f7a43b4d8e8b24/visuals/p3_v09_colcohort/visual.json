@@ -1,0 +1,113 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "p3_v09_colcohort",
+  "position": {
+    "x": 1020,
+    "y": 240,
+    "z": 9,
+    "height": 440,
+    "width": 880,
+    "tabOrder": 9
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_diwali_cohorts"
+                    }
+                  },
+                  "Property": "timing_cohort"
+                }
+              },
+              "queryRef": "dim_diwali_cohorts.timing_cohort",
+              "nativeQueryRef": "timing_cohort",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Diwali Pooled Mean Surge"
+                }
+              },
+              "queryRef": "_Measures.Diwali Pooled Mean Surge",
+              "nativeQueryRef": "Diwali Pooled Mean Surge"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Diwali Pooled Median Surge"
+                }
+              },
+              "queryRef": "_Measures.Diwali Pooled Median Surge",
+              "nativeQueryRef": "Diwali Pooled Median Surge"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Timing Cohort Contrast: October Diwali vs November Diwali Surge'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'November events average +93.92 surge vs +58.92 for October (+35.00 points seasonal divergence)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

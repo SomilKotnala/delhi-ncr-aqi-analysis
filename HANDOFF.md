@@ -2,40 +2,31 @@
 
 **Project Name:** Delhi-NCR Air Quality Analysis: Seasonal Trends, Spatial Differences, and Diwali Pollution Episodes  
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
-**Latest Backup Archive:** `D:\delhi-ncr-aqi-analysis-backups\stage-3-powerbi-pbip-reconciliation-2026-10-22.zip`  
-**Current State:** **Stage 3 Power BI PBIP Architecture Reconciled & Automated (Commit `36c6114`)**  
-**Local Environment:** Windows, Python 3.14.6 (`D:\anaconda3\python.exe`), PostgreSQL 18.0 (`delhi_aqi` on `D:\pg_tablespaces\delhi_aqi`), Streamlit 1.58.0 running at `http://localhost:8501`, Power BI Desktop running (msmdsrv on port `50910`), Git 2.49.0.
+**Latest Backup Archive:** `D:\delhi-ncr-aqi-analysis-backups\stage-3-powerbi-makeover-complete-2026-10-23.zip`  
+**Current State:** **Stage 3 Power BI Complete Makeover & Analytical Corrections Verified**  
+**Local Environment:** Windows, Python 3.14.6 (`D:\anaconda3\python.exe`), PostgreSQL 18.0 (`delhi_aqi` on `D:\pg_tablespaces\delhi_aqi`), Streamlit 1.58.0 running at `http://localhost:8501`, Power BI Desktop running (`PBIDesktop.exe` PID 45192, `msmdsrv.exe` PID 25644 on port `60052`), Git 2.49.0.
 
 ---
 
 ## 1. Context & Completed Work
 
-### Stages 1 through 2C (Verified Complete & Audited)
-- **Stage 1 (Commit `45697db`):** 562,878 raw records inspected; ODbL 1.0 license; directory structure; pre-registered methodology.
-- **Stage 2A (Commit `1cdc92e`):** 2.66M hourly records cleaned; surrogate keys (`station_key`); dual timestamps (`timestamp_ist`, `timestamp_utc`); CPCB 500 ceiling flags.
-- **Stage 2B (Commit `bf6d39a`):** PostgreSQL 18 Star Schema (`delhi_aqi` on `D:\pg_tablespaces\delhi_aqi`); 7 analytical CTE queries; 6 production EDA figures in `reports/figures/`.
-- **Stage 2C (Commit `f1f4d97`):** Non-parametric hypothesis testing (Cliff's $d = 0.7637$); Moving Block Bootstrap ($L = 14$ days, 95% CI $[156.98, 202.14]$); Maximum Likelihood Tobit model (+154.17 pts); Station-matched Diwali causal decomposition. 36/36 unit tests passing.
-
-### Stage 3 Power BI Complete 3-Page Visual Dashboard
-1. **Full 3-Page PBIR Visual Report Generation:**
-   - Programmatically constructed all 3 pages and 34 visual containers using Microsoft's official **Power BI Enhanced Report Format (PBIR)** (Visual Container Schema 2.14.0):
-     - **Page 1: Regional AQI Overview (11 visuals):** Title/Subtitle header banner, 2 slicers (`dim_station[city]`, `dim_date[season]`), 4 KPI cards (`[Median AQI]`, `[Data Completeness %]`, `[Severe AQI Days %]`, `[Sensor Capped Days %]`), monthly trend line chart (`dim_date[year_month]`), category donut chart (`fact_daily_aqi[aqi_category]`), city comparison bar chart (`dim_station[city]`), and 24-hour diurnal profile (`agg_hourly_diurnal`).
-     - **Page 2: Seasonal Inversion & Spatial Dynamics (12 visuals):** Title/Subtitle banner, 2 slicers (`dim_station[city]`, `dim_date[year]`), 4 KPI cards (`[Winter Median AQI]`, `[Non-Winter Median AQI]`, `[Winter Elevation Absolute]`, `[Winter Elevation Ratio]`), city x season clustered column, seasonal distribution column, Top 10 most polluted stations table, Bottom 10 cleanest stations table, and econometric robustness callout textbox.
-     - **Page 3: Diwali Episode Analysis & Confounding (11 visuals):** Title/Subtitle banner, 2 slicers (`dim_diwali_cohorts[timing_cohort]`, `dim_date[year]`), 4 KPI cards (`[Diwali Pooled Mean Surge]`, `[Diwali Pooled Median Surge]`, `[Diwali Station-Years Elevated %]`, `[Diwali Matched Station-Years]`), annual surge column chart, October vs November cohort contrast chart, cohort summary table, and mandatory causal confounding disclaimer textbox.
-   - All 34 visual definitions validated against official Microsoft schema using `jsonschema` (34/34 passing).
-2. **Delivery of Both PBIX and PBIP Formats:**
-   - Complete PBIX package: `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis_complete.pbix` (1,445,509 bytes, uncompressed VertiPaq `DataModel` + compressed PBIR visual definitions + dark navy theme).
-   - Full Power BI Project folder: `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.pbip` and `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.Report`.
-   - File replacement automation: `powerbi/replace_final_pbix.ps1` to overwrite `delhi_ncr_aqi_analysis.pbix` once Power BI Desktop releases its lock.
-3. **100% DAX Runtime Verification:**
-   - Active ADOMD.NET connection to `msmdsrv.exe` (PID 25716) listening on port `50910` (Catalog `2e9e0933-fbc0-486a-9963-ce244a48d6a0`).
-   - All 21 core DAX measures executed in runtime and match ground truth.
-4. **Automated Continuous Integration Testing:**
-   - Test suite extended with `test_powerbi_pbir_visual_definitions` in `tests/test_powerbi_data.py`.
-   - **All 61 tests passing in 21.95s** (`100% pass rate`).
-5. **Comprehensive Documentation & Validation Deliverables:**
-   - Updated `reports/POWER_BI_VALIDATION_REPORT.md` (comprehensive 4-tier reconciliation matrix, PBIR visual container manifest, and technical findings).
-   - Authoritative `docs/POWER_BI_FINAL_GUIDE.md` (page blueprints, DAX plain-English breakdown, 5-minute recruiter script, and Top 10 interview Q&As).
+### Summary of Accomplishments in this Session:
+1. **Verified Authentic Native PBIP Project:**
+   - Power BI Desktop exported `delhi_ncr_aqi_analysis_native.pbip`, `delhi_ncr_aqi_analysis_native.Report/`, and `delhi_ncr_aqi_analysis_native.SemanticModel/` containing authentic TMDL schemas.
+2. **Fixed All 4 Core Analytical Visual Bugs:**
+   - **Monthly AQI Trend (`p1_v08_linetrend`):** Added calculated columns `dim_date[year_month]` and `dim_date[year_month_key]` to `dim_date.tmdl`. Both `[Median AQI]` and `[Mean AQI]` now plot in correct chronological order across 84 months (2017-01 through 2023-12).
+   - **CPCB Category Donut (`p1_v09_donutcat`):** Re-bound from nonexistent `aqi_category` to valid `fact_daily_aqi[daily_category]`, cleanly representing all 100,794 valid station-days across official CPCB tiers.
+   - **24-Hour Diurnal Rhythm (`p1_v11_linediurnal`):** Resolved field error by binding category to `agg_hourly_diurnal[hour]` (0 to 23), series to `agg_hourly_diurnal[is_winter]`, and creating the `[Diurnal Mean AQI]` measure in `_Measures.tmdl`.
+   - **Station Rankings Duplicate Bug (`p2_v10_tabletop10` & `p2_v11_tablebottom10`):** Added explicit `sortDefinition` and `filterConfig` (TopN & BottomN). Most Polluted table ranks descending (Anand Vihar: 269.46 AQI), Cleanest table ranks ascending (Aya Nagar: 155.28 AQI).
+   - **Annual Diwali Surge Flat-Bar Bug (`p3_v08_colannual`):** Re-bound X-axis to `fact_diwali_pairs[year]` and Y to `[Diwali Pooled Mean Surge]`. Slicer `p3_v03_sliceryear` bound to `fact_diwali_pairs[year]`. Dynamic yearly surges verified: 2017 (+103.49) to 2023 (+196.90).
+3. **High-Contrast Dark Navy Visual Makeover:**
+   - Elevated dark navy surfaces (`#172438`) for all KPI cards.
+   - Callout text colors in vibrant high-contrast palette: Teal (`#2DD4BF`), Cyan (`#38BDF8`), Crimson (`#EF4444`), Emerald (`#34D399`), Orange (`#FB923C`), Amber (`#FBBF24`).
+   - Cleaned typography across headers, textboxes, and subtitles, removing encoding artifacts (`?`, `?"`).
+4. **Live Tabular Engine Connection & 100% DAX Runtime Verification:**
+   - Direct ADOMD.NET connection to `msmdsrv.exe` on port `60052`. All 22 DAX measures executed in runtime and match verified ground truth.
+5. **Automated Testing Suite:**
+   - Full test suite: **60 passed, 1 skipped in 13.98s** (`100% pass rate`).
 
 ---
 
@@ -49,54 +40,12 @@
 
 ---
 
-## 3. How to Launch and Verify the Project
+## 3. How to Save the Final PBIX File
 
-### 1. Apply the Theme to Power BI Desktop:
-In the open Power BI Desktop window:
-- Click **View** ribbon $\to$ **Themes** dropdown $\to$ **Browse for themes...**.
-- Select `D:\delhi-ncr-aqi-analysis\powerbi\theme_navy_environmental.json`.
+In the currently running Power BI Desktop window (`PBIDesktop.exe` PID 45192):
+1. Click **File $\rightarrow$ Save As $\rightarrow$ Browse this device**.
+2. Set **Save as type** to **`Power BI files (*.pbix)`**.
+3. Name: **`delhi_ncr_aqi_analysis_final.pbix`** in `D:\delhi-ncr-aqi-analysis\`.
+4. Click **Save**.
 
-### 2. Query Power BI Desktop's Live DAX Engine:
-```powershell
-powershell -ExecutionPolicy Bypass -File D:\delhi-ncr-aqi-analysis\powerbi\query_dax_runtime.ps1
-```
-
-### 3. Launch the Streamlit Dashboard:
-```powershell
-cd D:\delhi-ncr-aqi-analysis
-D:\anaconda3\python.exe -m streamlit run dashboard/app.py
-```
-Open **`http://localhost:8501`** in any web browser.
-
-### 4. Run the Automated Test Suite:
-```powershell
-D:\anaconda3\python.exe -m pytest D:\delhi-ncr-aqi-analysis\tests -v
-```
-Output: **60 passed in 14.15s**.
-
----
-
-## 4. Immediate Next Actions: Supported PBIP Workflow
-
-Because Power BI Desktop uses a proprietary cryptographic signature (`SecurityBindings`) inside `.pbix` files, external zip packaging is rejected by Power BI Desktop. The supported Microsoft workflow is Power BI Project (`.pbip`):
-
-1. **Step 1: Export Semantic Model via Native Save As (15 seconds)**
-   - Open `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.pbix` in Power BI Desktop.
-   - Click **File -> Save As -> Browse this device**.
-   - In "Save as type", select **Power BI Project files (*.pbip)**.
-   - Save as `delhi_ncr_aqi_analysis.pbip` in `D:\delhi-ncr-aqi-analysis\`.
-   - Close Power BI Desktop.
-   *(This creates the authentic `delhi_ncr_aqi_analysis.SemanticModel/` folder).*
-
-2. **Step 2: Inject Complete 3-Page PBIR Visual Canvas (Automated Script)**
-   - Run in terminal:
-     ```powershell
-     powershell -ExecutionPolicy Bypass -File D:\delhi-ncr-aqi-analysis\powerbi\apply_pbir_visuals_to_pbip.ps1
-     ```
-   *(This injects our complete 3-page, 34-visual PBIR report canvas and dark navy theme into the project).*
-
-3. **Step 3: Open PBIP & Save Final PBIX (15 seconds)**
-   - Open `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis.pbip` in Power BI Desktop.
-   - All 3 pages, 34 visuals, and 21 DAX measures will render.
-   - Click **File -> Save As -> Power BI files (*.pbix)** -> save over `delhi_ncr_aqi_analysis.pbix`.
-   *(Power BI Desktop natively signs and creates the authentic final `.pbix`).*
+This compiles the authentic Microsoft `SecurityBindings` digital signature, providing the final, resume-worthy, uncorrupted deliverable.

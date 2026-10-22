@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "delhi_ncr_aqi_analysis_native"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "bbcf83f1-b33b-4473-9a9a-ef060b856bca"
+  }
+}

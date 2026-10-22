@@ -1,0 +1,143 @@
+table dim_date
+	lineageTag: 18ebfe40-6665-4497-903e-0f8c3b04c2a9
+
+	column calendar_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 749124a5-0b04-497a-b3cd-b36089caa0e9
+		summarizeBy: none
+		sourceColumn: calendar_date
+
+		variation Variation
+			isDefault
+			relationship: 066c3a4b-1de7-4e8b-9c59-87d200d99ee8
+			defaultHierarchy: LocalDateTable_1d1de4a1-6247-4035-9bc6-2e5de425a583.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 939433f0-9903-4d3e-a500-5154fad9ddc4
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 28f31f1d-c372-4b50-9410-fdd8d220b46b
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: ec9f2476-c333-4260-b7b5-ec56f92157ef
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: int64
+		formatString: 0
+		lineageTag: aad4307d-87f5-477f-8a35-ae6954e2fa49
+		summarizeBy: sum
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week
+		dataType: int64
+		formatString: 0
+		lineageTag: ee1ba943-824b-43ba-8d3c-bdfd59906cb3
+		summarizeBy: sum
+		sourceColumn: day_of_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_name
+		dataType: string
+		lineageTag: 3bb53964-6f0f-47a9-8fc5-e38b03fd518d
+		summarizeBy: none
+		sourceColumn: day_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: af162ba4-479a-4436-b50d-bcc9c08afbec
+		summarizeBy: none
+		sourceColumn: is_weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column season
+		dataType: string
+		lineageTag: 043afbc1-ff1a-4a6e-968d-99ba7ce71039
+		summarizeBy: none
+		sourceColumn: season
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_winter
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f0daad3c-f880-4a75-ba4d-60d64889fbef
+		summarizeBy: none
+		sourceColumn: is_winter
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_diwali_window
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: eee0f53c-0542-4859-8bfb-355d7272595c
+		summarizeBy: none
+		sourceColumn: is_diwali_window
+
+		annotation SummarizationSetBy = Automatic
+
+	column diwali_relative_day
+		dataType: string
+		lineageTag: 4ef45a51-645f-457f-88cb-83d0c6041ac1
+		summarizeBy: none
+		sourceColumn: diwali_relative_day
+
+		annotation SummarizationSetBy = Automatic
+
+
+	column year_month = FORMAT(dim_date[calendar_date], "yyyy-MM")
+		dataType: string
+		lineageTag: 71b3e782-b43b-4890-a7d1-92b1bca34821
+		summarizeBy: none
+		sortByColumn: year_month_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month_key = dim_date[year] * 100 + dim_date[month]
+		dataType: int64
+		formatString: 0
+		lineageTag: 62c4a914-d83a-4e2b-bb32-8419fdb23187
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\delhi-ncr-aqi-analysis\data\processed\dim_date.csv"),[Delimiter=",", Columns=12, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"calendar_date", type date}, {"year", Int64.Type}, {"month", Int64.Type}, {"month_name", type text}, {"day", Int64.Type}, {"day_of_week", Int64.Type}, {"day_name", type text}, {"is_weekend", type logical}, {"season", type text}, {"is_winter", type logical}, {"is_diwali_window", type logical}, {"diwali_relative_day", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

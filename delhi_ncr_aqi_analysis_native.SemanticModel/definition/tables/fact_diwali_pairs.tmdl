@@ -1,0 +1,111 @@
+table fact_diwali_pairs
+	lineageTag: 65b3fb9e-e876-418a-8de4-1dc0866812ed
+
+	column station_key
+		dataType: string
+		lineageTag: 8ae8fb3f-0ae9-4f30-8ab3-ff64583d88bd
+		summarizeBy: none
+		sourceColumn: station_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column station_name
+		dataType: string
+		lineageTag: d716168e-e014-4133-8708-ee71c4bb596d
+		summarizeBy: none
+		sourceColumn: station_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 705bbe17-677b-4249-aa6d-2298a81cd6a8
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: d6fd3114-722d-48db-a89a-fcd4536b0198
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column diwali_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3058a4a7-258e-462f-a92d-011c22277354
+		summarizeBy: none
+		sourceColumn: diwali_date
+
+		variation Variation
+			isDefault
+			relationship: afbee46d-6833-4151-b0de-482f556fd0c8
+			defaultHierarchy: LocalDateTable_6ad55947-d81b-43f0-9de3-1a7f18c995ac.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column timing_cohort
+		dataType: string
+		lineageTag: dfa8c718-91ca-477d-923d-f81e2d7cc77f
+		summarizeBy: none
+		sourceColumn: timing_cohort
+
+		annotation SummarizationSetBy = Automatic
+
+	column pre_diwali_aqi
+		dataType: double
+		lineageTag: 9a65c1e4-520e-4363-9e89-2c7dbaad5d05
+		summarizeBy: sum
+		sourceColumn: pre_diwali_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column post_diwali_aqi
+		dataType: double
+		lineageTag: ca436709-34b3-4026-a1ed-5c59d2da2f39
+		summarizeBy: sum
+		sourceColumn: post_diwali_aqi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column paired_surge
+		dataType: double
+		lineageTag: b35d3295-c986-4a10-b9b7-a2f3d53a60f5
+		summarizeBy: sum
+		sourceColumn: paired_surge
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_elevated
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fd3e7832-4e1c-4419-9f4d-736cac0757fc
+		summarizeBy: none
+		sourceColumn: is_elevated
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_diwali_pairs = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\delhi-ncr-aqi-analysis\data\processed\fact_diwali_pairs.csv"),[Delimiter=",", Columns=10, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"station_key", type text}, {"station_name", type text}, {"city", type text}, {"year", Int64.Type}, {"diwali_date", type date}, {"timing_cohort", type text}, {"pre_diwali_aqi", type number}, {"post_diwali_aqi", type number}, {"paired_surge", type number}, {"is_elevated", type logical}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

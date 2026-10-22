@@ -1,0 +1,113 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 908,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 2
+          },
+          "nodeIndex": "agg_hourly_diurnal",
+          "nodeLineageTag": "aa420152-42b8-4488-8765-66ff0d6a94b7",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 284,
+            "y": 0
+          },
+          "nodeIndex": "dim_date",
+          "nodeLineageTag": "18ebfe40-6665-4497-903e-0f8c3b04c2a9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 0
+          },
+          "nodeIndex": "dim_diwali_cohorts",
+          "nodeLineageTag": "eb07a0e6-c87e-467f-9297-e90eb0ecac4f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 0
+          },
+          "nodeIndex": "dim_station",
+          "nodeLineageTag": "dc2c1721-ba26-4ceb-a7bc-05655d5ce534",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 0
+          },
+          "nodeIndex": "fact_daily_aqi",
+          "nodeLineageTag": "6d976222-b0c4-450b-bd81-e5816de57b99",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1420,
+            "y": 0
+          },
+          "nodeIndex": "fact_diwali_pairs",
+          "nodeLineageTag": "65b3fb9e-e876-418a-8de4-1dc0866812ed",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1704,
+            "y": 98
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "dbc1bab1-b249-43cd-96fc-9b763a5d8ae2",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

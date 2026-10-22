@@ -1,0 +1,30 @@
+model Model
+	culture: en-IN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["agg_hourly_diurnal","dim_date","dim_diwali_cohorts","dim_station","fact_daily_aqi","fact_diwali_pairs","_Measures"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table agg_hourly_diurnal
+ref table dim_date
+ref table DateTableTemplate_4a9aff73-5ab6-4e68-be9b-20dc1a408656
+ref table LocalDateTable_1d1de4a1-6247-4035-9bc6-2e5de425a583
+ref table dim_diwali_cohorts
+ref table dim_station
+ref table LocalDateTable_cc8cbba8-89c6-45e6-84f8-e3c59e128eb3
+ref table LocalDateTable_9018dcdf-4472-4554-91ff-38f839cdfdb0
+ref table fact_daily_aqi
+ref table fact_diwali_pairs
+ref table LocalDateTable_6ad55947-d81b-43f0-9de3-1a7f18c995ac
+ref table _Measures
+
+ref cultureInfo en-IN
+

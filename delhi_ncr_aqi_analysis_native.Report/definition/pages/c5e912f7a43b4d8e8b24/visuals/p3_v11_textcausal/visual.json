@@ -1,0 +1,85 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "p3_v11_textcausal",
+  "position": {
+    "x": 1020,
+    "y": 700,
+    "z": 11,
+    "width": 880,
+    "height": 360,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Causal Interpretation & Confounding Disclaimer",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI Semibold",
+                      "fontSize": "15pt",
+                      "color": "#F1F5F9"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Mandatory econometric and environmental attribution guidance:",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "10pt",
+                      "color": "#A7B4C7"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "- Causal Scope Limitation: These results describe observed AQI patterns around Diwali. They do not independently establish that fireworks caused the observed changes. Seasonal pollution, meteorology, regional emissions, missing observations, and monitoring coverage may also contribute.",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "9pt",
+                      "color": "#CBD5E1"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "- The October vs November Natural Experiment: November events average +93.92 AQI points surge vs +58.92 points for October events (+35.00 points difference). This large gap demonstrates substantial seasonal confounding from thermal boundary layer collapse and peak agricultural stubble burning.",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "9pt",
+                      "color": "#CBD5E1"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "- Unit of Observation: 306 matched station-year pairs across 7 years, representing paired pre-festival (t-1) vs post-festival (t+1) valid monitoring observations.",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "9pt",
+                      "color": "#CBD5E1"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

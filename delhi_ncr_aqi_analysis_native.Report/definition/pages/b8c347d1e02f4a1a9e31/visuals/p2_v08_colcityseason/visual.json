@@ -1,0 +1,113 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "p2_v08_colcityseason",
+  "position": {
+    "x": 20,
+    "y": 240,
+    "z": 8,
+    "height": 440,
+    "width": 1050,
+    "tabOrder": 8
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_station"
+                    }
+                  },
+                  "Property": "city"
+                }
+              },
+              "queryRef": "dim_station.city",
+              "nativeQueryRef": "city",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Winter Median AQI"
+                }
+              },
+              "queryRef": "_Measures.Winter Median AQI",
+              "nativeQueryRef": "Winter Median AQI"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Non-Winter Median AQI"
+                }
+              },
+              "queryRef": "_Measures.Non-Winter Median AQI",
+              "nativeQueryRef": "Non-Winter Median AQI"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'City-Level Seasonal Contrast: Winter Median vs Non-Winter Median AQI'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Comparing thermal inversion impact across all 5 municipal jurisdictions'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
