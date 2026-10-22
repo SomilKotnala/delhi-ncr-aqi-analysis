@@ -554,11 +554,18 @@ def compute_diwali_event_analysis(df: pd.DataFrame) -> Dict[str, Any]:
     dict
         Timeline DataFrame, paired differences summary, and yearly breakdown table.
     """
+    default_overall = {
+        "total_pairs": 0,
+        "mean_change": 0.0,
+        "median_change": 0.0,
+        "pct_elevated": 0.0,
+    }
+
     if df.empty or "diwali_relative_day" not in df.columns:
         return {
             "timeline": pd.DataFrame(),
             "yearly_paired_diff": pd.DataFrame(),
-            "overall_paired_diff": {},
+            "overall_paired_diff": default_overall,
             "timing_cohort_summary": pd.DataFrame(),
         }
 
@@ -570,7 +577,7 @@ def compute_diwali_event_analysis(df: pd.DataFrame) -> Dict[str, Any]:
         return {
             "timeline": pd.DataFrame(),
             "yearly_paired_diff": pd.DataFrame(),
-            "overall_paired_diff": {},
+            "overall_paired_diff": default_overall,
             "timing_cohort_summary": pd.DataFrame(),
         }
 
@@ -648,7 +655,7 @@ def compute_diwali_event_analysis(df: pd.DataFrame) -> Dict[str, Any]:
             avg_pct_elevated=("pct_stations_elevated", "mean"),
         ).reset_index().round(2)
 
-    overall_stats = {}
+    overall_stats = default_overall.copy()
     if len(all_paired_changes) > 0:
         overall_stats = {
             "total_pairs": len(all_paired_changes),

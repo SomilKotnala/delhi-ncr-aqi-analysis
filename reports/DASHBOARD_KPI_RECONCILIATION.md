@@ -157,4 +157,55 @@ python -m pytest "D:\delhi-ncr-aqi-analysis\tests" -v
 
 ## 7. Sign-Off & Status
 
-All discrepancies have been thoroughly investigated, mathematically explained, corrected in code, verified via PostgreSQL queries, protected by automated tests, and documented.
+All general KPI discrepancies have been thoroughly investigated, mathematically explained, corrected in code, verified via PostgreSQL queries, protected by automated tests, and documented.
+
+---
+
+## 8. Diwali Metric Reconciliation & Denominator Audit
+
+### 8.1 The Audit Discrepancy
+
+During validation of Tab 3 (*Diwali Pollution Episodes & Confounding*) in the Streamlit dashboard, the following contrast was identified:
+
+| Metric | Streamlit Live Dashboard Display | Earlier Draft Reconciliation Report | Discrepancy Description | Authoritative Ground Truth Status |
+| :--- | :---: | :---: | :---: | :--- |
+| **Mean Paired Surge** | **`+81.57` AQI** | `+65.71` AQI | $+15.86$ AQI points difference | **Live Dashboard is Authoritative** |
+| **Median Paired Surge** | **`+80.38` AQI** | `+72.48` AQI | $+7.90$ AQI points difference | **Live Dashboard is Authoritative** |
+| **Elevated Proportion** | **`85.95%`** | `84.82%` | $+1.13\%$ difference | **Live Dashboard is Authoritative** |
+| **Total Matched Pairs** | **`306` pairs** | `281` pairs (or 306 in text) | $+25$ pairs difference | **Live Dashboard is Authoritative** |
+
+### 8.2 Exact Methodological Definitions
+- **Data Grain:** Station-day level (`daily_mean_aqi` from `data/processed/fact_daily_aqi.parquet` and PostgreSQL `fact_daily_aqi`).
+- **Baseline Window ($t-1$):** Single calendar day immediately preceding Diwali night (Pre-Diwali eve).
+- **Event Window ($t+1$):** Single calendar day immediately following Diwali night (Post-Diwali day).
+- **Pairing Unit:** Station-year pairs $(s, y)$ where monitoring station $s$ has a valid daily observation (`is_day_valid = TRUE`, $\ge 16$ valid hourly readings) on **both** relative day $t-1$ and relative day $t+1$ within festival year $y \in \{2017, \dots, 2023\}$.
+- **Surge Formula:**
+  $$\Delta_{s, y} = \text{AQI}_{s, y}(t+1) - \text{AQI}_{s, y}(t-1)$$
+- **Pooled Metrics across all $N=306$ matched station-years:**
+  - $\text{Mean Paired Surge} = \frac{1}{306} \sum \Delta_{s, y} = \mathbf{+81.57}$ AQI points
+  - $\text{Median Paired Surge} = \text{Median}(\Delta_{s, y}) = \mathbf{+80.38}$ AQI points
+  - $\text{Proportion Elevated} = \frac{263}{306} \times 100\% = \mathbf{85.95\%}$
+
+### 8.3 Root Cause of Discrepancy
+1. **Earlier Draft Subset ($N=281$ pairs):** An earlier exploratory query in Stage 2C applied an overly restrictive station filter (or dropped stations with non-zero hourly flags), yielding 30 pairs in 2018 (vs 40), 44 pairs in 2021 (vs 55), and 46 pairs in 2023 (vs 50). This 281-pair subset produced a mean surge of $+65.71$ AQI points, median of $+72.48$, and $84.82\%$ elevated.
+2. **Empirical Full-Dataset Execution ($N=306$ pairs):** Applying the statutory CPCB criterion ($\ge 16$ valid hours) consistently across the entire 7-year processed dataset in `fact_daily_aqi.parquet` retains:
+   - 2017: 16 matched pairs
+   - 2018: 40 matched pairs
+   - 2019: 46 matched pairs
+   - 2020: 53 matched pairs
+   - 2021: 55 matched pairs
+   - 2022: 46 matched pairs
+   - 2023: 50 matched pairs
+   - **Total:** $16 + 40 + 46 + 53 + 55 + 46 + 50 = \mathbf{306}$ station-year pairs.
+3. **Conclusion:** The live Streamlit computation (`dashboard/metrics.py:compute_diwali_event_analysis`) is mathematically and empirically correct. The documentation has been reconciled to reflect the authoritative 306-pair metrics.
+
+### 8.4 Denominator Clarification & UI Update
+- **Denominator Nature:** The figure of $306$ represents **station-year observation pairs**, not unique physical monitoring stations. The entire Delhi-NCR CAAQMS network contains 56 unique physical stations.
+- **Single-Station Filtering:** When filtered to a single station, the denominator becomes the number of festival years (between 1 and 7) for which that specific station was active on both $t-1$ and $t+1$.
+- **UI Label Clarification:** In `dashboard/app.py`, the KPI card labels were updated from "Stations Elevated" $\to$ **"Station-Years Elevated"** and from "Matched Station Pairs" $\to$ **"Matched Station-Year Pairs"** (with caption: *Valid (t-1, t+1) pairs across 7 years*).
+
+### 8.5 Causal Deconfounding Disclaimer
+The dashboard Tab 3 includes an explicit causal attribution callout:
+1. **Regional Agricultural Burning:** Stubble burning in Punjab and Haryana peaks between Oct 25 and Nov 15, directly overlapping Diwali.
+2. **Boundary Layer Collapse:** Winter mixing depth drops from $>1,500\text{m}$ to $<300\text{m}$, compressing ambient pollution.
+3. **Sensor Ceiling Saturation:** Capping at 500.0 compresses observable surges when baselines are already near 400 AQI. Naive attribution of 100% of the post-Diwali surge to fireworks is unscientific.

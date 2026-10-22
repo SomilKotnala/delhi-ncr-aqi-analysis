@@ -251,10 +251,10 @@ PostDiwaliAQI - PreDiwaliAQI
 
 ### Page 3: Diwali Episode Analysis & Confounding Audit
 - **Row 1: Episode Summary Cards:**
-  - Card 1: Multi-Year Mean Surge (`+65.7 pts`).
-  - Card 2: Multi-Year Median Surge (`+72.5 pts`).
-  - Card 3: Stations Elevated % (`84.8%`).
-  - Card 4: Matched Station Pairs (`281 pairs`).
+  - Card 1: Multi-Year Mean Surge (`+81.57 pts`).
+  - Card 2: Multi-Year Median Surge (`+80.38 pts`).
+  - Card 3: Station-Years Elevated % (`85.95%`).
+  - Card 4: Matched Station-Year Pairs (`306 pairs across 7 years`).
 - **Row 2: Event Timeline ($t-7$ to $t+7$):**
   - **Line Chart:** X-Axis: `dim_date[diwali_relative_day]`, Y-Axis: `[Median AQI]`, Legend: `dim_date[year]`.
   - Vertical Reference Line at `X = 0` (Diwali Day).

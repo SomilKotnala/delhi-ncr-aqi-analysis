@@ -91,7 +91,7 @@ For instance, in SQL I wrote window functions (`AVG(...) OVER (PARTITION BY stat
 *"A naive before-and-after comparison simply takes the average AQI of all stations on Diwali night versus the average of all stations the week before. However, if peripheral, cleaner stations in Gurugram fail to report on Diwali night, the network average appears to spike purely because only dirty industrial stations reported.  
 To prevent this **composition bias**, I implemented a **Station-Matched Paired Difference Analysis**:
 $$\Delta AQI_i = AQI_i(t+1) - AQI_i(t-1)$$
-I matched only those individual physical stations ($i$) that possessed valid records on both the immediate pre-Diwali baseline ($t-1$) and the post-Diwali night ($t+1$). Across 7 years (2017–2023), 281 valid station pairs demonstrated a mean paired surge of **+65.71 AQI points** (median **+72.48 points**), with **84.82% of stations exhibiting positive elevation**."*
+I matched only those individual physical stations ($i$) that possessed valid records on both the immediate pre-Diwali baseline ($t-1$) and the post-Diwali night ($t+1$). Across 7 years (2017–2023), 306 valid station-year pairs demonstrated a mean paired surge of **+81.57 AQI points** (median **+80.38 points**), with **85.95% of station-year pairs exhibiting positive elevation** (263 of 306 pairs). Note that the denominator of 306 is station-year pairs pooled across all 7 festival instances, not unique physical stations (the network has 56 stations)."*
 
 ---
 

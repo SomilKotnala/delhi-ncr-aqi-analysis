@@ -652,7 +652,7 @@ with tab3:
     with d3:
         st.markdown(f"""
         <div class="metric-container" style="border-left: 5px solid #28a745;">
-            <div class="metric-title">Stations Elevated</div>
+            <div class="metric-title">Station-Years Elevated</div>
             <div class="metric-value">{overall_p.get('pct_elevated', 0.0)}%</div>
             <div class="metric-caption">Proportion showing higher AQI at t+1</div>
         </div>
@@ -661,9 +661,9 @@ with tab3:
     with d4:
         st.markdown(f"""
         <div class="metric-container" style="border-left: 5px solid #17a2b8;">
-            <div class="metric-title">Matched Station Pairs</div>
+            <div class="metric-title">Matched Station-Year Pairs</div>
             <div class="metric-value">{overall_p.get('total_pairs', 0):,}</div>
-            <div class="metric-caption">Valid pairs across 7 years</div>
+            <div class="metric-caption">Valid (t-1, t+1) pairs across 7 years</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -806,6 +806,6 @@ with st.expander("📚 Metric Definitions, Denominators & Reproducibility Audit"
     | **Severe AQI Days %** | $\\frac{N(AQI > 400)}{N_{valid}} \\times 100$ | Valid station-days (100,794) | Excludes incomplete days |
     | **Sensor Capped Days %** | $\\frac{N(capped\\_hours > 0)}{N_{valid}} \\times 100$ | Valid station-days | Counts station-days with $\\ge 1$ capped hour |
     | **Winter Excess Elevation** | $\\text{Median}_{winter} - \\text{Median}_{non\\_winter}$ | Subsets by meteorological season | Audited via 14-day Moving Block Bootstrap |
-    | **Station-Matched Diwali Surge** | $AQI_i(t+1) - AQI_i(t-1)$ | Stations active on both $t-1$ and $t+1$ | Discards unobserved station-days (no imputation) |
+    | **Station-Matched Diwali Surge** | $AQI_i(t+1) - AQI_i(t-1)$ | Matched station-year pairs active on both $t-1$ and $t+1$ (306 pooled pairs) | Discards unobserved station-days (no imputation) |
     """)
     st.caption("Delhi-NCR Air Quality Analysis Portfolio Project | Built with Python, PostgreSQL, Streamlit, and Power BI.")

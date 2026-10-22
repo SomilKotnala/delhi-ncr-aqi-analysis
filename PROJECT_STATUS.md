@@ -4,8 +4,8 @@
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
 **Current Stage:** **Stage 3: Professional, Resume-Ready AQI Dashboard & Business Intelligence (Audited & Reconciled)**  
 **Stage Status:** **VERIFIED COMPLETE & AUDITED**  
-**Latest Git Commit:** Pending Stage 3 Reconciliation Commit  
-**Latest Backup Archive:** `stage-3-reconciliation-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
+**Latest Git Commit:** Pending Diwali Reconciliation Commit  
+**Latest Backup Archive:** `stage-3-diwali-reconciliation-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
 
 ---
 
@@ -17,7 +17,7 @@
 | **Stage 2A**| Data cleaning pipeline, surrogate station keys, wide-to-long reshaping, anomaly/capping audit | **Verified Complete** | 2,664,336 hourly records processed; 12/12 unit tests passing; commit `1cdc92e` |
 | **Stage 2B**| PostgreSQL 18 Star Schema loading, analytical SQL queries (CTEs, Window functions), and EDA | **Verified Complete** | 2.66M rows loaded in 71s; 7 queries executed; 6 production charts generated; commit `bf6d39a` |
 | **Stage 2C**| Pre-registered statistical hypothesis testing, event modeling & econometric robustness audit | **Verified Complete** | 100,794 station-days; MBB CI (L=14); Tobit censoring model; 36/36 tests passing; commit `f1f4d97` |
-| **Stage 3** | Professional Power BI model & DAX measures, interactive Streamlit app, validation & reconciliation audit | **Verified Complete** | Dual-mode Streamlit app running (port 8501); 10 DAX measures verified; 54/54 tests passing |
+| **Stage 3** | Professional Power BI model & DAX measures, interactive Streamlit app, validation & reconciliation audit | **Verified Complete** | Dual-mode Streamlit app running (port 8501); 10 DAX measures verified; 55/55 tests passing |
 | **Stage 4** | Final synthesis, executive report generation, and interview preparation | **Verified Complete** | `reports/FINAL_REPORT.md`, `docs/DASHBOARD_INTERVIEW_GUIDE.md` completed |
 
 ---
@@ -31,12 +31,16 @@
 - [x] **Investigation of Mean (215.44 vs 213.56) and IQR (187.4 vs 185.17)**:
   - Root Cause: Mean = **215.44** and IQR = **187.40** are the exact municipal statistics of **Delhi City** alone ($N = 73,498$ station-days across 39 stations). When all 5 cities are included ($N = 100,794$ station-days across 56 stations), the lower concentrations in Gurugram (mean 195.11) and Faridabad (mean 204.07) lower the network arithmetic mean to **213.56** and the network IQR to **185.17**.
   - Resolution: Added dynamic card titles in `dashboard/app.py`: displays "Network Median AQI" when all 5 cities are selected, and dynamic "{City} Median AQI" when filtered to a municipal subset.
+- [x] **Final Diwali Metric Reconciliation & Denominator Audit**:
+  - Root Cause: Preliminary audit draft recorded metrics (+65.71 mean surge, 84.82% elevated) on an early exploratory subset with only 281 pairs. The authoritative CPCB validity rule ($\ge 16$ valid hrs/day) applied across the 7 festival years in `fact_daily_aqi.parquet` produces 40 pairs in 2018 (vs 30), 55 in 2021 (vs 44), and 50 in 2023 (vs 46), totaling exactly **306 matched station-year pairs**.
+  - Resolution: Reconciled documentation and verified dynamic computation in `dashboard/metrics.py`: mean paired surge **+81.57 AQI**, median paired surge **+80.38 AQI**, elevated proportion **85.95%** (263/306 pairs).
+  - Clarified denominator in UI: updated labels in `dashboard/app.py` from "Matched Station Pairs" $\to$ **"Matched Station-Year Pairs"** and "Stations Elevated" $\to$ **"Station-Years Elevated"** to clearly convey that the denominator is 306 station-year pairs across 7 years, not unique physical monitoring stations (which total 56).
 - [x] **Automated Unit Testing**:
-  - Added `test_kpis_with_prefiltered_valid_data_and_total_scheduled_days` and `test_delhi_city_kpis` in `tests/test_dashboard.py`.
-  - Full test suite: **54 of 54 tests passing in 20.65s**.
+  - Full test suite: **55 of 55 tests passing in 9.50s**. Includes dedicated tests for overall Diwali event structure and single-station filter handling.
 - [x] **Documentation & Reconciliation Deliverables**:
-  - Authored comprehensive audit report in `reports/DASHBOARD_KPI_RECONCILIATION.md`.
-  - Reconciled city breakdown table in `reports/DASHBOARD_VALIDATION_REPORT.md`.
+  - Authored Section 8 in `reports/DASHBOARD_KPI_RECONCILIATION.md`.
+  - Reconciled Table in Section 5 of `reports/DASHBOARD_VALIDATION_REPORT.md`.
+  - Reconciled `reports/FINAL_REPORT.md`, `docs/POWER_BI_DASHBOARD_GUIDE.md`, `docs/STREAMLIT_GUIDE.md`, and `docs/DASHBOARD_INTERVIEW_GUIDE.md`.
 
 ---
 

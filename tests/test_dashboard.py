@@ -270,7 +270,38 @@ class TestDiwaliEventAnalysis:
         assert len(yearly) == 7
         assert set(yearly["year"]) == {2017, 2018, 2019, 2020, 2021, 2022, 2023}
 
-        # Overall paired change is positive
+        # Overall pooled paired metrics (306 matched station-year pairs)
         overall = res["overall_paired_diff"]
-        assert overall["total_pairs"] > 0
-        assert overall["pct_elevated"] > 70.0
+        assert overall["total_pairs"] == 306
+        assert overall["mean_change"] == pytest.approx(81.57, abs=0.1)
+        assert overall["median_change"] == pytest.approx(80.38, abs=0.1)
+        assert overall["pct_elevated"] == pytest.approx(85.95, abs=0.1)
+
+        # Yearly breakdown verification
+        yearly_map = yearly.set_index("year")
+        assert yearly_map.loc[2017, "matched_stations"] == 16
+        assert yearly_map.loc[2018, "matched_stations"] == 40
+        assert yearly_map.loc[2019, "matched_stations"] == 46
+        assert yearly_map.loc[2020, "matched_stations"] == 53
+        assert yearly_map.loc[2021, "matched_stations"] == 55
+        assert yearly_map.loc[2022, "matched_stations"] == 46
+        assert yearly_map.loc[2023, "matched_stations"] == 50
+        assert yearly_map["matched_stations"].sum() == 306
+
+    def test_diwali_single_station_filter(self, benchmark_daily_df):
+        """Verify single-station filtering correctly produces station-year pairs."""
+        single_st = benchmark_daily_df[benchmark_daily_df["station_key"] == "delhi_anand_vihar_delhi_dpcc"]
+        res = compute_diwali_event_analysis(single_st)
+        assert "overall_paired_diff" in res
+        overall = res["overall_paired_diff"]
+        # Anand Vihar was active across 6 of 7 festival years
+        assert overall["total_pairs"] == 6
+        assert 0.0 <= overall["pct_elevated"] <= 100.0
+        # Check timeline format
+        timeline = res["timeline"]
+        assert not timeline.empty
+        assert "diwali_relative_day" in timeline.columns
+
+        # Verify defensive handling for station with zero records
+        empty_res = compute_diwali_event_analysis(pd.DataFrame())
+        assert empty_res["overall_paired_diff"]["total_pairs"] == 0

@@ -119,7 +119,7 @@ Open **`http://localhost:8501`** in any modern web browser (Chrome, Edge, Firefo
   - Dashed vertical line at $t=0$ marks Diwali night.
 - **Station-Matched Paired Difference Analysis ($t+1$ vs $t-1$):**
   - Compares stations active on both pre- and post-Diwali days to eliminate composition bias.
-  - Multi-year average paired surge: **$+65.71$ AQI points** (mean) and **$+72.48$ AQI points** (median), with **84.82%** of stations elevating.
+  - Multi-year average paired surge: **$+81.57$ AQI points** (mean) and **$+80.38$ AQI points** (median), with **85.95%** of matched station-year pairs elevating across 306 valid pairs.
 - **Timing Cohort Decomposition (Late October vs Mid November):**
   - Contrasts early Diwali years (e.g. 2017, 2019, 2022) with mid-November Diwali years (e.g. 2018, 2020, 2021).
   - Demonstrates that early Diwali produces sharp, conspicuous spikes (+82.3 pts mean) because baseline pollution is moderate (~280), whereas mid-November Diwali occurs on pre-existing severe winter inversion baselines (>350).

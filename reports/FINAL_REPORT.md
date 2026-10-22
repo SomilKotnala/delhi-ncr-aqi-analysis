@@ -22,7 +22,7 @@ This study delivers an empirical, statistically audited, reproducible investigat
 - **Universal Station Vulnerability:** **100% of the 56 monitoring stations** record higher winter medians (paired median difference: **+181.84 points**, $p = 2.45 \times 10^{-11}$).
 - **Severe Autocorrelation & Bootstrap Robustness:** Naive pooled two-sample testing suffers from extreme temporal autocorrelation (lag-1 $r = 0.82$). A **14-day Moving Block Bootstrap (MBB, $B=2,000$)** on calendar-day regional medians ($N=2,537$ days) confirms a genuine winter elevation of **+181.90 points (95% CI: $[156.98, 202.14]$)**.
 - **CPCB Statutory Sensor Ceiling (500.0):** **12.44% of valid station-days** (12,536 days) and **2.20% of all hourly readings** (53,656 hours) saturate at the statutory 500.0 ceiling. Fitting a **Right-Censored Tobit Model** demonstrates that true winter excess is **+154.17 latent AQI points** ($p < 10^{-15}$), proving that observed winter severity is artificially compressed.
-- **Diwali Episodic Shock vs Confounding:** Station-matched paired analysis ($t+1$ vs $t-1$) across 7 years demonstrates an average surge of **+65.71 AQI points** (mean) and **+72.48 points** (median), with **84.82% of stations elevating**. However, **timing matters dramatically**: early Diwali events (late October) surge +82.3 pts from lower baselines (~280), whereas late Diwali events (mid-November) occur on saturated baselines (>350) and overlap with peak agricultural stubble burning and boundary layer collapse.
+- **Diwali Episodic Shock vs Confounding:** Station-matched paired analysis ($t+1$ vs $t-1$) across 7 years demonstrates an average surge of **+81.57 AQI points** (mean) and **+80.38 points** (median), with **85.95% of matched station-year pairs elevating** (across 306 valid station-year pairs). However, **timing matters dramatically**: early Diwali events (late October) surge from lower baselines (~280-310), whereas late Diwali events (mid-November) occur on saturated baselines (>350) and overlap with peak agricultural stubble burning and boundary layer collapse.
 
 ---
 
@@ -63,16 +63,19 @@ Analysis of 2.44 million valid hourly readings reveals a pronounced bimodal diur
 - **Nocturnal Thermal Inversion Peak (22:00–04:00 IST):** Surface cooling creates intense ground-level temperature inversions. Nighttime commercial truck entry further exacerbates concentrations, pushing nocturnal winter median AQI above **380**.
 
 ### 3.4 Diwali Episodic Shocks & Causal Decomposition (Q8)
-Across the 7 observed years, the station-matched paired surge ($t+1$ vs $t-1$) demonstrates:
-- **2017 (Oct 19):** $+74.88$ pt mean change (pre: 277.7 $\to$ post: 370.4, 93.8% stations elevated).
-- **2018 (Nov 07):** $+101.43$ pt mean change (pre: 275.4 $\to$ post: 382.8, 90.0% stations elevated).
-- **2019 (Oct 27):** $+87.35$ pt mean change (pre: 287.4 $\to$ post: 363.9, 93.5% stations elevated).
-- **2020 (Nov 14):** $+38.68$ pt mean change (pre: 390.6 $\to$ post: 433.9, 67.9% stations elevated).
-- **2021 (Nov 04):** $+74.61$ pt mean change (pre: 368.6 $\to$ post: 443.3, 90.9% stations elevated).
-- **2022 (Oct 24):** $+13.62$ pt mean change (pre: 289.5 $\to$ post: 302.3, 71.7% stations elevated).
-- **2023 (Nov 12):** $+189.26$ pt mean change (pre: 203.3 $\to$ post: 398.9, 100.0% stations elevated; pre-Diwali rain cleared the baseline).
+Across the 7 observed years, the station-matched paired surge ($t+1$ vs $t-1$) across 306 matched station-year pairs demonstrates:
+- **2017 (Oct 19):** $+103.49$ pt mean change (pre: 311.3 $\to$ post: 418.9, 93.8% station-years elevated; 16 pairs).
+- **2018 (Nov 07):** $+75.86$ pt mean change (pre: 316.5 $\to$ post: 398.1, 90.0% station-years elevated; 40 pairs).
+- **2019 (Oct 27):** $+82.82$ pt mean change (pre: 303.6 $\to$ post: 386.5, 93.5% station-years elevated; 46 pairs).
+- **2020 (Nov 14):** $+27.56$ pt mean change (pre: 345.9 $\to$ post: 381.5, 67.9% station-years elevated; 53 pairs).
+- **2021 (Nov 04):** $+77.39$ pt mean change (pre: 332.8 $\to$ post: 400.7, 90.9% station-years elevated; 55 pairs).
+- **2022 (Oct 24):** $+19.51$ pt mean change (pre: 282.8 $\to$ post: 297.3, 71.7% station-years elevated; 46 pairs).
+- **2023 (Nov 12):** $+196.90$ pt mean change (pre: 180.1 $\to$ post: 392.1, 100.0% station-years elevated; 50 pairs; pre-Diwali rain cleared the baseline).
+- **Combined 7-Year Total:** **+81.57 pt mean change**, **+80.38 pt median change**, **85.95% of station-years elevated** ($N=306$ matched pairs).
 
-**Timing Cohort Finding:** Late October Diwali events exhibit acute, highly conspicuous surges (+82.3 pts mean) because baseline pollution is moderate. In contrast, mid-November Diwali events occur on already severe baselines (>350), where sensor capping at 500.0 dampens the observable relative spike.
+**Timing Cohort & Confounding Finding:**
+- **Late October Cohort (2017, 2019, 2022):** Occurs before full winter boundary layer collapse (pre-event median ~282–311). Firecracker pulses generate conspicuous surges (+68.61 pts mean change).
+- **Mid November Cohort (2018, 2020, 2021, 2023):** Coincides with peak agricultural stubble burning and pre-existing severe winter inversion baselines (>350). In 2023, rare pre-event rains created an unusually clean baseline (180.1 AQI), resulting in the largest observed single-day surge (+196.9 pts).
 
 ---
 
