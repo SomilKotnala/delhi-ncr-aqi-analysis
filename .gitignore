@@ -1,0 +1,42 @@
+# Python caches & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Testing & profiling
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints*/
+
+# Large Raw and Processed Datasets (keep sample data tracked)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Track sample data for quick repo clone & review
+!data/sample/
+!data/sample/*.csv
+
+# Local environment variables & credentials
+.env
+.env.local
+
+# Operating System files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Temporary scratch & log files
+*.log
+scratch/
+tmp/
