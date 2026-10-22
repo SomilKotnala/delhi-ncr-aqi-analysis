@@ -770,7 +770,7 @@ def generate_statistical_findings_markdown(
     md.append("   - In years when Diwali fell in **mid-November** (2018, 2020, 2023), regional stubble smoke and low boundary layer heights had *already* pushed the baseline above 350–400 ('Severe'). In 2023, an unseasonal rain spell on Nov 10 immediately preceded Diwali, dampening the baseline.")
     md.append("2. **Dissipation Velocity and Atmospheric Inversion**:")
     md.append("   - In 5 out of 7 years, post-event AQI did **not** return to pre-event baselines within the 7-day post-window. Post-Diwali air quality does not dissipate cleanly because November marks the seasonal onset of calm winds and thermal inversions across the Indo-Gangetic Plain.")
-    md.append("3. **Pervasive Sensor Saturation**:")
+    md.append("3. **Pervasive Statutory AQI Ceiling (500.0) Truncation**:")
     md.append("   - In all 7 years, monitoring stations recorded the maximum statutory ceiling of **500.0**, with 2020 recording **746 capped station-hours** and 2021 recording **706 capped station-hours** during the 48-hour event window alone.")
     md.append("")
     md.append("### 5.2 Scientific Caution on Causality")

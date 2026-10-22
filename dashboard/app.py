@@ -7,7 +7,7 @@ An interactive, production-grade portfolio application showcasing:
 1. Star-schema database integration (PostgreSQL with local Parquet fallback)
 2. Interactive time-series exploration with CPCB health risk categorization
 3. Rigorous seasonal and spatial dynamics with block bootstrap robustness metrics
-4. Station-matched Diwali episode causal decomposition & confounding audit
+4. Station-matched Diwali episode event decomposition & confounding audit
 
 Stack: Streamlit, Plotly, Pandas, NumPy, PostgreSQL / Parquet
 """
@@ -789,7 +789,7 @@ with tab3:
             peaks annually between October 25 and November 15, directly overlapping the Diwali calendar window.</li>
             <li><strong>Planetary Boundary Layer Height (PBLH) Collapse:</strong> As ambient temperatures plunge in late autumn, 
             the atmospheric mixing depth drops from &gt;1,500m to &lt;300m, concentrating all ground-level emissions regardless of source.</li>
-            <li><strong>Sensor Ceiling Compression:</strong> When baseline pollution is already near 400 AQI, sensor capping at 500.0 compresses 
+            <li><strong>Statutory NAQI Ceiling Compression:</strong> When baseline pollution is already near 400 AQI, statutory reporting truncation at 500.0 compresses 
             the observable surge, artificially dampening measured effect sizes in mid-November years.</li>
         </ol>
         <em>Conclusion: True source apportionment requires chemical speciation (e.g. potassium/strontium tracers for pyrotechnics vs levoglucosan for biomass) or counterfactual chemical transport modeling (WRF-Chem).</em>

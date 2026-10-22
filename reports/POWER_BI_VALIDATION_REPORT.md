@@ -167,7 +167,7 @@ A comprehensive audit of the entire Power BI report canvas revealed that dark na
 ## 6. Root-Cause Isolation & Fix of PBIP-to-PBIX Packaging Failure
 
 ### Forensic Diagnosis of the Trace Exception:
-- **Diagnostic Artifact:** `PBIDesktopDiagnosticInfo.20261023T024133.zip` located in `C:\Users\Dell\OneDrive\Documents\`.
+- **Diagnostic Artifact:** `PBIDesktopDiagnosticInfo.20261023T024133.zip` (Power BI Desktop Diagnostic Export).
 - **Trace Exception:**
   ```text
   System.ArgumentException: Part URI is not valid per rules defined in the Open Packaging Conventions specification.
@@ -249,9 +249,9 @@ A comprehensive audit of the entire Power BI report canvas revealed that dark na
 
 ## 9. Known Project & Data Limitations
 
-1. **Statutory Sensor Capping (500.0 Ceiling):**
-   - Telemetry monitors truncate PM2.5 and calculated AQI at statutory 500.0. During severe winter inversions, 12.44% of station-days (12,536 days) hit this ceiling. This artificially compresses the apparent magnitude of extreme episodes like Diwali.
+1. **Statutory AQI Reporting Ceiling (500.0 Upper Bound):**
+   - The CPCB National Air Quality Index calculation formula mathematically truncates sub-indices and composite AQI at statutory 500.0 (right-censoring). While physical BAM/TEOM mass monitors detect particulate concentrations well above statutory limits (1,000–5,000 $\mu\text{g/m}^3$), reported AQI cannot exceed 500.0. During severe winter episodes, 12,536 valid station-days (12.44% of valid days) hit this reporting ceiling, artificially compressing the apparent statistical variance and magnitude of peak pollution events.
 2. **Seasonal & Meteorological Confounding:**
-   - Diwali coincides with peak transboundary agricultural residue burning in Punjab and Haryana and seasonal boundary layer height collapse ($>1,500\text{m} \to <300\text{m}$). The observed surge cannot be attributed 100% to fireworks alone; October Diwali (+58.92 pts) provides the cleaner counterfactual against a moderate pre-inversion baseline.
+   - Diwali coincides with peak transboundary agricultural residue burning in Punjab and Haryana and seasonal boundary layer height collapse ($>1,500\text{m} \to <300\text{m}$). The observed surge cannot be attributed 100% to fireworks alone; October Diwali (+58.92 pts) provides an observational seasonal comparison against a moderate pre-inversion baseline, whereas November Diwali (+122.99 pts) compounds festival emissions with severe meteorology and agricultural residue burning.
 3. **Network Expansion Over Time:**
    - The active monitoring network grew from 17 stations in 2017 to 56 stations in 2021–2023. Cross-year pooled analyses use station-matched pairing to control for station fixed effects.

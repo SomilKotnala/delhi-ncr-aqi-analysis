@@ -91,7 +91,7 @@ Diwali represents an acute temporal shock occurring across varying meteorologica
    - In years when Diwali fell in **mid-November** (2018, 2020, 2023), regional stubble smoke and low boundary layer heights had *already* pushed the baseline above 350–400 ('Severe'). In 2023, an unseasonal rain spell on Nov 10 immediately preceded Diwali, dampening the baseline.
 2. **Dissipation Velocity and Atmospheric Inversion**:
    - In 5 out of 7 years, post-event AQI did **not** return to pre-event baselines within the 7-day post-window. Post-Diwali air quality does not dissipate cleanly because November marks the seasonal onset of calm winds and thermal inversions across the Indo-Gangetic Plain.
-3. **Pervasive Sensor Saturation**:
+3. **Pervasive Statutory AQI Ceiling (500.0) Truncation**:
    - In all 7 years, monitoring stations recorded the maximum statutory ceiling of **500.0**, with 2020 recording **746 capped station-hours** and 2021 recording **706 capped station-hours** during the 48-hour event window alone.
 
 ### 5.2 Scientific Caution on Causality
@@ -120,5 +120,5 @@ Prior to dashboard development, an independent statistical robustness audit was 
 3. **Statutory Sensor Censoring (AQI = 500.0 Ceiling)**:
    - Winter hours hit the statutory ceiling 9.55x more frequently than non-winter hours (6.45% vs 0.68%).
    - A parametric right-censored **Tobit Model ($c = 500$)** yields an uncensored latent winter shift of **+154.17 pts**. Non-parametric methods compress the true right-tail, meaning the observed $+181.61$ pt shift is a **conservative lower bound**.
-4. **Diwali Event Study Causal Decomposition**:
+4. **Diwali Event Study Observational Decomposition**:
    - Station-matched paired analysis reveals that acute festival surges occur predominantly when Diwali falls in **late October** (+82.28 pt mean surge, $p < 10^{-5}$). In **mid-November**, pre-event baseline air is already saturated in the Severe category (>350–400) by seasonal stubble burning and calm inversions, dampening the incremental surge (-33.53 pt mean paired change).

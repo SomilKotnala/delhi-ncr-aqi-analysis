@@ -146,7 +146,7 @@ Open **`http://localhost:8501`** in any modern web browser (Chrome, Edge, Firefo
 | :--- | :--- | :--- |
 | `Port 8501 is already in use` | Another Streamlit session is running | Run on another port: `streamlit run dashboard/app.py --server.port 8502` |
 | `ModuleNotFoundError: No module named 'dashboard'` | Command launched outside project root | Ensure working directory is `D:\delhi-ncr-aqi-analysis` or invoke with full path |
-| `PostgreSQL connection error: password authentication failed` | Incorrect `.env` password | Verify `.env` has `DB_PASSWORD=1234` or select `Local Parquet Storage` |
+| `PostgreSQL connection error: password authentication failed` | Incorrect `.env` password | Verify `.env` has `DB_PASSWORD=your_password` or select `Local Parquet Storage` |
 | Browser shows blank white screen | Web socket connection blocked | Hard refresh browser (`Ctrl + F5`) or disable adblocker on localhost |
 
 ---
@@ -155,6 +155,6 @@ Open **`http://localhost:8501`** in any modern web browser (Chrome, Edge, Firefo
 
 To verify that the dashboard data access and metric calculations remain 100% bug-free:
 ```powershell
-D:\anaconda3\python.exe -m pytest D:\delhi-ncr-aqi-analysis\tests -v
+python -m pytest tests -v
 ```
-*Current Status: 52 of 52 tests passing in ~8.2 seconds.*
+*Current Status: 61 of 61 tests passing.*

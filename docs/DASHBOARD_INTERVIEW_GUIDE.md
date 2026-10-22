@@ -14,9 +14,9 @@ When an interviewer asks: *"Tell me about a data project you built from scratch,
 
 Instead, use the **STAR Method (Situation, Task, Action, Result)**:
 > **"For my portfolio project, I analyzed 2.66 million hourly air quality records across 56 CPCB monitoring stations in Delhi-NCR from 2017 to 2023.**  
-> **My objective was to evaluate whether winter pollution surges and Diwali spikes are statistically genuine or artifacts of station composition and sensor saturation.**  
+> **My objective was to evaluate whether winter pollution surges and Diwali spikes are statistically genuine or artifacts of station composition and statutory AQI reporting limits.**  
 > **I built an end-to-end pipeline: normalized raw data into a PostgreSQL star schema, developed an audited DAX model in Power BI, and built a dual-mode Streamlit dashboard with automated fallback.**  
-> **Crucially, I discovered that 12.4% of station-days hit the statutory 500.0 sensor ceiling in winter, which artificially compresses observed effect sizes unless accounted for using a right-censored Tobit model. I protected every KPI with 52 automated tests in pytest."**
+> **Crucially, I discovered that 12.4% of station-days hit the statutory 500.0 NAQI reporting ceiling in winter, which artificially compresses observed effect sizes unless accounted for using a right-censored Tobit model. I protected every KPI with 61 automated tests in pytest."**
 
 This answer immediately demonstrates:
 1. Scale (2.66M records, 56 stations, 7 years).

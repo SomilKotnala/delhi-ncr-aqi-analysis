@@ -64,7 +64,7 @@ This guide prepares you to present, explain, and defend this project in Data Ana
 Copy and customize these bullet points for your resume:
 
 - *Engineered an end-to-end air quality analytics pipeline analyzing 2.44M+ hourly CAAQMS observations across 56 Delhi-NCR stations (2017–2023) using Python, PostgreSQL, and Power BI.*
-- *Implemented automated data validation and cleaning routines in Pandas, addressing upstream key collisions, 53K+ upper-bound sensor saturations, and missingness thresholds.*
+- *Implemented automated data validation and cleaning routines in Pandas, addressing upstream key collisions, 53K+ upper-bound statutory AQI ceiling truncations, and missingness thresholds.*
 - *Designed a PostgreSQL Star Schema (Kimball model) utilizing CTEs, window functions (`DENSE_RANK`, rolling frames), and percentile aggregates to benchmark multi-year trends.*
 - *Pre-registered and executed non-parametric hypothesis testing (Mann-Whitney U, Cliff's delta, bootstrap CIs), eliminating pseudoreplication from autocorrelated time-series data.*
 - *Developed an interactive Power BI dashboard featuring dynamic DAX measures, normalized relative-time event studies for Diwali episodes, and multi-station comparative KPIs.*

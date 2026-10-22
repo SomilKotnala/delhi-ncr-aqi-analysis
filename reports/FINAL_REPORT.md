@@ -14,14 +14,14 @@
 This study delivers an empirical, statistically audited, reproducible investigation of ambient air quality across the National Capital Region (Delhi-NCR), India. Utilizing 2,441,802 verified hourly observations across 56 continuous monitoring stations in Delhi, Faridabad, Ghaziabad, Gurugram, and Noida, the project evaluates:
 1. Long-term multi-year seasonal dynamics and meteorological inversion shocks.
 2. Spatial inequality and station-level pollution burdens.
-3. Causal decomposition of acute pollution shocks during the annual Diwali festival window.
+3. Observational event decomposition of acute pollution shocks during the annual Diwali festival window.
 
 ### Verified Headline Findings:
 - **Chronic Air Quality Deficit:** Network-wide median daily mean AQI is **199.29** (mean: **213.56**). Over **49.81%** of valid station-days exceed 200 AQI, falling into Poor, Very Poor, or Severe categories.
 - **Winter Inversion Shock:** Winter (Nov–Feb) median AQI reaches **335.61**, compared to **154.00** during Non-Winter (Mar–Oct)—an excess burden of **+181.61 AQI points (2.18x elevation)**.
 - **Universal Station Vulnerability:** **100% of the 56 monitoring stations** record higher winter medians (paired median difference: **+181.84 points**, $p = 2.45 \times 10^{-11}$).
 - **Severe Autocorrelation & Bootstrap Robustness:** Naive pooled two-sample testing suffers from extreme temporal autocorrelation (lag-1 $r = 0.82$). A **14-day Moving Block Bootstrap (MBB, $B=2,000$)** on calendar-day regional medians ($N=2,537$ days) confirms a genuine winter elevation of **+181.90 points (95% CI: $[156.98, 202.14]$)**.
-- **CPCB Statutory Sensor Ceiling (500.0):** **12.44% of valid station-days** (12,536 days) and **2.20% of all hourly readings** (53,656 hours) saturate at the statutory 500.0 ceiling. Fitting a **Right-Censored Tobit Model** demonstrates that true winter excess is **+154.17 latent AQI points** ($p < 10^{-15}$), proving that observed winter severity is artificially compressed.
+- **CPCB Statutory NAQI Reporting Ceiling (500.0):** **12.44% of valid station-days** (12,536 days) and **2.20% of all hourly readings** (53,656 hours) saturate at the statutory 500.0 ceiling. Fitting a **Right-Censored Tobit Model** demonstrates that true winter excess is **+154.17 latent AQI points** ($p < 10^{-15}$), proving that observed winter severity is artificially compressed.
 - **Diwali Episodic Shock vs Confounding:** Station-matched paired analysis ($t+1$ vs $t-1$) across 7 years demonstrates an average surge of **+81.57 AQI points** (mean) and **+80.38 points** (median), with **85.95% of matched station-year pairs elevating** (across 306 valid station-year pairs). However, **timing matters dramatically**: early Diwali events (late October) surge from lower baselines (~280-310), whereas late Diwali events (mid-November) occur on saturated baselines (>350) and overlap with peak agricultural stubble burning and boundary layer collapse.
 
 ---
@@ -62,7 +62,7 @@ Analysis of 2.44 million valid hourly readings reveals a pronounced bimodal diur
 - **Afternoon Dispersion (13:00–16:00 IST):** Solar heating raises the planetary boundary layer height, allowing pollutants to dilute vertically (winter diurnal minimum ~290 AQI).
 - **Nocturnal Thermal Inversion Peak (22:00–04:00 IST):** Surface cooling creates intense ground-level temperature inversions. Nighttime commercial truck entry further exacerbates concentrations, pushing nocturnal winter median AQI above **380**.
 
-### 3.4 Diwali Episodic Shocks & Causal Decomposition (Q8)
+### 3.4 Diwali Episodic Shocks & Observational Event Decomposition (Q8)
 Across the 7 observed years, the station-matched paired surge ($t+1$ vs $t-1$) across 306 matched station-year pairs demonstrates:
 - **2017 (Oct 19):** $+103.49$ pt mean change (pre: 311.3 $\to$ post: 418.9, 93.8% station-years elevated; 16 pairs).
 - **2018 (Nov 07):** $+75.86$ pt mean change (pre: 316.5 $\to$ post: 398.1, 90.0% station-years elevated; 40 pairs).

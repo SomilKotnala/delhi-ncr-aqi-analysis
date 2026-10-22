@@ -12,7 +12,7 @@ The National Air Quality Index (NAQI) established by the Central Pollution Contr
 | **201 – 300** | **Poor** | Orange | `#f58220` | Breathing discomfort to most people on prolonged exposure. |
 | **301 – 400** | **Very Poor** | Red | `#e62b1e` | Respiratory illness on prolonged exposure. Pronounced effect on people with lung/heart disease. |
 | **401 – 500** | **Severe** | Maroon | `#9b111e` | Affects healthy people and seriously impacts those with existing diseases. |
-| **> 500** | **Extreme / Sensor Cap** | Dark Purple | `#4a0e4e` | Hazardous episode; values > 500 represent sensor saturation or instrument anomaly. |
+| **> 500** | **Extreme / Out-of-Scale Anomaly** | Dark Purple | #4a0e4e | Hazardous episode; values > 500 represent telemetry glitches or uncalibrated voltage spikes bypassing NAQI formula truncation. |
 
 ---
 

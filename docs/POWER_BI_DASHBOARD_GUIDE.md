@@ -9,7 +9,7 @@
 
 ## 1. Prerequisites & Source Datasets
 
-Power BI Desktop is installed on the local system (`C:\Users\Dell\AppData\Local\Microsoft\WindowsApps\PBIDesktopStore.exe`).
+Power BI Desktop is installed on the system (Microsoft Store or standalone MSI installer).
 
 The dimensional data model is prepared and exported in `D:\delhi-ncr-aqi-analysis\data\processed\`:
 

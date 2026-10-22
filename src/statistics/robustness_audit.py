@@ -664,7 +664,7 @@ def plot_robustness_audit_figure(
 
     plt.suptitle(
         "Delhi-NCR Air Quality Analysis: Statistical Robustness & Econometric Audit\n"
-        "Serial Dependence, Moving Block Bootstrap, Sensor Saturation & Station-Matched Event Dynamics",
+        "Serial Dependence, Moving Block Bootstrap, Statutory Censoring & Station-Matched Event Dynamics",
         fontsize=15, fontweight="bold", y=0.99
     )
     plt.tight_layout(rect=[0, 0.03, 1, 0.96])
@@ -706,7 +706,7 @@ def generate_robustness_audit_report(
     md.append("")
     md.append("## 1. Executive Summary & Audit Verdict")
     md.append("")
-    md.append("This independent robustness audit was conducted to stress-test the conclusions of the Stage 2C statistical report prior to dashboard construction. Specifically, we evaluated whether station-level repeated observations, day-to-day serial autocorrelation, statutory sensor saturation at AQI = 500, and confounding seasonal background trends invalidate the reported conclusions.")
+    md.append("This independent robustness audit was conducted to stress-test the conclusions of the Stage 2C statistical report prior to dashboard construction. Specifically, we evaluated whether station-level repeated observations, day-to-day serial autocorrelation, statutory AQI reporting ceiling at AQI = 500.0, and confounding seasonal background trends invalidate the reported conclusions.")
     md.append("")
     md.append("### Key Audit Verdicts:")
     md.append("1. **Pillar 1: Winter Elevation is Decisively Robust**:")
@@ -718,7 +718,7 @@ def generate_robustness_audit_report(
     md.append("3. **Pillar 3: Statutory Censoring Audit (AQI = 500.0)**:")
     md.append(f"   - CPCB NAQI algorithm caps at 500 when $\\text{{PM}}_{{2.5}} > 380\\,\\mu\\text{{g/m}}^3$. Winter hours saturate at 500.0 **{cens_res['capping_relative_risk']}x more frequently** than non-winter hours ({cens_res['hourly_winter_capped_percentage']}% vs {cens_res['hourly_non_winter_capped_percentage']}%).")
     md.append(f"   - A parametric right-censored **Tobit Model ($c = 500$)** yields an uncensored latent winter shift of **+{cens_res['tobit_latent_uncensored_shift']} pts**. Statutory capping compresses the true right-tail, meaning the original Mann-Whitney and median shifts are **conservative lower bounds** of the true physical contrast.")
-    md.append("4. **Pillar 4: Diwali Causal Decomposition**:")
+    md.append("4. **Pillar 4: Diwali Observational Event Decomposition**:")
     md.append("   - The original pooled Mann-Whitney test conflated festival emissions with the seasonal stubble-burning ramp.")
     md.append(f"   - In **Late October** (2017, 2019, 2021, 2022), station-matched paired analysis reveals acute festival shocks (**+{diwali_summary['late_october_years_mean_surge']} pts**, 83%–100% of stations elevated).")
     md.append(f"   - In **Mid-November** (2018, 2020, 2023), baseline air is already saturated in the Severe category (>350–400) due to regional stubble smoke and calm inversion, dampening the visible incremental surge (**{diwali_summary['mid_november_years_mean_surge']} pts**).")
@@ -796,7 +796,7 @@ def generate_robustness_audit_report(
     md.append("")
     md.append("---")
     md.append("")
-    md.append("## 5. Diwali Event Study Audit & Causal Decomposition")
+    md.append("## 5. Diwali Event Study Audit & Observational Decomposition")
     md.append("")
     md.append("### 5.1 Confounding with Seasonal Agricultural Smoke & Inversion")
     md.append("A naive pooled comparison treats pre-event and event windows as independent draws. However, late October and early November in Delhi-NCR is precisely when:")

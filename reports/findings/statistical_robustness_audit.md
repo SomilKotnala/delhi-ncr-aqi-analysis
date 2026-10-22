@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary & Audit Verdict
 
-This independent robustness audit was conducted to stress-test the conclusions of the Stage 2C statistical report prior to dashboard construction. Specifically, we evaluated whether station-level repeated observations, day-to-day serial autocorrelation, statutory sensor saturation at AQI = 500, and confounding seasonal background trends invalidate the reported conclusions.
+This independent robustness audit was conducted to stress-test the conclusions of the Stage 2C statistical report prior to dashboard construction. Specifically, we evaluated whether station-level repeated observations, day-to-day serial autocorrelation, statutory AQI reporting ceiling at AQI = 500.0, and confounding seasonal background trends invalidate the reported conclusions.
 
 ### Key Audit Verdicts:
 1. **Pillar 1: Winter Elevation is Decisively Robust**:
@@ -21,7 +21,7 @@ This independent robustness audit was conducted to stress-test the conclusions o
 3. **Pillar 3: Statutory Censoring Audit (AQI = 500.0)**:
    - CPCB NAQI algorithm caps at 500 when $\text{PM}_{2.5} > 380\,\mu\text{g/m}^3$. Winter hours saturate at 500.0 **9.55x more frequently** than non-winter hours (6.45% vs 0.68%).
    - A parametric right-censored **Tobit Model ($c = 500$)** yields an uncensored latent winter shift of **+154.17 pts**. Statutory capping compresses the true right-tail, meaning the original Mann-Whitney and median shifts are **conservative lower bounds** of the true physical contrast.
-4. **Pillar 4: Diwali Causal Decomposition**:
+4. **Pillar 4: Diwali Observational Event Decomposition**:
    - The original pooled Mann-Whitney test conflated festival emissions with the seasonal stubble-burning ramp.
    - In **Late October** (2017, 2019, 2021, 2022), station-matched paired analysis reveals acute festival shocks (**+82.28 pts**, 83%–100% of stations elevated).
    - In **Mid-November** (2018, 2020, 2023), baseline air is already saturated in the Severe category (>350–400) due to regional stubble smoke and calm inversion, dampening the visible incremental surge (**-33.53 pts**).
@@ -104,7 +104,7 @@ Non-parametric rank tests (Mann-Whitney $U$) assign tied ranks to observations a
 
 ---
 
-## 5. Diwali Event Study Audit & Causal Decomposition
+## 5. Diwali Event Study Audit & Observational Decomposition
 
 ### 5.1 Confounding with Seasonal Agricultural Smoke & Inversion
 A naive pooled comparison treats pre-event and event windows as independent draws. However, late October and early November in Delhi-NCR is precisely when:

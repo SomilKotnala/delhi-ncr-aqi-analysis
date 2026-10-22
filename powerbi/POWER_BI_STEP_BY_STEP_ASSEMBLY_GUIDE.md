@@ -10,7 +10,7 @@
 
 ## 1. Executive Summary & Architecture
 
-Power BI Desktop (`C:\Users\Dell\AppData\Local\Microsoft\WindowsApps\PBIDesktopStore.exe`) provides the self-service business intelligence presentation layer for this project.
+Power BI Desktop provides the self-service business intelligence presentation layer for this project.
 
 Because Power BI Desktop operates via a client GUI without a headless command-line compiler for binary `.pbix` generation, all underlying data models, dimensions, DAX measures, and benchmark reconciliation matrix tables have been pre-compiled and programmatically verified in:
 - **Processed Tables:** `D:\delhi-ncr-aqi-analysis\data\processed\`
@@ -40,7 +40,7 @@ All datasets are pre-exported and verified in `D:\delhi-ncr-aqi-analysis\data\pr
 ### Step 3.1: Launch Power BI Desktop & Load All 6 CSV Tables
 1. Launch **Power BI Desktop** from Windows Start Menu or run:
    ```powershell
-   Start-Process "C:\Users\Dell\AppData\Local\Microsoft\WindowsApps\PBIDesktopStore.exe"
+   Start-Process PBIDesktop
    ```
 2. In the splash dialog, click **Get Data** > select **Text/CSV** > click **Connect**.
 3. Navigate to `D:\delhi-ncr-aqi-analysis\data\processed\`:

@@ -4,7 +4,7 @@ Data Cleaning and Reshaping Pipeline for Delhi-NCR Air Quality Analysis
 This module filters Delhi-NCR CAAQMS stations, resolves duplicate station IDs
 via deterministic surrogate keys, reshapes 24-hour wide data into tidy hourly
 records, normalizes timestamps (IST/UTC), applies official CPCB categorization,
-and flags sensor saturation (AQI=500) and telemetry anomalies (>500).
+and flags statutory AQI capping (AQI=500) and telemetry anomalies (>500).
 
 Outputs:
   - data/processed/fact_hourly_aqi.parquet

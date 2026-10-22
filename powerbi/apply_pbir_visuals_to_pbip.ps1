@@ -62,14 +62,8 @@ if (Test-Path $targetReportDir) {
 Write-Host "`n[Step 3/5] Verifying 3-page, 34-visual PBIR definition source..." -ForegroundColor Yellow
 $sourceDefDir = Join-Path $sourceReportDir "definition"
 if (-not (Test-Path $sourceDefDir)) {
-    # Fallback to scratch if needed
-    $fallbackSource = "C:\Users\Dell\.gemini\antigravity\brain\cd26c1d9-9fff-4c6d-8a51-47e782d685f7\scratch\assembled_pbix\Report\definition"
-    if (Test-Path $fallbackSource) {
-        $sourceDefDir = $fallbackSource
-    } else {
-        Write-Error "Could not locate source visual definitions in $sourceDefDir or fallback."
-        exit 1
-    }
+    Write-Error "Could not locate source visual definitions in $sourceDefDir."
+    exit 1
 }
 
 $sourceVisuals = Get-ChildItem -Path (Join-Path $sourceDefDir "pages") -Recurse -Filter "visual.json"

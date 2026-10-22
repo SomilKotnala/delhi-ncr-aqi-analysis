@@ -46,3 +46,10 @@ tmp/
 *.pbip.pbix
 *.pbix.pbix
 aqi_contrast_fixed.pbix
+
+# Diagnostic logs, database dumps, and archives
+*.zip
+*.dump
+*.bak
+*.sql.gz
+PBIDesktopDiagnosticInfo*

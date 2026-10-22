@@ -4,7 +4,7 @@ Every credible data analysis must transparently state data constraints, measurem
 
 ---
 
-## 1. Regulatory Reporting Ceiling vs. Physical Sensor Saturation (AQI = 500)
+## 1. Regulatory Reporting Ceiling vs. Physical Sensor Detection Limits (AQI = 500.0)
 
 - **Observed Phenomenon**: In Delhi-NCR, exactly **53,656 hourly observations** are recorded at the upper ceiling of **500.0**.
 - **Crucial Distinction: Reporting Ceiling vs. Physical Overload**:
@@ -22,7 +22,7 @@ Every credible data analysis must transparently state data constraints, measurem
 
 ---
 
-## 2. Dynamic Monitoring Coverage & Network Expansion (2017–2020)
+## 3. Dynamic Monitoring Coverage & Network Expansion (2017–2020)
 
 - **Observed Phenomenon**: Station count in Delhi-NCR expanded substantially between 2017 and 2020:
   - **Early 2017**: Only ~15 continuous monitoring stations were operational (e.g., DTU, ITO, Mandir Marg, Punjabi Bagh, R K Puram, Shadipur, Sirifort, Vikas Sadan Gurugram, Sector-16A Faridabad).
@@ -34,14 +34,14 @@ Every credible data analysis must transparently state data constraints, measurem
 
 ---
 
-## 3. Station Downtime and Non-Random Missingness
+## 4. Station Downtime and Non-Random Missingness
 
 - **Observed Phenomenon**: 8.35% of total station-hours are missing (`<NA>`). Missingness ranges from 3.1% at highly reliable stations (e.g., Mandir Marg, Shadipur) to > 40% at intermittent stations (e.g., Burari Crossing, Chandni Chowk).
 - **Analytical Impact**: Sensor dropouts are not strictly missing completely at random (MCAR). Equipment failures frequently occur during peak fog, high moisture, or severe pollution load. Imputing values naively could bias episode severity. Daily aggregations therefore require a minimum threshold of **$\ge 16$ valid hours per day** (67% completeness rule). Days with fewer than 16 valid hours are treated as missing at the daily grain.
 
 ---
 
-## 4. Upstream Repository Station ID Duplication
+## 5. Upstream Repository Station ID Duplication
 
 - **Observed Phenomenon**: In the upstream `cpcb-aqi.parquet` file, the `Station ID` column contains identical values for all stations within a city (e.g., all 39 Delhi stations share `site_115`, all Faridabad stations share `site_5341`).
 - **Underlying Cause**: Upstream ingestion mapped the parent archive stem to each record rather than extracting unique internal CPCB station IDs.
@@ -49,11 +49,14 @@ Every credible data analysis must transparently state data constraints, measurem
 
 ---
 
-## 5. Confounding in Diwali Pollution Episodes
+## 6. Confounding in Diwali Pollution Episodes: Observational Seasonal Comparison vs. Causal Counterfactual
 
-- **Observed Phenomenon**: Elevated AQI is consistently observed in Delhi-NCR during the Diwali festival window across all 7 analyzed years (2017–2023).
+- **Observed Phenomenon**: Elevated AQI is consistently observed in Delhi-NCR during the Diwali festival window across all 7 analyzed years (2017–2023), with 263 out of 306 valid station-year pairs (85.95%) exhibiting post-festival elevation.
 - **Confounding Factors**:
-  1. **Meteorological Inversion**: Late October to mid-November marks the seasonal onset of calm surface winds (< 1 m/s), low ambient temperatures, and boundary-layer height collapse from ~1,500m to < 400m, trapping all ground emissions.
-  2. **Agricultural Stubble Burning**: The post-monsoon harvest window in Punjab and Haryana involves widespread open-field residue burning, generating regional smoke plumes carried by north-westerly winds.
-  3. **Firework Emissions**: Episodic pulse of metallic particulates ($\text{Ba}, \text{Sr}, \text{K}$) and sulfur dioxide concentrated within a 12-to-36 hour window.
-- **Analytical Stance**: In the absence of high-resolution meteorological wind-trajectory simulations and chemical speciation data, this project **does not make causal claims attributing the entire episode solely to firecrackers**. It evaluates the episode as an observed seasonal pulse with measurable pre-event, peak, and dissipation dynamics.
+  1. **Meteorological Inversion**: Late October to mid-November marks the seasonal onset of calm surface winds (< 1 m/s), plunging temperatures, and planetary boundary layer height (PBLH) collapse from ~1,500m to < 300m, trapping all ground emissions.
+  2. **Agricultural Stubble Burning**: The post-monsoon paddy harvest in Punjab and Haryana involves open-field residue burning, generating smoke plumes transported south-eastward by prevailing winds.
+  3. **Firework Emissions**: Episodic pulse of fine particulates and metallic tracers ($\text{Ba}, \text{Sr}, \text{K}$) concentrated within a 12-to-36 hour window.
+- **Observational Comparison vs. Causal Counterfactual**:
+  - Comparing **October Diwali** (2017, 2019, 2022: +58.92 pts pooled surge from a moderate baseline of 283 AQI) against **November Diwali** (2018, 2020, 2021, 2023: +93.92 pts pooled surge from an already-severe baseline of 374 AQI) provides a natural **observational seasonal comparison** against differing atmospheric regimes.
+  - However, this comparison cannot be treated as a pure randomized causal counterfactual. Year-to-year shifts in festival calendar timing co-vary with meteorological variability and harvest progress.
+- **Analytical Stance**: In the absence of high-resolution chemical transport modeling (e.g., WRF-Chem) or isotopic chemical speciation data, this project **does not make causal claims attributing the entire episode solely to firecrackers**. It treats the episode as an observed seasonal pulse with measurable pre-event, peak, and dissipation dynamics.

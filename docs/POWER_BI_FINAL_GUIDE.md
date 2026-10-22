@@ -397,7 +397,7 @@ When demonstrating this project to a hiring manager or senior data analyst, use 
 ### Q7: Why did you implement a Moving Block Bootstrap rather than standard OLS?
 **Answer:** *"Daily AQI observations exhibit severe temporal autocorrelation ($r_1 = 0.81$). Standard OLS regression and classical hypothesis tests assume independent and identically distributed (i.i.d.) observations. Autocorrelation artificially inflates test statistics, leading to false-positive claims. We used a Moving Block Bootstrap with a 14-day block length to preserve the underlying time-series dependence structure."*
 
-### Q8: What does statutory sensor capping at 500 mean?
+### Q8: What does the statutory AQI reporting ceiling at 500 mean?
 **Answer:** *"Under CPCB national reporting standards, AQI sub-indices and daily aggregates are capped at a statutory ceiling of 500. This is a reporting boundary, not necessarily physical sensor saturation. In econometric terms, this is right-censoring. We estimated a Maximum Likelihood Tobit model with an upper limit at 500, proving that winter elevation remains +154.17 points even after adjusting for censoring."*
 
 ### Q9: How does the disconnected `agg_hourly_diurnal` table work without relationships?
@@ -405,3 +405,28 @@ When demonstrating this project to a hiring manager or senior data analyst, use 
 
 ### Q10: How did you validate that your Power BI measures matched the underlying data?
 **Answer:** *"We built an automated test runner (`powerbi/query_dax_runtime.ps1`) that connects directly to Power BI's internal Analysis Services instance using `Microsoft.PowerBI.AdomdClient.dll`. We executed the DAX measures in runtime and reconciled them against PostgreSQL SQL queries and Python Parquet computations. All 22 measures match across all operational tiers."*
+
+
+---
+
+## 10. Cross-Machine Deployment & Data Source Configuration
+
+### 10.1 Out-of-the-Box Functionality (VertiPaq In-Memory Cache)
+The production report deliverable (delhi_ncr_aqi_analysis_final.pbix) is self-contained. All 111,014 daily observations, 56 stations, 2,556 calendar dates, and pre-calculated aggregations are permanently stored inside the internal VertiPaq tabular columnar database within the .pbix file.
+
+**For interviewers, recruiters, and evaluators:**
+- You do **not** need to install PostgreSQL or configure local CSV directories to view and interact with the report.
+- Simply open delhi_ncr_aqi_analysis_final.pbix in Microsoft Power BI Desktop.
+- All 3 pages, 34 visual containers, cross-filtering, slicers, and 22 DAX measures evaluate instantly.
+
+### 10.2 Refreshing Data on Another Machine or Drive
+If you clone this repository to a different path (e.g., C:\projects\delhi-ncr-aqi-analysis) and wish to trigger a full model refresh against the raw CSV tables:
+
+1. Open delhi_ncr_aqi_analysis_final.pbix in **Power BI Desktop**.
+2. On the **Home** ribbon, click the dropdown arrow under **Transform Data** and select **Data source settings**.
+3. Under **Data sources in current file**, select the existing path:
+   D:\delhi-ncr-aqi-analysis\data\processed\...
+4. Click **Change Source...** and browse to your local directory:
+   <your-clone-path>\data\processed\<table_name>.csv
+5. Repeat for the tables as prompted, or edit the Source step in Power Query (Transform Data > Advanced Editor).
+6. Click **Close & Apply** to reload data into the tabular engine.

@@ -19,7 +19,7 @@ An end-to-end, reproducible Data Analytics portfolio project investigating 7 ful
 - **Analytical Rigor**:
   - Pre-registered non-parametric statistical hypothesis testing (Mann-Whitney U, Cliff's delta, bootstrap CIs).
   - Explicit avoidance of pseudoreplication by aggregating autocorrelated hourly time series into station-day units.
-  - Transparent handling of the **500 AQI sensor ceiling** (53,656 capped observations).
+  - Transparent handling of the **500.0 statutory AQI reporting ceiling** (53,656 capped hourly observations), clearly distinguished from physical monitor hardware limits.
   - Kimball Star Schema implemented in **PostgreSQL 18** with advanced CTEs and window functions.
   - Interactive **Power BI Desktop** report with custom DAX measures and normalized event studies.
 
@@ -32,8 +32,8 @@ An end-to-end, reproducible Data Analytics portfolio project investigating 7 ful
 - **Timing Cohorts:** October Diwali (2017, 2019, 2022 — 108 pairs) pooled surge **+58.92 pts** vs November Diwali (2018, 2020, 2021, 2023 — 198 pairs) pooled surge **+93.92 pts**.
 
 ### Known Methodological Limitations:
-1. **Instrument Sensor Ceiling Truncation:** Continuous analyzers cap PM2.5 and AQI calculations at 500.0, truncating extreme peaks and compressing observable relative surges during peak winter episodes (12.44% of station-days affected).
-2. **Meteorological & Seasonal Confounding:** Post-monsoon agricultural burning in Punjab/Haryana and planetary boundary layer height collapse co-occur with Diwali, requiring careful counterfactual interpretation rather than naive 100% fireworks attribution.
+1. **Statutory AQI Reporting Ceiling (500.0):** The CPCB NAQI algorithm mathematically caps composite index values at 500.0, distinct from physical particulate mass limits. This statutory right-censoring truncates extreme peaks and compresses observable relative surges when baseline air is already near-severe (12.44% of station-days exhibit at least one capped hour).
+2. **Observational Comparison vs. Causal Counterfactual:** Post-monsoon agricultural burning in Punjab/Haryana and autumn boundary layer collapse co-occur with Diwali. Comparing October vs. November timing cohorts provides an observational seasonal contrast rather than a definitive causal counterfactual; true source apportionment requires chemical speciation tracers.
 3. **Network Expansion Across Time:** Network active stations grew from 17 in 2017 to 56 in 2021–2023; cross-year comparisons control for station fixed effects through paired differences.
 
 ---
@@ -118,6 +118,7 @@ The production Power BI report is packaged as both a native developer project an
   1. *Regional AQI Overview* (11 visuals: KPI callout cards, 84-month chronological trend, CPCB category donut with white center value, municipal rankings, 24-hr diurnal cycle).
   2. *Seasonal Dynamics & Spatial Inversion* (12 visuals: 2.18x winter-to-non-winter contrast, Top 10 polluted vs cleanest stations, Tobit censoring methodology panel).
   3. *Diwali Episode Analysis & Confounding* (11 visuals: +81.57 pt paired surge across 306 station-years, October vs November timing cohorts, annual surge breakdown, causal deconfounding panel).
+- **Cross-Machine Portability:** The `.pbix` deliverable contains all 111,014 records pre-loaded into the VertiPaq in-memory columnar database. It opens immediately on any computer running Power BI Desktop without database or CSV dependencies. To refresh data from a non-`D:` clone location, update paths via **Transform Data** > **Data source settings** > **Change Source...**.
 
 ### Step 7: Explore the Comprehensive Documentation
 - [`docs/DASHBOARD_METRIC_DICTIONARY.md`](docs/DASHBOARD_METRIC_DICTIONARY.md): Complete metric definitions, formulas, and DAX/SQL logic.
