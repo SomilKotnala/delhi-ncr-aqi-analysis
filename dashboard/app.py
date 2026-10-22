@@ -197,15 +197,22 @@ valid_only = st.sidebar.checkbox(
     help="CPCB completeness criterion: requires at least 16 hourly readings for daily statistical validity.",
 )
 
-# Apply filters
-df_filtered = filter_data(
+# Apply filters: demographic and temporal scope first (retaining both valid and invalid records)
+df_scope = filter_data(
     df_daily_raw,
     cities=selected_cities if selected_cities else all_cities,
     stations=selected_stations if selected_stations else None,
     date_range=selected_date_range if isinstance(selected_date_range, (tuple, list)) and len(selected_date_range) == 2 else None,
     seasons=selected_seasons if selected_seasons else None,
-    valid_only=valid_only,
+    valid_only=False,
 )
+total_scope_scheduled_days = len(df_scope)
+
+# Apply CPCB validity filter if enabled
+if valid_only and "is_day_valid" in df_scope.columns:
+    df_filtered = df_scope[df_scope["is_day_valid"] == True]
+else:
+    df_filtered = df_scope
 
 # Quick CSV Download
 st.sidebar.markdown("---")
@@ -241,14 +248,18 @@ tab1, tab2, tab3 = st.tabs([
 # TAB 1: REGIONAL OVERVIEW & HEALTH RISK
 # =============================================================================
 with tab1:
-    kpis = compute_kpis(df_filtered)
+    kpis = compute_kpis(df_filtered, total_scheduled_days=total_scope_scheduled_days)
+
+    # Dynamic card title depending on whether all 5 cities are selected or a subset
+    is_full_network = (set(selected_cities) == set(all_cities)) and not selected_stations
+    scope_title = "Network Median AQI" if is_full_network else f"{', '.join(selected_cities)} Median AQI"
 
     # Row 1: KPI Metric Cards
     c1, c2, c3, c4 = st.columns(4)
     with c1:
         st.markdown(f"""
         <div class="metric-container" style="border-left: 5px solid #FF8C00;">
-            <div class="metric-title">Network Median AQI</div>
+            <div class="metric-title">{scope_title}</div>
             <div class="metric-value">{kpis['median_aqi']}</div>
             <div class="metric-caption">Mean: <strong>{kpis['mean_aqi']}</strong> | IQR: <strong>{kpis['iqr_aqi']}</strong></div>
         </div>

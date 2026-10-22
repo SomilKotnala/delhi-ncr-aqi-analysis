@@ -115,14 +115,18 @@ def filter_data(
     return filtered
 
 
-def compute_kpis(df: pd.DataFrame) -> Dict[str, Any]:
+def compute_kpis(df: pd.DataFrame, total_scheduled_days: Optional[int] = None) -> Dict[str, Any]:
     """
     Compute core headline KPIs for the active dataset filter.
 
     Parameters
     ----------
     df : pd.DataFrame
-        Daily fact records.
+        Daily fact records (already filtered for active scope or valid subset).
+    total_scheduled_days : int, optional
+        Total scheduled/monitored station-days in active filter scope prior to
+        validity filtering. When provided, preserves the true data completeness
+        ratio: valid_days / total_scheduled_days * 100.
 
     Returns
     -------
@@ -149,12 +153,13 @@ def compute_kpis(df: pd.DataFrame) -> Dict[str, Any]:
     # Identify valid records
     if "is_day_valid" in df.columns:
         valid_df = df[df["is_day_valid"] == True]
-        total_days = len(df)
         valid_days = len(valid_df)
     else:
         valid_df = df[df["daily_mean_aqi"].notna()]
-        total_days = len(df)
         valid_days = len(valid_df)
+
+    # Use total_scheduled_days if provided, else length of input DataFrame
+    total_days = total_scheduled_days if (total_scheduled_days is not None and total_scheduled_days > 0) else len(df)
 
     if valid_df.empty:
         return {

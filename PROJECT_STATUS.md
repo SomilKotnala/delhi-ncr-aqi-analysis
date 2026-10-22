@@ -2,69 +2,51 @@
 
 **Current Date:** 2026-10-22  
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
-**Current Stage:** **Stage 3: Professional, Resume-Ready AQI Dashboard & Business Intelligence**  
+**Current Stage:** **Stage 3: Professional, Resume-Ready AQI Dashboard & Business Intelligence (Audited & Reconciled)**  
 **Stage Status:** **VERIFIED COMPLETE & AUDITED**  
-**Latest Git Commit:** Pending Stage 3 commit  
-**Latest Backup Archive:** `stage-3-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
+**Latest Git Commit:** Pending Stage 3 Reconciliation Commit  
+**Latest Backup Archive:** `stage-3-reconciliation-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
 
 ---
 
 ## 1. Overall Project Lifecycle
 
 | Stage | Description | Status | Verification Detail |
-| :---: | :--- | :---: | :--- |
+| :--- | :--- | :---: | :--- |
 | **Stage 1** | Environment audit, CPCB data inspection, folder setup, core documentation, sample generation | **Verified Complete** | 562,878 raw rows inspected; 19 files created; commit `45697db` |
 | **Stage 2A**| Data cleaning pipeline, surrogate station keys, wide-to-long reshaping, anomaly/capping audit | **Verified Complete** | 2,664,336 hourly records processed; 12/12 unit tests passing; commit `1cdc92e` |
 | **Stage 2B**| PostgreSQL 18 Star Schema loading, analytical SQL queries (CTEs, Window functions), and EDA | **Verified Complete** | 2.66M rows loaded in 71s; 7 queries executed; 6 production charts generated; commit `bf6d39a` |
 | **Stage 2C**| Pre-registered statistical hypothesis testing, event modeling & econometric robustness audit | **Verified Complete** | 100,794 station-days; MBB CI (L=14); Tobit censoring model; 36/36 tests passing; commit `f1f4d97` |
-| **Stage 3** | Professional Power BI model & DAX measures, interactive Streamlit app, validation audit | **Verified Complete** | Dual-mode Streamlit app running (port 8501); 10 DAX measures verified; 52/52 tests passing |
+| **Stage 3** | Professional Power BI model & DAX measures, interactive Streamlit app, validation & reconciliation audit | **Verified Complete** | Dual-mode Streamlit app running (port 8501); 10 DAX measures verified; 54/54 tests passing |
 | **Stage 4** | Final synthesis, executive report generation, and interview preparation | **Verified Complete** | `reports/FINAL_REPORT.md`, `docs/DASHBOARD_INTERVIEW_GUIDE.md` completed |
 
 ---
 
-## 2. Stage 3 Implementation & Verification Summary
+## 2. Stage 3 Reconciliation Summary
 
-### Completed Stage 3 Tasks
-- [x] **Task 1: Pre-Aggregated Diurnal Profiles & Date Dimension Export**:
-  - Exported `data/processed/dim_date.csv` and `dim_date.parquet` (2,556 calendar days, 2017–2023) for Power BI star schema.
-  - Generated `data/processed/agg_hourly_diurnal.parquet` and `.csv` (288 rows), enabling instant sub-second rendering of 24-hour diurnal curves.
-- [x] **Task 2: Metric Dictionary Creation (`docs/DASHBOARD_METRIC_DICTIONARY.md`)**:
-  - Fully defined all 8 core dashboard metrics with exact formulas, grains, DAX measures, SQL queries, numerators, denominators, and plain-English interview explanations.
-- [x] **Task 3: Dual-Mode Data Access Layer (`dashboard/data_access.py`)**:
-  - Implemented dual-mode data loading: connects live to PostgreSQL `delhi_aqi` on `localhost:5432` with automatic, zero-downtime fallback to local Parquet files in `data/processed/`.
-  - Cached via `@st.cache_data` with graceful identity decorator fallback outside Streamlit environments.
-  - Injects live data provenance badge showing source type, row counts, and date range.
-- [x] **Task 4: Pure Analytical Engine (`dashboard/metrics.py`)**:
-  - Implemented pure Python functions: `filter_data`, `compute_kpis`, `compute_monthly_trend`, `compute_city_summary`, `compute_category_distribution`, `compute_seasonal_comparison`, `compute_station_rankings`, `compute_diwali_event_analysis`.
-  - 100% testable in isolation without launching a web server.
-- [x] **Task 5: Production Streamlit Interactive Dashboard (`dashboard/app.py`)**:
-  - Built 3 core tabs:
-    1. *🌐 Regional Overview & Baseline Health Risk*: 4 KPI metric cards, interactive monthly Plotly trajectory with CPCB color bands and IQR ribbon, CPCB severity share donut chart, city bar chart, and diurnal inversion profile.
-    2. *❄️ Seasonal Inversion & Spatial Dynamics*: Seasonal KPI cards, distribution box plot across 5 seasons, city seasonal shift bar chart, Top 10 most polluted vs cleanest stations tables, and Statistical Robustness Audit Callout Box (MBB CI $[156.98, 202.14]$, Tobit $+154.17$ pts).
-    3. *🎆 Diwali Pollution Episodes & Confounding*: Event timeline ($t-7$ to $t+7$), station-matched paired changes ($t+1$ vs $t-1$), Late Oct vs Mid Nov timing cohort breakdown, and Causal Confounding Disclaimer Callout.
-  - Sidebar: Data source selector, city multi-select, dynamically filtered station selector, date range picker, season selector, validity checkbox, and CSV download button.
-  - Live runtime verified at `http://localhost:8501` (HTTP 200 OK).
-- [x] **Task 6: Automated Testing Suite (`tests/test_dashboard.py`)**:
-  - 16 comprehensive tests covering data access, filtering, KPIs, monthly trends, city rankings, seasonal elevation, and Diwali event studies.
-  - Total test suite: **52 of 52 tests passing in 8.24s**.
-- [x] **Task 7: Dashboard Validation Report (`reports/DASHBOARD_VALIDATION_REPORT.md`)**:
-  - 100% metric reconciliation: reconciled all Streamlit and Power BI metrics against SQL query outputs and Stage 2C benchmarks with zero discrepancies.
-- [x] **Task 8: Comprehensive Documentation & Interview Guides**:
-  - Updated `docs/POWER_BI_DASHBOARD_GUIDE.md` with full Star Schema diagram, 10 DAX measures, and click-by-click assembly instructions.
-  - Authored `docs/STREAMLIT_GUIDE.md` (architecture, features, troubleshooting).
-  - Authored `docs/DASHBOARD_CODE_WALKTHROUGH.md` (beginner-friendly code explanations).
-  - Authored `docs/DASHBOARD_INTERVIEW_GUIDE.md` (15 high-yield interview questions with model STAR answers).
-  - Updated `README.md` and `reports/FINAL_REPORT.md`.
+### Addressed & Resolved Items
+- [x] **Investigation of Completeness Discrepancy (100.0% vs 90.79%)**:
+  - Root Cause: In `dashboard/app.py`, `filter_data(..., valid_only=True)` stripped invalid records before passing `df_filtered` to `compute_kpis()`. Inside `compute_kpis()`, `total_days = len(df_filtered)` evaluated to 100,794, so `completeness_pct` computed $\frac{100,794}{100,794} \times 100 = 100.0\%$.
+  - Resolution: Decoupled scope filtering (cities, stations, dates, seasons) from validity filtering. Recorded `total_scope_scheduled_days = len(df_scope)` ($111,014$ for full network). Passed `total_scheduled_days` to `compute_kpis()`. True data completeness of **90.79%** is now correctly preserved.
+- [x] **Investigation of Mean (215.44 vs 213.56) and IQR (187.4 vs 185.17)**:
+  - Root Cause: Mean = **215.44** and IQR = **187.40** are the exact municipal statistics of **Delhi City** alone ($N = 73,498$ station-days across 39 stations). When all 5 cities are included ($N = 100,794$ station-days across 56 stations), the lower concentrations in Gurugram (mean 195.11) and Faridabad (mean 204.07) lower the network arithmetic mean to **213.56** and the network IQR to **185.17**.
+  - Resolution: Added dynamic card titles in `dashboard/app.py`: displays "Network Median AQI" when all 5 cities are selected, and dynamic "{City} Median AQI" when filtered to a municipal subset.
+- [x] **Automated Unit Testing**:
+  - Added `test_kpis_with_prefiltered_valid_data_and_total_scheduled_days` and `test_delhi_city_kpis` in `tests/test_dashboard.py`.
+  - Full test suite: **54 of 54 tests passing in 20.65s**.
+- [x] **Documentation & Reconciliation Deliverables**:
+  - Authored comprehensive audit report in `reports/DASHBOARD_KPI_RECONCILIATION.md`.
+  - Reconciled city breakdown table in `reports/DASHBOARD_VALIDATION_REPORT.md`.
 
 ---
 
 ## 3. Verified Artifacts Manifest
 
 ### Source Code & Dashboards
-- `dashboard/app.py`: Interactive multi-page Streamlit application.
+- `dashboard/app.py`: Interactive multi-page Streamlit application (live on port 8501).
 - `dashboard/data_access.py`: Cached dual-mode PostgreSQL/Parquet data loader.
 - `dashboard/metrics.py`: Pure analytical KPI and visualization calculation engine.
-- `tests/test_dashboard.py`: 16 automated tests for dashboard components.
+- `tests/test_dashboard.py`: 18 automated tests for dashboard components (all passing).
 - `src/ingestion/download_data.py`: Raw ingestion & sample generation.
 - `src/cleaning/clean_data.py`: Reshaping & cleaning pipeline.
 - `src/database/load_data.py`: PostgreSQL 18 Star Schema loader.
@@ -73,18 +55,8 @@
 - `src/statistics/hypothesis_testing.py`: Primary inferential statistics and event-study pipeline.
 - `src/statistics/robustness_audit.py`: Independent statistical robustness, MBB, Tobit, and causal audit engine.
 
-### Documentation & Guides (in `docs/`)
-- `docs/DASHBOARD_METRIC_DICTIONARY.md`: Master reference of definitions, formulas, and grains.
-- `docs/POWER_BI_DASHBOARD_GUIDE.md`: Multi-page layout, click-by-click assembly, and 10 verified DAX measures.
-- `docs/STREAMLIT_GUIDE.md`: App architecture, features, and troubleshooting guide.
-- `docs/DASHBOARD_CODE_WALKTHROUGH.md`: Beginner-friendly code explanations.
-- `docs/DASHBOARD_INTERVIEW_GUIDE.md`: 15 high-yield interview questions with model answers.
-- `docs/LEARNING_GUIDE.md`: Step-by-step beginner study roadmap & glossary.
-- `docs/SQL_LEARNING_GUIDE.md`: PostgreSQL setup, Star Schema, CTEs, Window functions.
-- `docs/STATISTICS_LEARNING_GUIDE.md`: Parametric vs Non-parametric, Pseudoreplication.
-- `docs/INTERVIEW_PREPARATION.md`: 60s pitch, technical interview Q&A.
-
 ### Reports & Deliverables (in `reports/`)
+- `reports/DASHBOARD_KPI_RECONCILIATION.md`: Comprehensive KPI reconciliation and root cause audit report.
 - `reports/DASHBOARD_VALIDATION_REPORT.md`: Metric reconciliation audit (100% verified against benchmarks).
 - `reports/FINAL_REPORT.md`: Comprehensive final analytical portfolio report.
 - `reports/DATA_QUALITY_REPORT.md`: Data ingestion and cleaning audit.
@@ -100,7 +72,7 @@
 ```powershell
 python -m pytest "D:\delhi-ncr-aqi-analysis\tests" -v
 ```
-**Outcome:** `52 passed in 8.24s` (100% pass rate across data cleaning, database, statistics, robustness audit, and dashboard metrics).
+**Outcome:** `54 passed in 20.65s` (100% pass rate across data cleaning, database, statistics, robustness audit, and dashboard metrics).
 
 ---
 

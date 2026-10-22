@@ -115,6 +115,7 @@ class TestDashboardKPIs:
         # Median and Mean AQI
         assert kpis["median_aqi"] == pytest.approx(199.29, abs=0.2)
         assert kpis["mean_aqi"] == pytest.approx(213.56, abs=0.2)
+        assert kpis["iqr_aqi"] == pytest.approx(185.17, abs=0.2)
 
         # Severe days (>400 AQI)
         assert kpis["severe_days_count"] == 6389
@@ -126,6 +127,37 @@ class TestDashboardKPIs:
 
         # Stations
         assert kpis["active_stations_count"] == 56
+
+    def test_kpis_with_prefiltered_valid_data_and_total_scheduled_days(self, benchmark_daily_df):
+        """Verify that pre-filtered valid-only data preserves true completeness when total_scheduled_days is passed."""
+        valid_only_df = benchmark_daily_df[benchmark_daily_df["is_day_valid"] == True]
+        assert len(valid_only_df) == 100794
+
+        # Without total_scheduled_days, completeness would trivially be 100%
+        kpis_truncated = compute_kpis(valid_only_df)
+        assert kpis_truncated["completeness_pct"] == 100.0
+
+        # With total_scheduled_days passed, completeness is preserved at true 90.79%
+        kpis_corrected = compute_kpis(valid_only_df, total_scheduled_days=len(benchmark_daily_df))
+        assert kpis_corrected["total_station_days"] == 111014
+        assert kpis_corrected["valid_station_days"] == 100794
+        assert kpis_corrected["completeness_pct"] == pytest.approx(90.79, abs=0.05)
+        assert kpis_corrected["median_aqi"] == pytest.approx(199.29, abs=0.2)
+        assert kpis_corrected["mean_aqi"] == pytest.approx(213.56, abs=0.2)
+        assert kpis_corrected["iqr_aqi"] == pytest.approx(185.17, abs=0.2)
+
+    def test_delhi_city_kpis(self, benchmark_daily_df):
+        """Verify Delhi city municipal KPIs match exact values (Mean 215.44, IQR 187.4)."""
+        delhi_scope = benchmark_daily_df[benchmark_daily_df["city"] == "Delhi"]
+        delhi_valid = delhi_scope[delhi_scope["is_day_valid"] == True]
+        kpis_delhi = compute_kpis(delhi_valid, total_scheduled_days=len(delhi_scope))
+
+        assert kpis_delhi["total_station_days"] == 81148
+        assert kpis_delhi["valid_station_days"] == 73498
+        assert kpis_delhi["completeness_pct"] == pytest.approx(90.57, abs=0.05)
+        assert kpis_delhi["median_aqi"] == pytest.approx(201.83, abs=0.2)
+        assert kpis_delhi["mean_aqi"] == pytest.approx(215.44, abs=0.2)
+        assert kpis_delhi["iqr_aqi"] == pytest.approx(187.40, abs=0.2)
 
     def test_empty_kpi_defensive_behavior(self):
         empty_df = pd.DataFrame()
