@@ -386,7 +386,7 @@ def run_censoring_audit_and_tobit(
       4. Extreme Tail Imputation Sensitivity (setting capped hours to 550, 650, 750).
       5. Sub-Ceiling Truncation Sensitivity (excluding days with >= 12 capped hours).
     """
-    valid_h = df_hourly[df_hourly["aqi_cleaned"].notna()]
+    valid_h = df_hourly[["aqi_cleaned", "is_sensor_capped", "is_winter"]].dropna(subset=["aqi_cleaned"])
     w_h = valid_h[valid_h["is_winter"]]
     nw_h = valid_h[~valid_h["is_winter"]]
 
@@ -852,7 +852,10 @@ def main() -> None:
 
     logger.info("Loading datasets for robustness audit...")
     df_daily = pd.read_parquet(daily_path)
-    df_hourly = pd.read_parquet(hourly_path)
+    df_hourly = pd.read_parquet(
+        hourly_path,
+        columns=["year", "diwali_relative_day", "aqi_cleaned", "is_sensor_capped", "is_winter"],
+    )
     df_valid = df_daily[df_daily["is_day_valid"]].copy()
 
     # 1. Calculation Verification & Discrepancy Reconciliation

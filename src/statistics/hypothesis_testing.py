@@ -814,7 +814,10 @@ def main() -> None:
 
     logger.info("Loading processed datasets for inferential statistical analysis...")
     df_daily = pd.read_parquet(daily_path)
-    df_hourly = pd.read_parquet(hourly_path)
+    df_hourly = pd.read_parquet(
+        hourly_path,
+        columns=["year", "diwali_relative_day", "aqi_cleaned", "is_sensor_capped"],
+    )
 
     # Filter to valid station-days (valid_hours_count >= 16)
     df_valid = df_daily[df_daily["is_day_valid"]].copy()

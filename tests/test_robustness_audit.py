@@ -52,10 +52,13 @@ def processed_daily_df() -> pd.DataFrame:
 
 @pytest.fixture(scope="module")
 def processed_hourly_df() -> pd.DataFrame:
-    """Fixture to load processed hourly dataset."""
+    """Fixture to load processed hourly dataset (optimized memory footprint)."""
     hourly_path = PROCESSED_DATA_DIR / "fact_hourly_aqi.parquet"
     assert hourly_path.exists(), f"Hourly Parquet file not found at {hourly_path}"
-    return pd.read_parquet(hourly_path)
+    return pd.read_parquet(
+        hourly_path,
+        columns=["year", "diwali_relative_day", "aqi_cleaned", "is_sensor_capped", "is_winter"],
+    )
 
 
 def test_calculation_verification_and_paired_reconciliation(processed_daily_df: pd.DataFrame) -> None:
