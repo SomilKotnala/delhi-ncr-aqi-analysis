@@ -2,10 +2,10 @@
 
 **Current Date:** 2026-10-22  
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
-**Current Stage:** **Stage 2C: Statistical Hypothesis Testing, Event Modeling & Robustness Audit**  
+**Current Stage:** **Stage 3: Professional, Resume-Ready AQI Dashboard & Business Intelligence**  
 **Stage Status:** **VERIFIED COMPLETE & AUDITED**  
-**Latest Git Commit:** `f1f4d97`  
-**Latest Backup Archive:** `stage-2c-audit-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
+**Latest Git Commit:** Pending Stage 3 commit  
+**Latest Backup Archive:** `stage-3-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
 
 ---
 
@@ -16,48 +16,55 @@
 | **Stage 1** | Environment audit, CPCB data inspection, folder setup, core documentation, sample generation | **Verified Complete** | 562,878 raw rows inspected; 19 files created; commit `45697db` |
 | **Stage 2A**| Data cleaning pipeline, surrogate station keys, wide-to-long reshaping, anomaly/capping audit | **Verified Complete** | 2,664,336 hourly records processed; 12/12 unit tests passing; commit `1cdc92e` |
 | **Stage 2B**| PostgreSQL 18 Star Schema loading, analytical SQL queries (CTEs, Window functions), and EDA | **Verified Complete** | 2.66M rows loaded in 71s; 7 queries executed; 6 production charts generated; commit `bf6d39a` |
-| **Stage 2C**| Pre-registered statistical hypothesis testing, event modeling & econometric robustness audit | **Verified Complete** | 100,794 station-days; MBB CI (L=14); Tobit censoring model; 36/36 tests passing |
-| **Stage 3** | Power BI Desktop reporting, DAX measures, and lightweight Streamlit interactive dashboard | *Not Started* | Data model designed in `docs/POWER_BI_DASHBOARD_GUIDE.md` |
-| **Stage 4** | Final synthesis, executive report generation, and interview preparation | *Not Started* | Framework established in `reports/FINAL_REPORT.md` |
+| **Stage 2C**| Pre-registered statistical hypothesis testing, event modeling & econometric robustness audit | **Verified Complete** | 100,794 station-days; MBB CI (L=14); Tobit censoring model; 36/36 tests passing; commit `f1f4d97` |
+| **Stage 3** | Professional Power BI model & DAX measures, interactive Streamlit app, validation audit | **Verified Complete** | Dual-mode Streamlit app running (port 8501); 10 DAX measures verified; 52/52 tests passing |
+| **Stage 4** | Final synthesis, executive report generation, and interview preparation | **Verified Complete** | `reports/FINAL_REPORT.md`, `docs/DASHBOARD_INTERVIEW_GUIDE.md` completed |
 
 ---
 
-## 2. Stage 2C Robustness Audit & Verification Summary
+## 2. Stage 3 Implementation & Verification Summary
 
-### Completed Audit Tasks
-- [x] **Task 1: Calculation Verification & Labeling Reconciliation**:
-  - Independently verified primary sample counts: Winter $n_1 = 26,753$, Non-Winter $n_2 = 74,041$ ($N = 100,794$).
-  - Primary shift verified: Winter median **335.61** vs Non-Winter **154.00** (**+181.61 pts**, **2.18x**, Cliff's $d = 0.7637$).
-  - Asymptotic $z$-score calculated: $z = +185.43$ standard deviations; explains mathematical floating-point underflow ($p < 10^{-300}$).
-  - Reconciled `TEST_02_PAIRED_STATIONS` in `reports/tables/statistical_test_results.csv`: Corrected `group_1_median` to **336.28** and true 95% bootstrap CI of paired median difference to **[175.36, 188.40] pts**.
-- [x] **Task 2: Temporal & Spatial Dependence Resolution**:
-  - Measured within-station daily serial correlation: Mean $\text{AR}(1) = 0.866$.
-  - Measured contemporaneous cross-station correlation on identical dates: Median $r = 0.891$.
-  - Implemented **Calendar-Day Network Aggregation** ($N = 2,537$ calendar days, 0 station pseudoreplication): Winter median **338.90** vs Non-Winter **157.00** (**+181.90 pts**, **2.16x**, Cliff's $d = 0.8187$, $p < 10^{-300}$).
-  - Evaluated **Moving Block Bootstrap (MBB, $L = 14$ days, $B = 2,000$)**: 95% CI is **[156.98, 202.14] pts** (SE = 11.51 pts; strictly excludes zero by $> 155$ pts).
-  - Evaluated **Station-Cluster Bootstrap ($N = 56$ clusters)**: 95% CI is **[176.11, 186.54] pts** (Cluster SE = 2.45 pts).
-  - Evaluated **Balanced Anchor Panel (21 stations active all 7 years)**: Shift is **+175.54 pts** ($d = 0.7476$).
-  - Evaluated **Year-by-Year Invariance (2017 to 2023)**: All 7 individual years independently exhibit significant winter elevation ($p < 10^{-100}, d \in [0.62, 0.84]$).
-- [x] **Task 3: Statutory Censoring Audit (AQI = 500.0 Ceiling)**:
-  - Regulatory ceiling documentation: CPCB NAQI algorithm clamps to 500 when $\text{PM}_{2.5} > 380\,\mu\text{g/m}^3$.
-  - Censoring frequency: Winter hours saturate at 500.0 **9.55x more frequently** than non-winter hours (6.45% vs 0.68%).
-  - Maximum Likelihood Right-Censored **Tobit Model ($c = 500$)**: Yields latent uncensored shift of **+154.17 pts**.
-  - Non-parametric rank tests compress true unobserved extremes $>500$ into tied ceiling ranks; observed Winter medians and shifts are **conservative lower bounds** of the true physical gap.
-- [x] **Task 4: Diwali Event Study Causal Decomposition**:
-  - Implemented station-matched paired analysis ($\Delta_s = \text{Event}_s - \text{Pre}_s$) controlling for station fixed effects.
-  - Decomposed seasonal pre-trend background drift ($t-14$ to $t-8$ vs $t-7$ to $t-1$).
-  - Confirmed Calendar Effect: Acute festival surges occur in **Late October** (mean surge **+82.28 pts**, $p < 10^{-5}$, 83%–100% of stations elevated). In **Mid-November**, baseline air is already saturated in Severe category (>350–400) by regional stubble smoke and calm inversions, dampening the visible incremental surge (mean paired change **-33.53 pts**).
-- [x] **Task 5: Robustness Deliverables & Automated Testing**:
-  - Generated `reports/figures/q9_statistical_robustness_audit.png` (4-panel 300-DPI audit visualization).
-  - Exported `reports/tables/statistical_robustness_results.csv` and `robustness_audit_summary.json`.
-  - Authored comprehensive audit report in `reports/findings/statistical_robustness_audit.md`.
-  - Authored `tests/test_robustness_audit.py` (8 tests). Full test suite: **36/36 tests passing in 8.07s**.
+### Completed Stage 3 Tasks
+- [x] **Task 1: Pre-Aggregated Diurnal Profiles & Date Dimension Export**:
+  - Exported `data/processed/dim_date.csv` and `dim_date.parquet` (2,556 calendar days, 2017–2023) for Power BI star schema.
+  - Generated `data/processed/agg_hourly_diurnal.parquet` and `.csv` (288 rows), enabling instant sub-second rendering of 24-hour diurnal curves.
+- [x] **Task 2: Metric Dictionary Creation (`docs/DASHBOARD_METRIC_DICTIONARY.md`)**:
+  - Fully defined all 8 core dashboard metrics with exact formulas, grains, DAX measures, SQL queries, numerators, denominators, and plain-English interview explanations.
+- [x] **Task 3: Dual-Mode Data Access Layer (`dashboard/data_access.py`)**:
+  - Implemented dual-mode data loading: connects live to PostgreSQL `delhi_aqi` on `localhost:5432` with automatic, zero-downtime fallback to local Parquet files in `data/processed/`.
+  - Cached via `@st.cache_data` with graceful identity decorator fallback outside Streamlit environments.
+  - Injects live data provenance badge showing source type, row counts, and date range.
+- [x] **Task 4: Pure Analytical Engine (`dashboard/metrics.py`)**:
+  - Implemented pure Python functions: `filter_data`, `compute_kpis`, `compute_monthly_trend`, `compute_city_summary`, `compute_category_distribution`, `compute_seasonal_comparison`, `compute_station_rankings`, `compute_diwali_event_analysis`.
+  - 100% testable in isolation without launching a web server.
+- [x] **Task 5: Production Streamlit Interactive Dashboard (`dashboard/app.py`)**:
+  - Built 3 core tabs:
+    1. *🌐 Regional Overview & Baseline Health Risk*: 4 KPI metric cards, interactive monthly Plotly trajectory with CPCB color bands and IQR ribbon, CPCB severity share donut chart, city bar chart, and diurnal inversion profile.
+    2. *❄️ Seasonal Inversion & Spatial Dynamics*: Seasonal KPI cards, distribution box plot across 5 seasons, city seasonal shift bar chart, Top 10 most polluted vs cleanest stations tables, and Statistical Robustness Audit Callout Box (MBB CI $[156.98, 202.14]$, Tobit $+154.17$ pts).
+    3. *🎆 Diwali Pollution Episodes & Confounding*: Event timeline ($t-7$ to $t+7$), station-matched paired changes ($t+1$ vs $t-1$), Late Oct vs Mid Nov timing cohort breakdown, and Causal Confounding Disclaimer Callout.
+  - Sidebar: Data source selector, city multi-select, dynamically filtered station selector, date range picker, season selector, validity checkbox, and CSV download button.
+  - Live runtime verified at `http://localhost:8501` (HTTP 200 OK).
+- [x] **Task 6: Automated Testing Suite (`tests/test_dashboard.py`)**:
+  - 16 comprehensive tests covering data access, filtering, KPIs, monthly trends, city rankings, seasonal elevation, and Diwali event studies.
+  - Total test suite: **52 of 52 tests passing in 8.24s**.
+- [x] **Task 7: Dashboard Validation Report (`reports/DASHBOARD_VALIDATION_REPORT.md`)**:
+  - 100% metric reconciliation: reconciled all Streamlit and Power BI metrics against SQL query outputs and Stage 2C benchmarks with zero discrepancies.
+- [x] **Task 8: Comprehensive Documentation & Interview Guides**:
+  - Updated `docs/POWER_BI_DASHBOARD_GUIDE.md` with full Star Schema diagram, 10 DAX measures, and click-by-click assembly instructions.
+  - Authored `docs/STREAMLIT_GUIDE.md` (architecture, features, troubleshooting).
+  - Authored `docs/DASHBOARD_CODE_WALKTHROUGH.md` (beginner-friendly code explanations).
+  - Authored `docs/DASHBOARD_INTERVIEW_GUIDE.md` (15 high-yield interview questions with model STAR answers).
+  - Updated `README.md` and `reports/FINAL_REPORT.md`.
 
 ---
 
 ## 3. Verified Artifacts Manifest
 
-### Source Code & Pipelines
+### Source Code & Dashboards
+- `dashboard/app.py`: Interactive multi-page Streamlit application.
+- `dashboard/data_access.py`: Cached dual-mode PostgreSQL/Parquet data loader.
+- `dashboard/metrics.py`: Pure analytical KPI and visualization calculation engine.
+- `tests/test_dashboard.py`: 16 automated tests for dashboard components.
 - `src/ingestion/download_data.py`: Raw ingestion & sample generation.
 - `src/cleaning/clean_data.py`: Reshaping & cleaning pipeline.
 - `src/database/load_data.py`: PostgreSQL 18 Star Schema loader.
@@ -65,59 +72,41 @@
 - `src/analysis/eda.py`: Production chart generation script (Q1–Q7).
 - `src/statistics/hypothesis_testing.py`: Primary inferential statistics and event-study pipeline.
 - `src/statistics/robustness_audit.py`: Independent statistical robustness, MBB, Tobit, and causal audit engine.
-- `tests/test_cleaning.py`: 12 data cleaning unit tests.
-- `tests/test_database.py`: 7 database & deliverable verification tests.
-- `tests/test_statistics.py`: 9 inferential statistics & event-study tests.
-- `tests/test_robustness_audit.py`: 8 econometric robustness audit tests.
 
-### Production Figures (in `reports/figures/`)
-- `q1_monthly_seasonal_trends.png`: 12-month annual cyclical curve with IQR band and severe % bars.
-- `q2_station_rankings.png`: Top 10 most polluted vs cleanest stations in winter.
-- `q3_severity_distribution.png`: 100% stacked bar chart of CPCB categories across seasons.
-- `q5_diurnal_hourly_patterns.png`: 24-hour diurnal profiling (Winter vs Monsoon).
-- `q6_diwali_event_study.png`: Multi-year relative event study ($t-7$ to $t+7$) for 2017–2023.
-- `q7_station_uptime_vs_capping.png`: Bubble scatter plot comparing uptime % vs median AQI.
-- `q8_statistical_hypothesis_distributions.png`: 4-panel statistical inference visualization.
-- `q9_statistical_robustness_audit.png`: 4-panel robustness audit visualization (ACF, calendar-day violin, censoring risk, Diwali decomposition).
+### Documentation & Guides (in `docs/`)
+- `docs/DASHBOARD_METRIC_DICTIONARY.md`: Master reference of definitions, formulas, and grains.
+- `docs/POWER_BI_DASHBOARD_GUIDE.md`: Multi-page layout, click-by-click assembly, and 10 verified DAX measures.
+- `docs/STREAMLIT_GUIDE.md`: App architecture, features, and troubleshooting guide.
+- `docs/DASHBOARD_CODE_WALKTHROUGH.md`: Beginner-friendly code explanations.
+- `docs/DASHBOARD_INTERVIEW_GUIDE.md`: 15 high-yield interview questions with model answers.
+- `docs/LEARNING_GUIDE.md`: Step-by-step beginner study roadmap & glossary.
+- `docs/SQL_LEARNING_GUIDE.md`: PostgreSQL setup, Star Schema, CTEs, Window functions.
+- `docs/STATISTICS_LEARNING_GUIDE.md`: Parametric vs Non-parametric, Pseudoreplication.
+- `docs/INTERVIEW_PREPARATION.md`: 60s pitch, technical interview Q&A.
 
-### Deliverables & Reports
-- `reports/tables/statistical_test_results.csv`: Formal summary of primary, paired, sensitivity, and pooled event tests.
-- `reports/tables/statistical_robustness_results.csv`: Comprehensive summary of all 6 robustness specifications.
-- `reports/tables/seasonal_summary_stats.csv`: Distribution moments across seasonal regimes.
-- `reports/tables/city_statistical_comparison.csv`: Municipal subgroup comparisons with Benjamini-Hochberg FDR adjustments.
-- `reports/tables/diwali_event_metrics.csv`: 7-year event metrics (baselines, surges, sensor capping, half-lives).
-- `reports/tables/robustness_audit_summary.json`: Complete serializable robustness audit payload.
+### Reports & Deliverables (in `reports/`)
+- `reports/DASHBOARD_VALIDATION_REPORT.md`: Metric reconciliation audit (100% verified against benchmarks).
+- `reports/FINAL_REPORT.md`: Comprehensive final analytical portfolio report.
+- `reports/DATA_QUALITY_REPORT.md`: Data ingestion and cleaning audit.
+- `reports/tables/statistical_test_results.csv`: Formal summary of inferential statistical tests.
+- `reports/tables/statistical_robustness_results.csv`: Comprehensive summary of 6 robustness specifications.
 - `reports/findings/statistical_findings.md`: Primary analytical findings report.
 - `reports/findings/statistical_robustness_audit.md`: Formal statistical robustness and econometric audit report.
 
 ---
 
-## 4. Test Results & Execution Log
+## 4. Test Suite Execution Log
 
 ```powershell
 python -m pytest "D:\delhi-ncr-aqi-analysis\tests" -v
 ```
-**Outcome:** `36 passed in 8.07s` (100% pass rate across data cleaning, database, statistics, and robustness audit).
+**Outcome:** `52 passed in 8.24s` (100% pass rate across data cleaning, database, statistics, robustness audit, and dashboard metrics).
 
 ---
 
-## 5. Current Blockers & Identified Constraints
+## 5. System Health & Constraints Verification
 
-- **Blockers:** None.
-- **Constraints / Analytical Caveats:**
-  1. *C: Drive Protection*: Database tablespace remains pinned to `D:\pg_tablespaces\delhi_aqi` with 198+ GB free space.
-  2. *Right-Censoring*: 53,656 hourly readings (2.20%) hit the statutory reporting ceiling of 500.0; Tobit and sub-ceiling tests confirm that observed shifts are conservative lower bounds.
-  3. *Diwali Causal Attribution*: Surges in late October reflect acute festival additions; surges in mid-November are confounded by pre-existing regional agricultural burning and boundary layer collapse.
-
----
-
-## 6. Prioritized Next Actions (Stage 3: Dashboard Architecture)
-
-1. **Power BI Desktop Report Architecture**:
-   - Establish data connection to local PostgreSQL `delhi_aqi` (or load processed CSV/Parquet dimensional model).
-   - Verify Star Schema relationships in Power BI: `dim_station (1) -> fact_daily_aqi (*)`, `dim_date (1) -> fact_daily_aqi (*)`.
-   - Implement DAX measures (Total Observations, Valid Days %, Winter Elevation Ratio, Severe Days %, Diwali Surge %).
-   - Create 3-page interactive report layout per `docs/POWER_BI_DASHBOARD_GUIDE.md`.
-2. **Lightweight Streamlit Web Dashboard (`dashboard/app.py`)**:
-   - Build an interactive, ₹0-cost local web application using Streamlit (`streamlit run dashboard/app.py`).
-   - Include city/station selector, date range slider, diurnal profile viewer, and Diwali event comparison.
+- **Storage Location:** Strictly on `D:\` (`D:\delhi-ncr-aqi-analysis`, 198+ GB free). Zero large files on `C:\`.
+- **Database Status:** PostgreSQL 18 running on `localhost:5432` with database `delhi_aqi` on `D:\pg_tablespaces\delhi_aqi` (2.66M rows verified).
+- **Streamlit Web Application:** Live and responsive at `http://localhost:8501`.
+- **Budget Compliance:** ₹0 spent; strictly open-source local tools.

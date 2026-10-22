@@ -82,10 +82,30 @@ To download the verified CPCB Parquet dataset (~14.87 MB) into `data/raw/` and r
 python src/ingestion/download_data.py
 ```
 
-### Step 4: Explore the Documentation
-- Start with [`docs/LEARNING_GUIDE.md`](docs/LEARNING_GUIDE.md) for the guided study roadmap.
-- Review [`PROJECT_METHODOLOGY.md`](PROJECT_METHODOLOGY.md) to inspect the pre-registered hypotheses.
-- Read [`LIMITATIONS.md`](LIMITATIONS.md) to understand real-world sensor saturation and network expansion caveats.
+### Step 4: Run the Interactive Streamlit Dashboard
+Launch the local web application with instant dual PostgreSQL / Parquet loading:
+```bash
+python -m streamlit run dashboard/app.py
+```
+Open **`http://localhost:8501`** to interact with the 3 analytical tabs, dynamic slicers, and CPCB risk distributions.
+
+### Step 5: Run Automated Tests
+Verify all 52 unit and integration tests covering cleaning, database, statistics, and dashboard metrics:
+```bash
+python -m pytest tests/ -v
+```
+
+### Step 6: Power BI Desktop Model
+Open **Power BI Desktop**, import the processed tables from `data/processed/`, link the Star Schema, and paste the 10 verified DAX measures detailed in [`docs/POWER_BI_DASHBOARD_GUIDE.md`](docs/POWER_BI_DASHBOARD_GUIDE.md).
+
+### Step 7: Explore the Comprehensive Documentation
+- [`docs/DASHBOARD_METRIC_DICTIONARY.md`](docs/DASHBOARD_METRIC_DICTIONARY.md): Complete metric definitions, formulas, and DAX/SQL logic.
+- [`reports/DASHBOARD_VALIDATION_REPORT.md`](reports/DASHBOARD_VALIDATION_REPORT.md): Metric reconciliation audit (100% verified against benchmarks).
+- [`docs/DASHBOARD_INTERVIEW_GUIDE.md`](docs/DASHBOARD_INTERVIEW_GUIDE.md): 15 high-yield interview questions with model STAR answers.
+- [`docs/DASHBOARD_CODE_WALKTHROUGH.md`](docs/DASHBOARD_CODE_WALKTHROUGH.md): Beginner-friendly code explanations of `data_access.py`, `metrics.py`, and `app.py`.
+- [`docs/STREAMLIT_GUIDE.md`](docs/STREAMLIT_GUIDE.md): Architecture, caching, and troubleshooting guide.
+- [`PROJECT_METHODOLOGY.md`](PROJECT_METHODOLOGY.md): Pre-registered hypotheses and Diwali event study framework.
+- [`LIMITATIONS.md`](LIMITATIONS.md): Instrument capping, network expansion, and meteorological confounders.
 
 ---
 
