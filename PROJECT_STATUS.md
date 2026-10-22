@@ -4,7 +4,7 @@
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
 **Current Stage:** **Stage 2C: Statistical Hypothesis Testing, Event Modeling & Robustness Audit**  
 **Stage Status:** **VERIFIED COMPLETE & AUDITED**  
-**Latest Git Commit:** `36b7dc7`  
+**Latest Git Commit:** `f1f4d97`  
 **Latest Backup Archive:** `stage-2c-audit-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
 
 ---
