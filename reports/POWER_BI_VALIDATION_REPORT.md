@@ -164,16 +164,51 @@ A comprehensive audit of the entire Power BI report canvas revealed that dark na
 
 ---
 
-## 6. Final Production Deliverables & Sign-Off
+## 6. Root-Cause Isolation & Fix of PBIP-to-PBIX Packaging Failure
+
+### Forensic Diagnosis of the Trace Exception:
+- **Diagnostic Artifact:** `PBIDesktopDiagnosticInfo.20261023T024133.zip` located in `C:\Users\Dell\OneDrive\Documents\`.
+- **Trace Exception:**
+  ```text
+  System.ArgumentException: Part URI is not valid per rules defined in the Open Packaging Conventions specification.
+     at System.IO.Packaging.PackUriHelper.ValidatePartUri(Uri partUri)
+     at System.IO.Packaging.Package.GetPartHelper(Uri partUri)
+     at System.IO.Packaging.Package.PartExists(Uri partUri)
+     at Microsoft.PowerBI.Packaging.PowerBIPackagingUtils.EnsurePart(Package package, Uri storagePath, String contentType, CompressionOption compressionOption)
+     at Microsoft.PowerBI.Packaging.PowerBIPackagingUtils.SetContent(Package package, Uri storagePath, Stream contentStream, String contentType, Boolean isOptional, CompressionOption compressionOption)
+     at Microsoft.PowerBI.Packaging.Storage.PowerBIPackageCompositePart.SetContent(Uri relativeUri, IStreamablePowerBIPackagePartContent content)
+     at Microsoft.PowerBI.Packaging.PowerBIPackager.Save(IPowerBIPackage powerbiPackage, Stream storageStream, Boolean includeData, ISecurityBindingsEncrypter securityBindingsEncrypter, Boolean forceStaticResourceUrisValid)
+  ```
+- **Offending Package Parts Identified:**
+  1. `StaticResources/RegisteredResources/Delhi-NCR Environmental Dark Navy` (File on disk with unencoded spaces).
+  2. `StaticResources/RegisteredResources/Delhi-NCR Environmental Dark Navy.json` (File on disk with unencoded spaces).
+  3. `definition/report.json` $\rightarrow$ `resourcePackages[1].items[0].path = "Delhi-NCR Environmental Dark Navy"`.
+- **Technical Cause:**
+  - The Open Packaging Conventions (OPC) specification (ECMA-376 Part 2 / RFC 3986) strictly prohibits space characters (`0x20`) in part URIs.
+  - When Power BI packages a PBIP into a binary PBIX, `PowerBIPackager.Save` scans the `RegisteredResources/` folder and attempts to create OPC part URIs for each file and each package item path.
+  - Passing unencoded spaces directly to `Package.PartExists(uri)` immediately triggered `PackUriHelper.ValidatePartUri`, which threw `System.ArgumentException`. Power BI Desktop caught this exception and surfaced the misleading UI message: `"'D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis_final.pbix' isn't a valid file path."`
+
+### Remediation Applied:
+1. **File Cleanup:** Removed the two space-delimited alias files from `delhi_ncr_aqi_analysis_native.Report/StaticResources/RegisteredResources/`. The only file in this directory is now the canonical, space-free `theme_navy_environmental.json`.
+2. **Schema Reference Realignment:** Updated `report.json` so that `RegisteredResources.items[0].path` points directly to `"theme_navy_environmental.json"`, eliminating all space-delimited URI segments.
+3. **Packaging Simulation & Verification:**
+   - Ran `scripts/audit_package_uris.py`: 0 illegal part URIs found across all report files and TMDL schemas.
+   - Ran `scripts/simulate_pbix_packaging.ps1` against .NET `System.IO.Packaging.Package`: **46/46 parts successfully created and validated (0 failures)**.
+   - All 61 automated tests in `tests/` pass with 100% success rate.
+
+---
+
+## 7. Final Production Deliverables & Sign-Off
 
 ### Artifacts Delivered:
 1. **Native PBIP Project:** `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis_native.pbip`
    - Complete 3-page PBIR visual definitions (`delhi_ncr_aqi_analysis_native.Report/`).
    - TMDL Semantic Model (`delhi_ncr_aqi_analysis_native.SemanticModel/`).
    - Verified high-contrast dark navy theme (`theme_navy_environmental.json` and RegisteredResources).
-2. **Pre-Contrast Safety Backups:**
+2. **Verified Recovery Backups:**
+   - `D:\delhi-ncr-aqi-analysis-backups\delhi_ncr_aqi_analysis_native_Report_pre_opc_fix_20261023_0251.zip` (49,538 bytes).
+   - `D:\delhi-ncr-aqi-analysis-backups\stage-3-powerbi-contrast-complete-2026-10-23.zip` (2,536,922 bytes).
    - `D:\delhi-ncr-aqi-analysis-backups\delhi_ncr_aqi_analysis_final_pre_contrast_backup_20261023_0119.pbix` (1,454,172 bytes).
-   - `D:\delhi-ncr-aqi-analysis-backups\delhi_ncr_aqi_analysis_native_Report_pre_contrast_backup_20261023_0119.zip` (46,631 bytes).
 3. **Final Signed PBIX Deliverable:**
-   - Power BI Desktop is currently open with `delhi_ncr_aqi_analysis_native.pbip`.
-   - In Power BI Desktop: Click **File $\rightarrow$ Save As $\rightarrow$ Power BI files (*.pbix)** $\rightarrow$ `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis_final.pbix` to ensure Microsoft's authentic cryptographic `SecurityBindings`.
+   - Fresh Power BI Desktop instance running cleanly with `delhi_ncr_aqi_analysis_native.pbip` (PID 28552, msmdsrv PID 28460 on port 52741).
+   - To save: In Power BI Desktop, click **File $\rightarrow$ Save As $\rightarrow$ Power BI files (*.pbix)** $\rightarrow$ `D:\delhi-ncr-aqi-analysis\delhi_ncr_aqi_analysis_final.pbix`.

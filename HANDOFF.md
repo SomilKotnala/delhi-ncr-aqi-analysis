@@ -26,13 +26,19 @@
    - Elevated dark navy surfaces (`#172438`) for all KPI cards.
    - Callout text colors in vibrant high-contrast palette: Teal (`#2DD4BF`), Cyan (`#38BDF8`), Crimson (`#EF4444`), Emerald (`#34D399`), Orange (`#FB923C`), Amber (`#FBBF24`).
    - Cleaned typography across headers, textboxes, and subtitles, removing encoding artifacts (`?`, `?"`).
-4. **Live Tabular Engine Connection & 100% DAX Runtime Verification:**
-   - Direct ADOMD.NET connection to `msmdsrv.exe` on port `60052`. All 22 DAX measures executed in runtime and match verified ground truth.
-5. **Automated Testing Suite:**
-   - Full test suite: **61 passed in 14.66s** (`100% pass rate`).
-6. **Pre-Contrast Safety Backups:**
+4. **PBIP-to-PBIX Packaging Failure Isolation & Fix (Open Packaging Conventions Part URI):**
+   - Traced diagnostic ZIP (`PBIDesktopDiagnosticInfo.20261023T024133.zip`) exception `System.ArgumentException: Part URI is not valid per rules defined in the Open Packaging Conventions specification` to space-delimited part URIs in `RegisteredResources/Delhi-NCR Environmental Dark Navy` and `report.json`.
+   - Removed the two space-delimited alias files from `RegisteredResources/`, leaving only the canonical `theme_navy_environmental.json`.
+   - Realigned `report.json` so that `RegisteredResources.items[0].path` points directly to `"theme_navy_environmental.json"`.
+   - Verified with .NET `System.IO.Packaging.Package`: **46/46 parts successfully validated with 0 failures**.
+5. **Live Tabular Engine Connection & 100% DAX Runtime Verification:**
+   - Direct ADOMD.NET connection to active `msmdsrv.exe`. All 22 DAX measures executed in runtime and match verified ground truth.
+6. **Automated Testing Suite:**
+   - Full test suite: **61 passed in 15.48s** (`100% pass rate`).
+7. **Verified Recovery Backups:**
+   - `D:\delhi-ncr-aqi-analysis-backups\delhi_ncr_aqi_analysis_native_Report_pre_opc_fix_20261023_0251.zip` (49,538 bytes).
+   - `D:\delhi-ncr-aqi-analysis-backups\stage-3-powerbi-contrast-complete-2026-10-23.zip` (2,536,922 bytes).
    - `D:\delhi-ncr-aqi-analysis-backups\delhi_ncr_aqi_analysis_final_pre_contrast_backup_20261023_0119.pbix` (1,454,172 bytes).
-   - `D:\delhi-ncr-aqi-analysis-backups\delhi_ncr_aqi_analysis_native_Report_pre_contrast_backup_20261023_0119.zip` (46,631 bytes).
 
 ---
 

@@ -39,11 +39,16 @@
   - Overcame Microsoft Fluent 2 Light BaseTheme fallback (`Fluent2-CY26SU10.json`) by injecting explicit high-contrast property overrides across all 34 PBIR `visual.json` files.
   - All visual headers, titles, subtitles, category/value axis tick labels (`#CBD5E1`), axis titles (`#E2E8F0`), legends (`#CBD5E1`), table cells (`#E2E8F0` on `#111C2E`), and slicers (`#F8FAFC` on `#172438`) now guarantee >7:1 WCAG AAA contrast against dark navy surfaces.
   - Automated AST validator confirmed 34/34 visuals audited with 0 dark-on-dark text issues remaining.
+- [x] **PBIP-to-PBIX Packaging Failure Isolation & Fix (Open Packaging Conventions Part URI)**:
+  - Traced diagnostic ZIP (`PBIDesktopDiagnosticInfo.20261023T024133.zip`) exception `System.ArgumentException: Part URI is not valid per rules defined in the Open Packaging Conventions specification` to unencoded space characters in `RegisteredResources/Delhi-NCR Environmental Dark Navy` and `report.json`.
+  - Removed space-delimited alias files from `RegisteredResources/`, keeping only canonical `theme_navy_environmental.json`.
+  - Realigned `report.json` to point `RegisteredResources.items[0].path` to `"theme_navy_environmental.json"`.
+  - Verified package serialization with .NET `System.IO.Packaging.Package`: **46/46 package parts created with 0 failures**.
 - [x] **Live Tabular Engine Connection & 100% DAX Runtime Verification**:
-  - Connected directly to `msmdsrv.exe` (PID 25644, port 60052) via `Microsoft.PowerBI.AdomdClient.dll`.
+  - Connected directly to active `msmdsrv.exe` via enhanced auto-detect `query_dax_runtime.ps1`.
   - All 22 DAX measures evaluated live and match ground truth.
 - [x] **Automated Testing Suite**:
-  - Full test suite: **61 passed in 14.66s** (`100% pass rate`).
+  - Full test suite: **61 passed in 15.48s** (`100% pass rate`).
 
 ---
 

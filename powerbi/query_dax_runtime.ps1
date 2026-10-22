@@ -6,24 +6,13 @@ param (
 
 $ErrorActionPreference = "Stop"
 
-# Auto-detect msmdsrv port if not provided
-if (-not $ServerPort) {
-    $msmd = Get-Process msmdsrv -ErrorAction SilentlyContinue | Select-Object -First 1
-    if (-not $msmd) {
-        Write-Error "No running msmdsrv process found."
-        exit 1
-    }
-    $conn = Get-NetTCPConnection -OwningProcess $msmd.Id -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1
-    if (-not $conn) {
-        Write-Error "No listening TCP port found for msmdsrv process $($msmd.Id)."
-        exit 1
-    }
-    $ServerPort = $conn.LocalPort
+# 1. Find and load Microsoft.PowerBI.AdomdClient.dll
+$adomdDll = $null
+$msProc = Get-Process msmdsrv -ErrorAction SilentlyContinue | Where-Object { $_.Path } | Select-Object -First 1
+if ($msProc -and $msProc.Path) {
+    $binDir = Split-Path $msProc.Path
+    $adomdDll = Join-Path $binDir "Microsoft.PowerBI.AdomdClient.dll"
 }
-
-# Find Microsoft.PowerBI.AdomdClient.dll from running msmdsrv path or default
-$binDir = Split-Path (Get-Process msmdsrv -ErrorAction SilentlyContinue | Select-Object -First 1).Path
-$adomdDll = Join-Path $binDir "Microsoft.PowerBI.AdomdClient.dll"
 if (-not $adomdDll -or -not (Test-Path $adomdDll)) {
     $adomdDll = "C:\Program Files\WindowsApps\Microsoft.MicrosoftPowerBIDesktop_2.159.883.0_x64__8wekyb3d8bbwe\bin\Microsoft.PowerBI.AdomdClient.dll"
 }
@@ -33,6 +22,48 @@ if (-not (Test-Path $adomdDll)) {
 }
 
 [System.Reflection.Assembly]::LoadFrom($adomdDll) | Out-Null
+
+# 2. Auto-detect msmdsrv port if not provided
+if (-not $ServerPort) {
+    $msProcesses = Get-Process msmdsrv -ErrorAction SilentlyContinue
+    if (-not $msProcesses) {
+        Write-Error "No running msmdsrv process found."
+        exit 1
+    }
+    foreach ($proc in $msProcesses) {
+        $conns = Get-NetTCPConnection -OwningProcess $proc.Id -State Listen -ErrorAction SilentlyContinue
+        foreach ($c in $conns) {
+            $candidatePort = $c.LocalPort
+            try {
+                $testConnStr = "Provider=MSOLAP;Data Source=localhost:$candidatePort;Initial Catalog=;"
+                $testConn = New-Object Microsoft.PowerBI.AdomdClient.AdomdConnection($testConnStr)
+                $testConn.Open()
+                if ($testConn.Databases.Count -gt 0) {
+                    $dbName = $testConn.Databases[0].Name
+                    $testCmd = $testConn.CreateCommand()
+                    $testCmd.CommandText = "EVALUATE ROW(`"Test`", [Total Scheduled Station-Days])"
+                    $null = $testCmd.ExecuteScalar()
+                    $ServerPort = $candidatePort
+                    $testConn.Close()
+                    break
+                }
+                $testConn.Close()
+            } catch {
+                # Not the right port, try next
+            }
+        }
+        if ($ServerPort) { break }
+    }
+    if (-not $ServerPort) {
+        $firstConn = Get-NetTCPConnection -OwningProcess $msProcesses[0].Id -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($firstConn) {
+            $ServerPort = $firstConn.LocalPort
+        } else {
+            Write-Error "No listening TCP port found for any msmdsrv process."
+            exit 1
+        }
+    }
+}
 
 # Connect to discover active catalog
 $initConnStr = "Data Source=localhost:$ServerPort;"

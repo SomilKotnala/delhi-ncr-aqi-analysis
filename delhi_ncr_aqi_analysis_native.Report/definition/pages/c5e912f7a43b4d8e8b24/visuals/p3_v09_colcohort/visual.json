@@ -197,17 +197,6 @@
                 }
               }
             },
-            "titleColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#E2E8F0'"
-                    }
-                  }
-                }
-              }
-            },
             "fontSize": {
               "expr": {
                 "Literal": {

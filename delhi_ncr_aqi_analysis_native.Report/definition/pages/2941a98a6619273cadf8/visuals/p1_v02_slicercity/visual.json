@@ -56,13 +56,6 @@
                 }
               }
             },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10D"
-                }
-              }
-            },
             "fontFamily": {
               "expr": {
                 "Literal": {
@@ -95,13 +88,6 @@
                       "Value": "'#172438'"
                     }
                   }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9.5D"
                 }
               }
             },

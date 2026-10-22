@@ -5,8 +5,8 @@
     "x": 650,
     "y": 700,
     "z": 11,
-    "width": 610,
     "height": 360,
+    "width": 610,
     "tabOrder": 11
   },
   "visual": {
@@ -89,31 +89,8 @@
             },
             "direction": "Ascending"
           }
-        ],
-        "isDefaultSort": false
+        ]
       }
-    },
-    "filterConfig": {
-      "filters": [
-        {
-          "name": "Bottom10CleanestFilter",
-          "howCreated": "UserInput",
-          "filter": {
-            "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/filters/v1.0.0/schema.json",
-            "filterType": "TopN",
-            "operator": "Bottom",
-            "itemCount": 10,
-            "target": {
-              "table": "dim_station",
-              "column": "station_name"
-            },
-            "orderBy": {
-              "entity": "_Measures",
-              "property": "Median AQI"
-            }
-          }
-        }
-      ]
     },
     "objects": {
       "columnHeaders": [

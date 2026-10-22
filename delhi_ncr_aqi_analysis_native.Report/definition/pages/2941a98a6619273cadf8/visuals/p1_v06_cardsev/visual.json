@@ -5,8 +5,8 @@
     "x": 960,
     "y": 105,
     "z": 6,
-    "width": 450,
     "height": 120,
+    "width": 450,
     "tabOrder": 6
   },
   "visual": {
@@ -220,5 +220,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "5a3372e9b1dcd600e28c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Severe AQI Days %"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
