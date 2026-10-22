@@ -4,8 +4,8 @@
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
 **Current Stage:** **Stage 3: Professional, Resume-Ready AQI Dashboard & Business Intelligence (Complete 3-Page Visual Dashboard Generated & Audited)**  
 **Stage Status:** **VERIFIED COMPLETE & RUNTIME VALIDATED**  
-**Latest Git Commit:** `e482927` (feat(stage-3): assemble complete 3-page PBIR visual report with 34 visuals, PBIP project, and 61 passing tests)  
-**Latest Backup Archive:** `stage-3-powerbi-visual-complete-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
+**Latest Git Commit:** `36c6114` (fix(stage-3): document SecurityBindings packaging root cause, deliver PBIP injection automation, and update validation hierarchy)  
+**Latest Backup Archive:** `stage-3-powerbi-pbip-reconciliation-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
 
 ---
 
