@@ -4,8 +4,8 @@
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
 **Current Stage:** **Stage 2C: Pre-Registered Statistical Hypothesis Testing & Diwali Event Study Modeling**  
 **Stage Status:** **VERIFIED COMPLETE**  
-**Latest Git Commit:** Pending Stage 2C commit (Previous Stage 2B: `bf6d39a`)  
-**Latest Backup Archive:** `stage-2b-2026-10-22.zip` verified; `stage-2c-2026-10-22.zip` pending
+**Latest Git Commit:** `c612a54`  
+**Latest Backup Archive:** `stage-2c-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
 
 ---
 
