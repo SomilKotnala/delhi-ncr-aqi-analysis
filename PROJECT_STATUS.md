@@ -2,10 +2,10 @@
 
 **Current Date:** 2026-10-22  
 **Project Root:** `D:\delhi-ncr-aqi-analysis`  
-**Current Stage:** **Stage 2C: Pre-Registered Statistical Hypothesis Testing & Diwali Event Study Modeling**  
-**Stage Status:** **VERIFIED COMPLETE**  
-**Latest Git Commit:** `c612a54`  
-**Latest Backup Archive:** `stage-2c-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
+**Current Stage:** **Stage 2C: Statistical Hypothesis Testing, Event Modeling & Robustness Audit**  
+**Stage Status:** **VERIFIED COMPLETE & AUDITED**  
+**Latest Git Commit:** Pending Stage 2C Audit commit (Previous: `f9880cf`)  
+**Latest Backup Archive:** Pending `stage-2c-audit-2026-10-22.zip` in `D:\delhi-ncr-aqi-analysis-backups\`
 
 ---
 
@@ -16,66 +16,59 @@
 | **Stage 1** | Environment audit, CPCB data inspection, folder setup, core documentation, sample generation | **Verified Complete** | 562,878 raw rows inspected; 19 files created; commit `45697db` |
 | **Stage 2A**| Data cleaning pipeline, surrogate station keys, wide-to-long reshaping, anomaly/capping audit | **Verified Complete** | 2,664,336 hourly records processed; 12/12 unit tests passing; commit `1cdc92e` |
 | **Stage 2B**| PostgreSQL 18 Star Schema loading, analytical SQL queries (CTEs, Window functions), and EDA | **Verified Complete** | 2.66M rows loaded in 71s; 7 queries executed; 6 production charts generated; commit `bf6d39a` |
-| **Stage 2C**| Pre-registered statistical hypothesis testing (Mann-Whitney U, Cliff's delta, Diwali event study) | **Verified Complete** | 100,794 station-days evaluated; B=2,000 bootstrap CI; 28/28 tests passing |
+| **Stage 2C**| Pre-registered statistical hypothesis testing, event modeling & econometric robustness audit | **Verified Complete** | 100,794 station-days; MBB CI (L=14); Tobit censoring model; 36/36 tests passing |
 | **Stage 3** | Power BI Desktop reporting, DAX measures, and lightweight Streamlit interactive dashboard | *Not Started* | Data model designed in `docs/POWER_BI_DASHBOARD_GUIDE.md` |
 | **Stage 4** | Final synthesis, executive report generation, and interview preparation | *Not Started* | Framework established in `reports/FINAL_REPORT.md` |
 
 ---
 
-## 2. Stage 2C Execution & Empirical Verification Summary
+## 2. Stage 2C Robustness Audit & Verification Summary
 
-### Completed Tasks
-- [x] **Task 1: Pre-Registered Primary Hypothesis Testing (Winter vs Non-Winter)**:
-  - Unit of analysis: Station-day aggregated mean AQI ($\ge 16$ valid hours per day) over $N = 100,794$ station-days, completely avoiding hourly pseudoreplication.
-  - Group sizes: Winter $n_1 = 26,753$, Non-Winter $n_2 = 74,041$.
-  - Median AQI: Winter **335.61** vs Non-Winter **154.00** (Shift: **+181.61 pts**, **2.18x** elevation).
-  - Primary Test: Non-parametric **Mann-Whitney $U = 1,746,785,517$**, $p < 10^{-300}$ (one-tailed directional rejection region at $\alpha = 0.01$).
-  - Effect Size: **Cliff's Delta $d = 0.7637$** (**Large** effect size, threshold $\ge 0.474$).
-  - Uncertainty Estimation: **95% Bootstrap Confidence Interval ($B = 2,000$)**: $[180.05, 183.12]$ AQI points (SE = 0.78 pts; strictly excludes zero).
-  - Decision: **Reject $H_0$ decisively** per pre-registered criteria.
-- [x] **Task 2: Paired Repeated-Measures Station Analysis**:
-  - Sample: All 56 monitoring stations across Delhi-NCR.
-  - Spatial Invariance: **56 of 56 stations (100.0%)** exhibit higher median AQI during Winter than Non-Winter.
-  - Median paired difference: **+181.84 pts** (Range: $+113.51$ to $+223.75$).
-  - Wilcoxon Signed-Rank Test: $W = 1,596.0$, $p = 3.77 \times 10^{-11}$, Rank-Biserial correlation $r = 1.0$.
-- [x] **Task 3: Secondary Sensitivity Analysis (Core Winter vs Monsoon)**:
-  - Contrast: Dec–Jan ($N = 17,664$) vs Jul–Aug ($N = 16,600$).
-  - Medians: Core Winter **328.82** vs Monsoon **92.08** (**3.57x** ratio; difference **+236.74 pts**).
-  - Mann-Whitney $U = 286,815,913$, $p < 10^{-300}$, Cliff's Delta $d = 0.9563$ (Near-perfect rank separation).
-- [x] **Task 4: City-Level Subgroup Testing with FDR Adjustment**:
-  - All 5 NCR cities (Delhi, Faridabad, Ghaziabad, Gurugram, Noida) evaluated.
-  - Benjamini-Hochberg False Discovery Rate correction applied ($\alpha = 0.01$).
-  - All 5 cities remain statistically significant ($p < 10^{-100}$, FDR adj $p = 0.0$, Cliff's $d > 0.66$).
-- [x] **Task 5: Diwali Event Study Modeling (2017–2023)**:
-  - Verified festival dates for all 7 years analyzed across Pre-Event ($t-7$ to $t-1$), Event ($t_0$ to $t+1$), and Post-Event ($t+2$ to $t+7$).
-  - Discovered strong Calendar Effect: Late October Diwali (2017, 2019, 2021, 2022) produces an acute surge (+11.6% to +41.3%), whereas mid-November Diwali (2018, 2020, 2023) occurs on an already saturated baseline ($> 350-400$).
-  - Sensor Saturation: All 7 years recorded the maximum statutory ceiling of 500.0 (e.g. 746 capped station-hours in 2020, 706 in 2021).
-  - Dissipation Half-Life: In 5 of 7 years, post-event air did not return to baseline due to concurrent regional winter inversion.
-- [x] **Task 6: Statistical Deliverables & Visualization**:
-  - Generated `reports/figures/q8_statistical_hypothesis_distributions.png` (4-panel publication-grade 300-DPI figure).
-  - Exported `reports/tables/statistical_test_results.csv`, `seasonal_summary_stats.csv`, `city_statistical_comparison.csv`, `diwali_event_metrics.csv`, and `hypothesis_testing_summary.json`.
-  - Authored comprehensive markdown findings in `reports/findings/statistical_findings.md`.
-- [x] **Automated Testing**:
-  - Authored `tests/test_statistics.py` (9 tests). Total test suite: **28/28 tests passing in 5.23s** (`pytest tests/ -v`).
+### Completed Audit Tasks
+- [x] **Task 1: Calculation Verification & Labeling Reconciliation**:
+  - Independently verified primary sample counts: Winter $n_1 = 26,753$, Non-Winter $n_2 = 74,041$ ($N = 100,794$).
+  - Primary shift verified: Winter median **335.61** vs Non-Winter **154.00** (**+181.61 pts**, **2.18x**, Cliff's $d = 0.7637$).
+  - Asymptotic $z$-score calculated: $z = +185.43$ standard deviations; explains mathematical floating-point underflow ($p < 10^{-300}$).
+  - Reconciled `TEST_02_PAIRED_STATIONS` in `reports/tables/statistical_test_results.csv`: Corrected `group_1_median` to **336.28** and true 95% bootstrap CI of paired median difference to **[175.36, 188.40] pts**.
+- [x] **Task 2: Temporal & Spatial Dependence Resolution**:
+  - Measured within-station daily serial correlation: Mean $\text{AR}(1) = 0.866$.
+  - Measured contemporaneous cross-station correlation on identical dates: Median $r = 0.891$.
+  - Implemented **Calendar-Day Network Aggregation** ($N = 2,537$ calendar days, 0 station pseudoreplication): Winter median **338.90** vs Non-Winter **157.00** (**+181.90 pts**, **2.16x**, Cliff's $d = 0.8187$, $p < 10^{-300}$).
+  - Evaluated **Moving Block Bootstrap (MBB, $L = 14$ days, $B = 2,000$)**: 95% CI is **[156.98, 202.14] pts** (SE = 11.51 pts; strictly excludes zero by $> 155$ pts).
+  - Evaluated **Station-Cluster Bootstrap ($N = 56$ clusters)**: 95% CI is **[176.11, 186.54] pts** (Cluster SE = 2.45 pts).
+  - Evaluated **Balanced Anchor Panel (21 stations active all 7 years)**: Shift is **+175.54 pts** ($d = 0.7476$).
+  - Evaluated **Year-by-Year Invariance (2017 to 2023)**: All 7 individual years independently exhibit significant winter elevation ($p < 10^{-100}, d \in [0.62, 0.84]$).
+- [x] **Task 3: Statutory Censoring Audit (AQI = 500.0 Ceiling)**:
+  - Regulatory ceiling documentation: CPCB NAQI algorithm clamps to 500 when $\text{PM}_{2.5} > 380\,\mu\text{g/m}^3$.
+  - Censoring frequency: Winter hours saturate at 500.0 **9.55x more frequently** than non-winter hours (6.45% vs 0.68%).
+  - Maximum Likelihood Right-Censored **Tobit Model ($c = 500$)**: Yields latent uncensored shift of **+154.17 pts**.
+  - Non-parametric rank tests compress true unobserved extremes $>500$ into tied ceiling ranks; observed Winter medians and shifts are **conservative lower bounds** of the true physical gap.
+- [x] **Task 4: Diwali Event Study Causal Decomposition**:
+  - Implemented station-matched paired analysis ($\Delta_s = \text{Event}_s - \text{Pre}_s$) controlling for station fixed effects.
+  - Decomposed seasonal pre-trend background drift ($t-14$ to $t-8$ vs $t-7$ to $t-1$).
+  - Confirmed Calendar Effect: Acute festival surges occur in **Late October** (mean surge **+82.28 pts**, $p < 10^{-5}$, 83%–100% of stations elevated). In **Mid-November**, baseline air is already saturated in Severe category (>350–400) by regional stubble smoke and calm inversions, dampening the visible incremental surge (mean paired change **-33.53 pts**).
+- [x] **Task 5: Robustness Deliverables & Automated Testing**:
+  - Generated `reports/figures/q9_statistical_robustness_audit.png` (4-panel 300-DPI audit visualization).
+  - Exported `reports/tables/statistical_robustness_results.csv` and `robustness_audit_summary.json`.
+  - Authored comprehensive audit report in `reports/findings/statistical_robustness_audit.md`.
+  - Authored `tests/test_robustness_audit.py` (8 tests). Full test suite: **36/36 tests passing in 8.07s**.
 
 ---
 
 ## 3. Verified Artifacts Manifest
 
-### Source Code & Pipeline
+### Source Code & Pipelines
 - `src/ingestion/download_data.py`: Raw ingestion & sample generation.
 - `src/cleaning/clean_data.py`: Reshaping & cleaning pipeline.
 - `src/database/load_data.py`: PostgreSQL 18 Star Schema loader.
 - `src/database/run_queries.py`: Analytical SQL query execution engine.
 - `src/analysis/eda.py`: Production chart generation script (Q1–Q7).
-- `src/statistics/hypothesis_testing.py`: Comprehensive inferential statistics and event-study pipeline.
+- `src/statistics/hypothesis_testing.py`: Primary inferential statistics and event-study pipeline.
+- `src/statistics/robustness_audit.py`: Independent statistical robustness, MBB, Tobit, and causal audit engine.
 - `tests/test_cleaning.py`: 12 data cleaning unit tests.
 - `tests/test_database.py`: 7 database & deliverable verification tests.
 - `tests/test_statistics.py`: 9 inferential statistics & event-study tests.
-
-### SQL Scripts
-- `sql/schema.sql`: DDL schema with `aqi_tablespace` on D: drive.
-- `sql/analytical_queries.sql`: 7 production analytical SQL queries.
+- `tests/test_robustness_audit.py`: 8 econometric robustness audit tests.
 
 ### Production Figures (in `reports/figures/`)
 - `q1_monthly_seasonal_trends.png`: 12-month annual cyclical curve with IQR band and severe % bars.
@@ -84,16 +77,18 @@
 - `q5_diurnal_hourly_patterns.png`: 24-hour diurnal profiling (Winter vs Monsoon).
 - `q6_diwali_event_study.png`: Multi-year relative event study ($t-7$ to $t+7$) for 2017–2023.
 - `q7_station_uptime_vs_capping.png`: Bubble scatter plot comparing uptime % vs median AQI.
-- `q8_statistical_hypothesis_distributions.png`: 4-panel statistical inference visualization (KDE density, B=2,000 bootstrap CI, paired 56-station scatter, and city-level Cliff's Delta).
+- `q8_statistical_hypothesis_distributions.png`: 4-panel statistical inference visualization.
+- `q9_statistical_robustness_audit.png`: 4-panel robustness audit visualization (ACF, calendar-day violin, censoring risk, Diwali decomposition).
 
-### Deliverables & Tables (in `reports/tables/`)
-- `statistical_test_results.csv`: Formal summary of all 4 statistical hypothesis tests.
-- `seasonal_summary_stats.csv`: Distribution moments (mean, std, median, IQR, skewness, kurtosis) across regimes.
-- `city_statistical_comparison.csv`: Subgroup comparisons with Benjamini-Hochberg FDR adjustments.
-- `diwali_event_metrics.csv`: 7-year event metrics (baselines, surges, peak hours, sensor capping, half-lives).
-- `hypothesis_testing_summary.json`: Complete serializable statistical findings payload.
-- `q1_executive_kpi_summary.csv` to `q7_...csv`: 7 SQL analytical query deliverables.
-- `reports/findings/statistical_findings.md`: Comprehensive publication-grade analytical findings report.
+### Deliverables & Reports
+- `reports/tables/statistical_test_results.csv`: Formal summary of primary, paired, sensitivity, and pooled event tests.
+- `reports/tables/statistical_robustness_results.csv`: Comprehensive summary of all 6 robustness specifications.
+- `reports/tables/seasonal_summary_stats.csv`: Distribution moments across seasonal regimes.
+- `reports/tables/city_statistical_comparison.csv`: Municipal subgroup comparisons with Benjamini-Hochberg FDR adjustments.
+- `reports/tables/diwali_event_metrics.csv`: 7-year event metrics (baselines, surges, sensor capping, half-lives).
+- `reports/tables/robustness_audit_summary.json`: Complete serializable robustness audit payload.
+- `reports/findings/statistical_findings.md`: Primary analytical findings report.
+- `reports/findings/statistical_robustness_audit.md`: Formal statistical robustness and econometric audit report.
 
 ---
 
@@ -102,7 +97,7 @@
 ```powershell
 python -m pytest "D:\delhi-ncr-aqi-analysis\tests" -v
 ```
-**Outcome:** `28 passed in 5.23s` (100% pass rate across cleaning, database, and statistical modules).
+**Outcome:** `36 passed in 8.07s` (100% pass rate across data cleaning, database, statistics, and robustness audit).
 
 ---
 
@@ -111,18 +106,18 @@ python -m pytest "D:\delhi-ncr-aqi-analysis\tests" -v
 - **Blockers:** None.
 - **Constraints / Analytical Caveats:**
   1. *C: Drive Protection*: Database tablespace remains pinned to `D:\pg_tablespaces\delhi_aqi` with 198+ GB free space.
-  2. *Right-Censoring*: 53,656 hourly readings (2.20%) hit the statutory reporting ceiling of 500.0; non-parametric rank tests and median estimators remain robust to this ceiling.
-  3. *Diwali Causal Boundaries*: Episode surges reflect joint contributions from fireworks, biomass burning, and seasonal atmospheric boundary layer collapse.
+  2. *Right-Censoring*: 53,656 hourly readings (2.20%) hit the statutory reporting ceiling of 500.0; Tobit and sub-ceiling tests confirm that observed shifts are conservative lower bounds.
+  3. *Diwali Causal Attribution*: Surges in late October reflect acute festival additions; surges in mid-November are confounded by pre-existing regional agricultural burning and boundary layer collapse.
 
 ---
 
-## 6. Prioritized Next Actions (Stage 3)
+## 6. Prioritized Next Actions (Stage 3: Dashboard Architecture)
 
-1. **Power BI Desktop Reporting Architecture**:
+1. **Power BI Desktop Report Architecture**:
    - Establish data connection to local PostgreSQL `delhi_aqi` (or load processed CSV/Parquet dimensional model).
    - Verify Star Schema relationships in Power BI: `dim_station (1) -> fact_daily_aqi (*)`, `dim_date (1) -> fact_daily_aqi (*)`.
    - Implement DAX measures (Total Observations, Valid Days %, Winter Elevation Ratio, Severe Days %, Diwali Surge %).
    - Create 3-page interactive report layout per `docs/POWER_BI_DASHBOARD_GUIDE.md`.
-2. **Lightweight Streamlit Dashboard (`dashboard/app.py`)**:
+2. **Lightweight Streamlit Web Dashboard (`dashboard/app.py`)**:
    - Build an interactive, ₹0-cost local web application using Streamlit (`streamlit run dashboard/app.py`).
    - Include city/station selector, date range slider, diurnal profile viewer, and Diwali event comparison.

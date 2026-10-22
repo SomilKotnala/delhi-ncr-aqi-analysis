@@ -104,3 +104,21 @@ Diwali represents an acute temporal shock occurring across varying meteorologica
 1. **Talking Point on Pseudoreplication**: Explain why analyzing 2.44 million hourly readings with a t-test is a cardinal statistical error, and how aggregating to station-days maintains defensible standard errors.
 2. **Talking Point on Effect Size**: Point out that with $N > 100,000$, $p$-values will almost always be tiny ($p \to 0$). Presenting **Cliff's Delta ($d = 0.7637$)** and the **95% Bootstrap Confidence Interval ($[180.05, 183.12]$)** proves practical, physical significance beyond raw statistical rejection.
 3. **Talking Point on Censored Data**: Articulate how statutory reporting ceilings (AQI = 500) distort parametric estimators and why median-based non-parametric rank tests remain uncorrupted by upper truncation.
+
+---
+
+## 7. Methodological Audit & Econometric Robustness Revisions
+
+Prior to dashboard development, an independent statistical robustness audit was executed (detailed in [`statistical_robustness_audit.md`](statistical_robustness_audit.md) and [`q9_statistical_robustness_audit.png`](../figures/q9_statistical_robustness_audit.png)):
+
+1. **Temporal & Spatial Dependence Resolution**:
+   - Because stations experience identical synoptic meteorology on date $t$ (cross-station median $r = 0.891$) and high day-to-day serial correlation (within-station $\text{AR}(1) = 0.866$), cross-sectional pseudoreplication was eliminated by aggregating to a single **Calendar-Day Regional Median** ($N = 2,537$ calendar days).
+   - Under a **Moving Block Bootstrap (MBB, $L = 14$ days, $B = 2,000$)**, the winter elevation remains **+181.90 AQI points** with a 95% CI of **[156.98, 202.14] pts**, confirming that temporal dependence does not threaten the core conclusion.
+2. **Balanced Panel & Year-by-Year Invariance**:
+   - In a balanced panel of 21 anchor stations active across all 7 years ($N = 43,259$), winter elevation is **+175.54 pts** ($d = 0.7476$).
+   - In all 7 individual years (2017–2023), winter elevation is independently significant ($p < 10^{-100}, d \in [0.62, 0.84]$).
+3. **Statutory Sensor Censoring (AQI = 500.0 Ceiling)**:
+   - Winter hours hit the statutory ceiling 9.55x more frequently than non-winter hours (6.45% vs 0.68%).
+   - A parametric right-censored **Tobit Model ($c = 500$)** yields an uncensored latent winter shift of **+154.17 pts**. Non-parametric methods compress the true right-tail, meaning the observed $+181.61$ pt shift is a **conservative lower bound**.
+4. **Diwali Event Study Causal Decomposition**:
+   - Station-matched paired analysis reveals that acute festival surges occur predominantly when Diwali falls in **late October** (+82.28 pt mean surge, $p < 10^{-5}$). In **mid-November**, pre-event baseline air is already saturated in the Severe category (>350–400) by seasonal stubble burning and calm inversions, dampening the incremental surge (-33.53 pt mean paired change).

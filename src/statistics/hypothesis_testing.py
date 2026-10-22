@@ -292,6 +292,14 @@ def run_paired_station_test(df_valid: pd.DataFrame) -> Dict[str, Any]:
     elevated_count = int(np.sum(diffs > 0))
     pct_elevated = (elevated_count / n_stations) * 100.0
 
+    # Bootstrap 95% CI on paired station median difference
+    rng = np.random.default_rng(42)
+    boot_paired = np.empty(2000, dtype=np.float64)
+    for b in range(2000):
+        boot_paired[b] = np.median(rng.choice(diffs, size=n_stations, replace=True))
+    ci_low = float(np.percentile(boot_paired, 2.5))
+    ci_high = float(np.percentile(boot_paired, 97.5))
+
     return {
         "test_name": "Paired Station-Level Test: Wilcoxon Signed-Rank Test Across Anchor Stations",
         "h0": "Station-level median difference (Winter - Non-Winter) <= 0",
@@ -299,11 +307,15 @@ def run_paired_station_test(df_valid: pd.DataFrame) -> Dict[str, Any]:
         "total_active_stations": n_stations,
         "stations_with_positive_elevation": elevated_count,
         "percentage_stations_elevated": round(pct_elevated, 2),
+        "winter_station_median": round(float(np.median(w_medians)), 2),
+        "non_winter_station_median": round(float(np.median(nw_medians)), 2),
         "min_station_diff": round(float(np.min(diffs)), 2),
         "max_station_diff": round(float(np.max(diffs)), 2),
         "mean_station_diff": round(float(np.mean(diffs)), 2),
         "median_station_diff": round(float(np.median(diffs)), 2),
         "iqr_station_diff": round(float(np.percentile(diffs, 75) - np.percentile(diffs, 25)), 2),
+        "bootstrap_ci_95_lower": round(ci_low, 2),
+        "bootstrap_ci_95_upper": round(ci_high, 2),
         "wilcoxon_statistic": float(wilc.statistic),
         "p_value": float(wilc.pvalue),
         "rank_biserial_correlation": round(rank_biserial, 4),
@@ -882,18 +894,18 @@ def main() -> None:
             "test_description": "Paired: Station-Level Winter vs Non-Winter Medians (Repeated Measures)",
             "sample_size_group_1": paired_res["total_active_stations"],
             "sample_size_group_2": paired_res["total_active_stations"],
-            "group_1_median": round(float(np.median(df_valid.groupby("station_key")["daily_mean_aqi"].median())), 2),
-            "group_2_median": round(float(np.median(df_valid[~df_valid["is_winter"]].groupby("station_key")["daily_mean_aqi"].median())), 2),
+            "group_1_median": paired_res["winter_station_median"],
+            "group_2_median": paired_res["non_winter_station_median"],
             "observed_difference": paired_res["median_station_diff"],
-            "ratio": round(float(np.median(df_valid[df_valid["is_winter"]].groupby("station_key")["daily_mean_aqi"].median()) / np.median(df_valid[~df_valid["is_winter"]].groupby("station_key")["daily_mean_aqi"].median())), 2),
+            "ratio": round(paired_res["winter_station_median"] / paired_res["non_winter_station_median"], 2),
             "test_method": "Wilcoxon Signed-Rank Test",
             "test_statistic": paired_res["wilcoxon_statistic"],
             "p_value": paired_res["p_value"],
             "effect_size_metric": "Rank-Biserial Correlation (r)",
             "effect_size_value": paired_res["rank_biserial_correlation"],
             "effect_size_classification": "Large",
-            "ci_95_lower": paired_res["min_station_diff"],
-            "ci_95_upper": paired_res["max_station_diff"],
+            "ci_95_lower": paired_res["bootstrap_ci_95_lower"],
+            "ci_95_upper": paired_res["bootstrap_ci_95_upper"],
             "decision": paired_res["decision"],
         },
         {
